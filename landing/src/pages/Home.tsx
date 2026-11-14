@@ -70,6 +70,7 @@ export default function Home() {
           <h2 id="work-h" className="section__title">Recent Projects</h2>
           <FlashDeck label="Recent projects" noun="project">
             <article className="card flash">
+              <figure className="card__thumb"><img src={FEATURED.thumb.src} alt={FEATURED.thumb.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>
               <p className="card__tag">Assurance</p>
               <h3 className="card__title">{FEATURED.name}</h3>
               <p>{rich(FEATURED.summary)}</p>
@@ -79,6 +80,7 @@ export default function Home() {
             </article>
             {PROJECTS.map((p) => (
               <article key={p.name} className="card flash">
+                {p.thumb && <figure className="card__thumb"><img src={p.thumb.src} alt={p.thumb.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>}
                 <p className="card__tag">{p.tag}</p>
                 <h3 className="card__title">{p.name}</h3>
                 <p>{rich(p.summary)}</p>

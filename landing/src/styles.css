@@ -1351,3 +1351,9 @@ code.ic,
 }
 .cs-lede__label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 .prose-article .cs-lede__text { margin: 0; font-size: 1.05rem; line-height: 1.55; color: var(--text); }
+
+/* Project thumbnails: transparent PNG diagrams on a quiet panel, 16:9 */
+.card__thumb { margin: 0 0 1.25rem; aspect-ratio: 16 / 9; border-radius: 12px; border: 1px solid var(--rule); background: linear-gradient(180deg, #fafaf8 0%, #f3f3f0 100%); overflow: hidden; display: grid; place-items: center; }
+.card__thumb img { width: 100%; height: 100%; object-fit: contain; padding: 4%; box-sizing: border-box; transition: transform 320ms ease; }
+.flash:hover .card__thumb img { transform: scale(1.02); }
+@media (prefers-reduced-motion: reduce) { .card__thumb img { transition: none; } .flash:hover .card__thumb img { transform: none; } }
