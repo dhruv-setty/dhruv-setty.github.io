@@ -53,7 +53,7 @@ export const FOCUS = [
 export const FEATURED = {
   summary: "`v1.0.0`. Entra ID collection (`--live-entra`) runs non-interactively and daemonless via the Microsoft Graph API, replacing ad hoc `az ad` or PowerShell queries with a repeatable run. It pages users, directory role assignments, Conditional Access policies and groups via `@odata.nextLink`, and that is the complete set. `$select` retrieves only the required attributes. Output is normalised to a common JSON schema for separation-of-duties, privileged-access and migration-drift assertions. Auth is `iato.pem` or Kubernetes workload identity, with tokens held in process memory only, never persisted. Enforce least privilege on the app registration: `.default` returns whatever consent has been granted.",
   name: "Identity control evaluation for Entra ID",
-  thumb: { src: "/thumbs/thumb-entra.png", alt: "Entra ID collection through Microsoft Graph, normalised to a common JSON schema for separation of duties, privileged access and migration drift assertions" },
+  thumb: { src: "/thumbs/thumb-entra.png", alt: "OAuth client credentials token flow, Microsoft Graph endpoints over the Entra ID tenant, and normalised JSON feeding separation of duties, privileged access and drift assertions" },
   fullName: "Intent-to-Auditable-Trust-Object Index",
   repo: "https://github.com/whatheheckisthis/Intent-to-Auditable-Trust-Object-Index",
   readmeText: "Learn More",
@@ -65,7 +65,7 @@ export const FEATURED = {
 export const PROJECTS = [
   {
     name: "Stage 2 translation and TLB maintenance",
-    thumb: { src: "/thumbs/thumb-stage2.png", alt: "Stage 2 walker in SystemVerilog cross checked against a Sail reference model, with TLA+ verified TLBI unmap ordering" },
+    thumb: { src: "/thumbs/thumb-stage2.png", alt: "Two-stage translation VA to IPA to PA with the Stage 2 table walk, a VMID tagged TLB, and the break-before-make TLBI unmap sequence" },
     tag: "Virtualisation",
     summary:
       "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. Defines, verifies and implements `Stage 2` address translation and TLB maintenance for a hypervisor at `EL2`. A Sail reference model specifies the walk, a TLA+ model proves the required `TLBI` ordering for unmapping a guest page, and a SystemVerilog walker and VMID tagged TLB are cross checked against the reference across 10,000 probes with no mismatches.",
@@ -73,7 +73,7 @@ export const PROJECTS = [
   },
   {
     name: "AArch64 virtualisation study",
-    thumb: { src: "/thumbs/thumb-aarch64.png", alt: "Observational equivalence and congruence proofs preserving behaviour across asynchronous accelerator offload and Stage 2 memory state" },
+    thumb: { src: "/thumbs/thumb-aarch64.png", alt: "AArch64 exception levels EL0 to EL3 with Stage 1 and Stage 2 translation, an accelerator behind SMMUv3, and observational equivalence between host and offloaded traces" },
     tag: "Virtualisation",
     summary:
       "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. Formally analysed `Stage 2` address translation and memory state transformations to ensure data integrity, race concurrency, and ownership preservation under virtualised hardware semantics. Applied observational equivalence and congruence proofs to `VLA` execution models, proving that asynchronous accelerator offloading preserves observable program behavior.",
@@ -83,7 +83,7 @@ export const PROJECTS = [
   },
   {
     name: "FPGA to GPU peer-to-peer pipeline",
-    thumb: { src: "/thumbs/thumb-p2p.png", alt: "Arm coordinator driving an FPGA parser and GPU runtime with a PCIe peer-to-peer payload path" },
+    thumb: { src: "/thumbs/thumb-p2p.png", alt: "PCIe topology: host SoC with root complex and SMMUv3, a PCIe switch, and peer-to-peer TLPs from the FPGA endpoint to the GPU BAR1 aperture" },
     tag: "HPC",
     summary:
       "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. Designed and evaluated low-latency FPGA GPU `PCIe P2P` memory access paths, optimising `DMA`, `IOMMU/SMMU` address translation, and cache coherence across heterogeneous interconnects.",
