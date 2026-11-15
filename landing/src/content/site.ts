@@ -51,14 +51,14 @@ export const FOCUS = [
 ] as const;
 
 export const FEATURED = {
-  summary: "`v1.0.0`. Entra ID collection (`--live-entra`) runs non-interactively and daemonless via the Microsoft Graph API, replacing ad hoc `az ad` or PowerShell queries with a repeatable run. It pages users, directory role assignments, Conditional Access policies and groups via `@odata.nextLink`, and that is the complete set. `$select` retrieves only the required attributes. Output is normalised to a common JSON schema for separation-of-duties, privileged-access and migration-drift assertions. Auth is `iato.pem` or Kubernetes workload identity, with tokens held in process memory only, never persisted. Enforce least privilege on the app registration: `.default` returns whatever consent has been granted.",
-  name: "Identity control evaluation for Entra ID",
-  thumb: { src: "/thumbs/thumb-entra.png", alt: "OAuth client credentials token flow, Microsoft Graph endpoints over the Entra ID tenant, and normalised JSON feeding separation of duties, privileged access and drift assertions" },
-  fullName: "Intent-to-Auditable-Trust-Object Index",
-  repo: "https://github.com/whatheheckisthis/Intent-to-Auditable-Trust-Object-Index",
+  summary: "Entra ID sign in for Debian hosts through the SSSD `idp` provider, managed by `iato`, a self contained C# (.NET 8) command line tool. Users log in over SSH with the OAuth 2.0 Device Authorization Grant (RFC 8628), so MFA and Conditional Access apply at every login, and `access_provider = simple` limits access to one Entra group. POSIX UIDs and GIDs are derived from Entra object IDs, with no ID mapping kept by hand. `iato register-app` creates the app registration and admin consent through Microsoft Graph with only `User.Read.All` and `GroupMember.Read.All`; `iato check --host` validates the rendered `sssd.conf` against the installed SSSD before the service starts. Shipped as signed `.deb` packages for amd64 and arm64 with published checksums.",
+  name: "Entra ID sign in for Debian with SSSD",
+  thumb: { src: "/thumbs/thumb-sssd.png", alt: "SSH login on a Debian host through pam_sss and the SSSD idp provider, the device code and token endpoints of the Microsoft identity platform, sign in with MFA and Conditional Access on another device, and users and groups from Microsoft Graph" },
+  fullName: "Intent-Auditable Trust Object V2",
+  repo: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V2",
   readmeText: "Learn More",
-  status: "Design stage. v1.0.0 scope is the Entra ID collector.",
-  readme: "https://github.com/whatheheckisthis/whatheheckisthis/blob/main/README.md",
+  status: "Released. Packages for amd64 and arm64.",
+  readme: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V2",
 } as const;
 
 // More projects, shown under the featured card. A link with an empty href is hidden.
