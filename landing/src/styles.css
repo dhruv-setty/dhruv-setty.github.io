@@ -1387,3 +1387,4 @@ code.ic,
 .card-grid .card__thumb { margin: 0 0 .75rem; border-radius: 6px; }
 .about__grid { gap: 1.5rem; }
 @media (min-width: 760px) { .about__grid { grid-template-columns: 14rem minmax(0, 1fr); } }
+.card-grid .card p, .card-grid .card__title { word-break: normal; overflow-wrap: normal; hyphens: manual; }
