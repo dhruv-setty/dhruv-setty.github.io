@@ -67,7 +67,7 @@ export default function Home() {
 
         <section id="work" className="section" aria-labelledby="work-h">
           <h2 id="work-h" className="section__title">Recent Projects</h2>
-          <div className="card-grid">
+          <div className="card-grid card-grid--two">
             <article className="card">
               <figure className="card__thumb"><img src={FEATURED.thumb.src} alt={FEATURED.thumb.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>
               <p className="card__tag">Assurance</p>
@@ -95,7 +95,7 @@ export default function Home() {
 
         <section id="labs" className="section" aria-labelledby="labs-h">
           <h2 id="labs-h" className="section__title">ICT Labs</h2>
-          <div className="card-grid">
+          <div className="card-grid card-grid--two">
             {LABS.map((l, i) => (
               <article key={l.name} className="card">
                 <figure className="card__thumb"><img src={l.preview.src} alt={l.preview.alt} width="1200" height="600" loading="lazy" decoding="async" /></figure>
