@@ -1407,3 +1407,6 @@ code.ic,
 }
 .card-grid > .card:focus { outline-offset: 0; }
 .card-grid { overflow: visible; }
+
+/* About story: justified paragraphs */
+.about__story p { text-align: justify; text-justify: inter-word; }
