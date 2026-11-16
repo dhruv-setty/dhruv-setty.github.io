@@ -64,11 +64,11 @@ export const FEATURED = {
 // More projects, shown under the featured card. A link with an empty href is hidden.
 export const PROJECTS = [
   {
-    name: "Stage 2 address translation",
+    name: "Stage 2 translation and TLB maintenance",
     thumb: { src: "/thumbs/thumb-stage2.png", alt: "Two-stage translation VA to IPA to PA with the Stage 2 table walk, a VMID tagged TLB, and the break-before-make TLBI unmap sequence" },
     tag: "Virtualisation",
     summary:
-      "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. Formally analysed `Stage 2` address translation and memory state transformations to ensure data integrity, race concurrency, and ownership preservation under virtualised hardware semantics.",
+      "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. Specifies, verifies and implements `Stage 2` address translation and TLB maintenance for a hypervisor at `EL2`, with a 4 KiB granule and 48 bit IPA. A Sail model is the reference for the table walk and its translation, access flag and permission faults. A TLA+ specification checks the unmap sequence across two cores, where both incorrect orderings break `NoUseAfterFree`. The SystemVerilog walker and the VMID and ASID tagged TLB match the reference across 10,000 random probes with no mismatches.",
     links: [{ text: "Learn More", href: "https://github.com/whatheheckisthis/Intent-to-Auditable-Trust-Object-v7" }],
   },
   {
@@ -76,7 +76,7 @@ export const PROJECTS = [
     thumb: { src: "/thumbs/thumb-aarch64.png", alt: "AArch64 exception levels EL0 to EL3 with Stage 1 and Stage 2 translation, an accelerator behind SMMUv3, and observational equivalence between host and offloaded traces" },
     tag: "Virtualisation",
     summary:
-      "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. Applied observational equivalence and congruence proofs to Variable-Length Array `VLA` execution models, proving that asynchronous accelerator offloading preserves observable program behavior.",
+      "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. A 22 page formal review of `EL2` hypervisor configuration, `Stage 2` translation and the KVM vCPU lifecycle on Microsoft Cobalt 100 and 200, built on Arm Neoverse N2 and V3. The results are formalised in Lean 4: observational equivalence, refinement and migration preservation, Stage 2 denial dominance and the SVE finalisation gate. Each claim is checked against the Arm Architecture Reference Manual, Linux KVM and QEMU, then graded as a correction, a precision defect, conformant or a verification gap.",
     links: [
       { text: "Learn More", href: "https://www.dropbox.com/scl/fi/nfrnwf5lten7b74ud1fbn/A64-CBLT-STUDY-001-eca7fe16806a.pdf?rlkey=rl6pegel190x12yx8mhkpbn7s&st=kjv0iqll&dl=0" },
     ],
