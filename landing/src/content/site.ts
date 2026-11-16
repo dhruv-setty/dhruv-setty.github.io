@@ -1,7 +1,7 @@
 export const SITE = {
   name: "Dhruv Setty",
-  positioning: "Identity Engineer. IGA and IAM control assurance.",
-  focus: "Identity governance across Entra ID and Active Directory, with evidence an auditor can check.",
+  positioning: "Identity engineer specialising in identity governance and access control assurance.",
+  focus: "I design and verify access controls across Microsoft Entra ID and Active Directory, producing evidence an auditor can trust.",
   url: "https://whatheheckisthis.github.io",
   description:
     "Dhruv Setty, Identity Engineer in New Zealand. IGA and IAM control assurance across hybrid Entra ID and Active Directory.",
@@ -9,7 +9,7 @@ export const SITE = {
     { label: "GitHub", text: "GitHub", href: "https://github.com/whatheheckisthis", icon: "/icons/github.svg" },
     { label: "LinkedIn", text: "LinkedIn", href: "https://www.linkedin.com/in/its-dhruv-setty", icon: "/icons/linkedin.png" },
   ],
-  location: "",
+  location: "Identity and Access Management",
   // Cloudflare Worker that relays the contact form to Resend. Empty disables sending.
   contactEndpoint: "https://dhruv-contact.itsdhruvsetty.workers.dev/",
   photo: { src: "/dhruv.webp", alt: "Dhruv Setty", width: 400, height: 400 },

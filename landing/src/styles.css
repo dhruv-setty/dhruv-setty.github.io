@@ -1388,3 +1388,39 @@ code.ic,
 .about__grid { gap: 1.5rem; }
 @media (min-width: 760px) { .about__grid { grid-template-columns: 14rem minmax(0, 1fr); } }
 .card-grid .card p, .card-grid .card__title { word-break: normal; overflow-wrap: normal; hyphens: manual; }
+
+/* Professional palette: neutral slate with one restrained accent */
+:root {
+  --bg: #ffffff; --surface: #f8fafc; --text: #0f172a; --muted: #475569; --rule: #e2e8f0;
+  --accent: #1e40af; --accent-soft: #eff4ff;
+  --press: #1e3a8a; --press-deep: #172554;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+::selection { background: var(--accent-soft); color: var(--text); }
+
+/* Hero: clear hierarchy, one primary action */
+.hero { padding: clamp(3rem, 8vh, 5rem) 0 clamp(2rem, 5vh, 3rem); }
+.hero .eyebrow { display: inline-flex; align-items: center; gap: .5rem; color: var(--accent); letter-spacing: .12em; margin-bottom: 1.25rem; }
+.hero .eyebrow::before { content: ""; width: 1.5rem; height: 2px; background: var(--accent); }
+.hero__name { font-size: clamp(2.75rem, 7vw, 5.25rem); font-weight: 700; line-height: 1.02; letter-spacing: -0.035em; }
+.hero__word { color: var(--text); -webkit-text-stroke: 0; transition: none; }
+.hero__name:hover .hero__word { color: var(--text); }
+.hero__last { color: var(--muted); }
+.hero__positioning { margin-top: 1.25rem; max-width: 34ch; font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 600; line-height: 1.35; color: var(--text); }
+.hero__focus { margin-top: .75rem; max-width: 56ch; font-size: 1.05rem; line-height: 1.6; color: var(--muted); }
+.hero .actions { margin-top: 2rem; gap: .75rem; }
+.hero__name, .hero__positioning, .hero__focus, .hero .actions, .hero .eyebrow { animation: rise 600ms var(--ease) both; }
+.hero__positioning { animation-delay: 80ms; } .hero__focus { animation-delay: 140ms; } .hero .actions { animation-delay: 200ms; }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* Buttons and links: calm, consistent transitions */
+.button { background: var(--accent); border-color: var(--accent); color: #fff; border-radius: 8px; transition: background-color 180ms var(--ease), border-color 180ms var(--ease), color 180ms var(--ease), transform 180ms var(--ease); }
+.button--ghost { background: transparent; color: var(--text); border-color: var(--rule); }
+.button:hover, .contact-form button:hover:not([disabled]), .to-top:hover { background: var(--press); border-color: var(--press); color: #fff; }
+.button--ghost:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.button:active { transform: translateY(1px); }
+.text-link { color: var(--accent); text-underline-offset: 3px; transition: color 180ms var(--ease); }
+.text-link:hover { color: var(--press); }
+.card-grid > .card { background: var(--bg); transition: background-color 200ms var(--ease); }
+.card-grid > .card:hover { background: var(--surface); }
+.card__tag { color: var(--accent); }
