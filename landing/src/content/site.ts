@@ -92,9 +92,6 @@ export const PROJECTS = [
 ] as const;
 
 // ICT labs subsection on Home. Preview images are each repository's GitHub social preview.
-export const LABS_INTRO =
-  "Hands on ICT labs that rebuild enterprise identity patterns end to end, from tenant onboarding to audit evidence. Each lab is validated through automated testing in a lab environment.";
-
 export const LABS = [
   {
     tag: "IAM",

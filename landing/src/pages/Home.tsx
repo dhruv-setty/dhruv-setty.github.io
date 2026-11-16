@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ContactForm from "../components/ContactForm";
-import { FEATURED, FOCUS, PROJECTS, SITE, LABS, LABS_INTRO } from "../content/site";
+import { FEATURED, FOCUS, PROJECTS, SITE, LABS } from "../content/site";
 import { GREETING, STORY } from "../content/story";
 import { rich } from "../lib/rich";
 import FlashDeck from "../components/FlashDeck";
@@ -96,7 +96,6 @@ export default function Home() {
 
         <section id="labs" className="section" aria-labelledby="labs-h">
           <h2 id="labs-h" className="section__title">ICT Labs</h2>
-          <p className="section__lede">{LABS_INTRO}</p>
           <FlashDeck label="ICT labs" noun="lab">
             {LABS.map((l, i) => (
               <article key={l.name} className="card flash">
