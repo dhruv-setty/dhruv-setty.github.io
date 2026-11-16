@@ -98,7 +98,7 @@ export default function Home() {
           <div className="card-grid card-grid--two">
             {LABS.map((l, i) => (
               <article key={l.name} className="card">
-                <figure className="card__thumb"><img src={l.preview.src} alt={l.preview.alt} width="1200" height="600" loading="lazy" decoding="async" /></figure>
+                <figure className="card__thumb"><img src={l.preview.src} alt={l.preview.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>
                 <p className="card__tag">Lab {String(i + 1).padStart(2, "0")} · {l.tag}</p>
                 <h3 className="card__title">{l.name}</h3>
                 <p className="card__summary">{l.summary}</p>

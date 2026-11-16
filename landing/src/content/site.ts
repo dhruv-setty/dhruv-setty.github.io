@@ -91,7 +91,7 @@ export const PROJECTS = [
   },
 ] as const;
 
-// ICT labs subsection on Home. Preview images are each repository's GitHub social preview.
+// ICT labs subsection on Home. Each card shows an architecture diagram of the lab.
 export const LABS = [
   {
     tag: "IAM",
@@ -106,8 +106,8 @@ export const LABS = [
     ],
     stack: ["Entra ID", "Microsoft Graph", "OAuth 2.0", "SSSD", "PAM", "C#"],
     preview: {
-      src: "https://opengraph.githubassets.com/8993e108524ffbb4ed6d94db9f88d650977b66148571eb6e9aa32ec1dc322192/whatheheckisthis/Intent-Auditable-Trust-Object-V2",
-      alt: "GitHub preview of the cloud identity federation lab",
+      src: "/thumbs/thumb-lab-federation.png",
+      alt: "Architecture: a release pipeline builds signed Debian packages; Microsoft Graph provisions a least privilege service principal in Entra ID; Debian hosts sign in through SSSD and PAM with a device code token, with Conditional Access and MFA on every login and Entra groups mapped to POSIX IDs and RBAC",
     },
     href: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V2",
   },
@@ -124,8 +124,8 @@ export const LABS = [
     ],
     stack: ["SailPoint IdentityIQ", "Java", "JBoss EAP", "POSIX ACLs", "NFS", "Azure Files"],
     preview: {
-      src: "https://opengraph.githubassets.com/560a441876185c7fb0d5c8cf78aee2dbb4d9ca9466b05dec5509e9d02b296b6d/whatheheckisthis/Intent-Auditable-Trust-Object-V3",
-      alt: "GitHub preview of the identity governance lab",
+      src: "/thumbs/thumb-lab-governance.png",
+      alt: "Architecture: HR and host inventory feed SailPoint IdentityIQ; the identity cube drives Joiner, Mover, Leaver, access request and approval, SoD and certification into a revoke before grant change plan; a host executor applies POSIX groups, ACLs and NFS exports, verified as attestation evidence and reaggregated",
     },
     href: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V3",
   },
