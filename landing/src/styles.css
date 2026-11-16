@@ -1377,3 +1377,13 @@ code.ic,
 .card-grid > .card { padding: 1.25rem; }
 @media (min-width: 760px) { .card-grid--two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .card__summary code, .card__summary .ic { white-space: normal; word-break: normal; }
+
+/* Compact, grid-like rhythm */
+.hero { min-height: 0; padding: clamp(2.5rem, 6vh, 4rem) 0 clamp(2rem, 4vh, 3rem); }
+.section { padding: clamp(2rem, 5vh, 3rem) 0; }
+.section__title { margin: 0 0 1rem; }
+.card-grid { gap: 0; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+.card-grid > .card { border: 0; border-radius: 0; box-shadow: none; outline: 1px solid var(--rule); outline-offset: 0; }
+.card-grid .card__thumb { margin: 0 0 .75rem; border-radius: 6px; }
+.about__grid { gap: 1.5rem; }
+@media (min-width: 760px) { .about__grid { grid-template-columns: 14rem minmax(0, 1fr); } }
