@@ -1388,3 +1388,10 @@ code.ic,
 .about__grid { gap: 1.5rem; }
 @media (min-width: 760px) { .about__grid { grid-template-columns: 14rem minmax(0, 1fr); } }
 .card-grid .card p, .card-grid .card__title { word-break: normal; overflow-wrap: normal; hyphens: manual; }
+
+/* What I focus on: level the title, lead, body and references across cards */
+.card-grid.focus-grid { grid-auto-rows: auto; }
+.card-grid.focus-grid > .focus-card { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: .6rem; height: auto; }
+.card-grid.focus-grid .card p.focus-card__body { display: block; -webkit-line-clamp: unset; line-clamp: none; overflow: visible; }
+.card-grid.focus-grid .focus-card .card__title { display: block; -webkit-line-clamp: unset; overflow: visible; }
+.card-grid.focus-grid .focus-card__refs { align-self: end; }
