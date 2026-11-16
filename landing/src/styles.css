@@ -1424,3 +1424,5 @@ code.ic,
 .card-grid > .card { background: var(--bg); transition: background-color 200ms var(--ease); }
 .card-grid > .card:hover { background: var(--surface); }
 .card__tag { color: var(--accent); }
+.about__why { color: var(--accent) !important; }
+.contact-form button { background: var(--accent); border-color: var(--accent); color: #fff; border-radius: 8px; }
