@@ -1357,3 +1357,6 @@ code.ic,
 .card__thumb img { width: 100%; height: 100%; object-fit: contain; padding: 4%; box-sizing: border-box; transition: transform 320ms ease; }
 .flash:hover .card__thumb img { transform: scale(1.02); }
 @media (prefers-reduced-motion: reduce) { .card__thumb img { transition: none; } .flash:hover .card__thumb img { transform: none; } }
+
+/* ICT Labs subsection */
+.section__lede { max-width: 60ch; margin: 0 0 1.5rem; color: inherit; opacity: .8; }

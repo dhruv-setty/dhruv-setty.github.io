@@ -90,3 +90,46 @@ export const PROJECTS = [
     links: [{ text: "Learn More", href: "https://www.dropbox.com/scl/fi/lrntb1t05v04yb1wz4ei8/CBLT-2-1cf710990566.pdf?rlkey=rp2c40yxcu7wo0m9yqnl13ckc&st=1x4jym61&dl=0" }],
   },
 ] as const;
+
+// ICT labs subsection on Home. Preview images are each repository's GitHub social preview.
+export const LABS_INTRO =
+  "Hands on ICT labs that rebuild enterprise identity patterns end to end, from tenant onboarding to audit evidence. Each lab is validated through automated testing in a lab environment.";
+
+export const LABS = [
+  {
+    tag: "IAM",
+    name: "Cloud Identity Federation for Linux Workloads",
+    summary:
+      "Federates Debian Linux hosts with Microsoft Entra ID through SSSD, extending Conditional Access and MFA to every server login and removing local account sprawl.",
+    points: [
+      "Service principal provisioning via Microsoft Graph with least privilege permissions",
+      "OAuth 2.0 Device Authorization Grant at the PAM layer",
+      "Deterministic POSIX identity mapping and group based RBAC",
+      "Signed packages through a CI/CD release pipeline",
+    ],
+    stack: ["Entra ID", "Microsoft Graph", "OAuth 2.0", "SSSD", "PAM", "C#"],
+    preview: {
+      src: "https://opengraph.githubassets.com/8993e108524ffbb4ed6d94db9f88d650977b66148571eb6e9aa32ec1dc322192/whatheheckisthis/Intent-Auditable-Trust-Object-V2",
+      alt: "GitHub preview of the cloud identity federation lab",
+    },
+    href: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V2",
+  },
+  {
+    tag: "IGA",
+    name: "Identity Governance for Legacy Unstructured Data",
+    summary:
+      "A SailPoint IdentityIQ solution that governs legacy Linux file shares across the Joiner, Mover, Leaver lifecycle, from access request to closed loop remediation.",
+    points: [
+      "HR authoritative source with correlation and identity refresh",
+      "Entitlement catalogue, role model and approval workflow",
+      "Segregation of Duties policy and access certification campaigns",
+      "Attestation evidence that revoked access is removed on disk",
+    ],
+    stack: ["SailPoint IdentityIQ", "Java", "JBoss EAP", "POSIX ACLs", "NFS", "Azure Files"],
+    preview: {
+      src: "https://opengraph.githubassets.com/560a441876185c7fb0d5c8cf78aee2dbb4d9ca9466b05dec5509e9d02b296b6d/whatheheckisthis/Intent-Auditable-Trust-Object-V3",
+      alt: "GitHub preview of the identity governance lab",
+    },
+    href: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V3",
+  },
+];
