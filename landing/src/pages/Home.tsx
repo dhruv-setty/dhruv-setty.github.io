@@ -4,7 +4,6 @@ import ContactForm from "../components/ContactForm";
 import { FEATURED, FOCUS, PROJECTS, SITE, LABS } from "../content/site";
 import { GREETING, STORY } from "../content/story";
 import { rich } from "../lib/rich";
-import FlashDeck from "../components/FlashDeck";
 import HopGreeting from "../components/HopGreeting";
 
 export default function Home() {
@@ -23,7 +22,7 @@ export default function Home() {
           <p className="hero__focus">{SITE.focus}</p>
           <div className="actions">
             <a className="button" href="#contact">Get in touch</a>
-            <a className="button button--ghost" href="#work">Recent Projects</a>
+            <a className="button button--ghost" href="#work">View projects</a>
             {SITE.resume ? (
               <a className="button button--ghost" href={SITE.resume} target="_blank" rel="noopener">View resume</a>
             ) : null}
@@ -51,9 +50,9 @@ export default function Home() {
 
         <section id="focus" className="section" aria-labelledby="focus-h">
           <h2 id="focus-h" className="section__title">What I focus on</h2>
-          <FlashDeck label="What I focus on" noun="focus area">
+          <div className="card-grid">
             {FOCUS.map((f, i) => (
-              <article key={f.title} className="card focus-card flash">
+              <article key={f.title} className="card focus-card">
                 <span className="focus-card__index" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="card__title">{f.title}</h3>
                 <p className="focus-card__lead">{f.lead}</p>
@@ -63,27 +62,27 @@ export default function Home() {
                 </ul>
               </article>
             ))}
-          </FlashDeck>
+          </div>
         </section>
 
         <section id="work" className="section" aria-labelledby="work-h">
           <h2 id="work-h" className="section__title">Recent Projects</h2>
-          <FlashDeck label="Recent projects" noun="project">
-            <article className="card flash">
+          <div className="card-grid">
+            <article className="card">
               <figure className="card__thumb"><img src={FEATURED.thumb.src} alt={FEATURED.thumb.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>
               <p className="card__tag">Assurance</p>
               <h3 className="card__title">{FEATURED.name}</h3>
-              <p>{rich(FEATURED.summary)}</p>
+              <p className="card__summary">{rich(FEATURED.summary)}</p>
               <div className="actions card__links">
                 <a className="text-link" href={FEATURED.readme}>{FEATURED.readmeText}</a>
               </div>
             </article>
             {PROJECTS.map((p) => (
-              <article key={p.name} className="card flash">
+              <article key={p.name} className="card">
                 {p.thumb && <figure className="card__thumb"><img src={p.thumb.src} alt={p.thumb.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>}
                 <p className="card__tag">{p.tag}</p>
                 <h3 className="card__title">{p.name}</h3>
-                <p>{rich(p.summary)}</p>
+                <p className="card__summary">{rich(p.summary)}</p>
                 <div className="actions card__links">
                   {p.links.filter((l) => l.href && !l.href.startsWith("__")).map((l) => (
                     <a key={l.text} className="text-link" href={l.href}>{l.text}</a>
@@ -91,22 +90,22 @@ export default function Home() {
                 </div>
               </article>
             ))}
-          </FlashDeck>
+          </div>
         </section>
 
         <section id="labs" className="section" aria-labelledby="labs-h">
           <h2 id="labs-h" className="section__title">ICT Labs</h2>
-          <FlashDeck label="ICT labs" noun="lab">
+          <div className="card-grid">
             {LABS.map((l, i) => (
-              <article key={l.name} className="card flash">
+              <article key={l.name} className="card">
                 <figure className="card__thumb"><img src={l.preview.src} alt={l.preview.alt} width="1200" height="600" loading="lazy" decoding="async" /></figure>
                 <p className="card__tag">Lab {String(i + 1).padStart(2, "0")} · {l.tag}</p>
                 <h3 className="card__title">{l.name}</h3>
-                <p>{l.summary}</p>
-                <ul className="focus-card__refs" aria-label="Key capabilities">
+                <p className="card__summary">{l.summary}</p>
+                <ul className="card__points" aria-label="Key capabilities">
                   {l.points.map((pt) => <li key={pt}>{pt}</li>)}
                 </ul>
-                <ul className="focus-card__refs" aria-label="Technology stack">
+                <ul className="card__chips" aria-label="Technology stack">
                   {l.stack.map((t) => <li key={t}><code className="ic">{t}</code></li>)}
                 </ul>
                 <div className="actions card__links">
@@ -114,7 +113,7 @@ export default function Home() {
                 </div>
               </article>
             ))}
-          </FlashDeck>
+          </div>
         </section>
 
         <section id="contact" className="section contact" aria-labelledby="contact-h">
