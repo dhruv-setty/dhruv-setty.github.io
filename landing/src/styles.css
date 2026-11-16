@@ -1410,3 +1410,12 @@ code.ic,
 
 /* About story: justified paragraphs */
 .about__story p { text-align: justify; text-justify: inter-word; }
+
+/* What I focus on: no selection glow */
+.card-grid.focus-grid > .focus-card:hover,
+.card-grid.focus-grid > .focus-card:focus,
+.card-grid.focus-grid > .focus-card:focus-within {
+  z-index: 0;
+  outline: 1px solid var(--rule);
+  box-shadow: none;
+}

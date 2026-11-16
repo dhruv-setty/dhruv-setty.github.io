@@ -51,7 +51,7 @@ export default function Home() {
           <h2 id="focus-h" className="section__title">What I focus on</h2>
           <div className="card-grid focus-grid">
             {FOCUS.map((f, i) => (
-              <article key={f.title} className="card focus-card" tabIndex={0}>
+              <article key={f.title} className="card focus-card">
                 <span className="focus-card__index" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="card__title">{f.title}</h3>
                 <p className="focus-card__lead">{f.lead}</p>
