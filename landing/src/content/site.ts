@@ -1,7 +1,7 @@
 export const SITE = {
   name: "Dhruv Setty",
   positioning: "Identity Engineer. IGA and IAM control assurance.",
-  focus: "Identity governance and access control across hybrid Entra ID and Active Directory, with evidence an auditor can check.",
+  focus: "Identity governance across Entra ID and Active Directory, with evidence an auditor can check.",
   url: "https://whatheheckisthis.github.io",
   description:
     "Dhruv Setty, Identity Engineer in New Zealand. IGA and IAM control assurance across hybrid Entra ID and Active Directory.",

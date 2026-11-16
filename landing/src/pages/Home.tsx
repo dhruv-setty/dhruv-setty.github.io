@@ -102,11 +102,8 @@ export default function Home() {
                 <p className="card__tag">Lab {String(i + 1).padStart(2, "0")} · {l.tag}</p>
                 <h3 className="card__title">{l.name}</h3>
                 <p className="card__summary">{l.summary}</p>
-                <ul className="card__points" aria-label="Key capabilities">
-                  {l.points.map((pt) => <li key={pt}>{pt}</li>)}
-                </ul>
                 <ul className="card__chips" aria-label="Technology stack">
-                  {l.stack.map((t) => <li key={t}><code className="ic">{t}</code></li>)}
+                  {l.stack.slice(0, 4).map((t) => <li key={t}><code className="ic">{t}</code></li>)}
                 </ul>
                 <div className="actions card__links">
                   <a className="text-link" href={l.href}>Learn More</a>
