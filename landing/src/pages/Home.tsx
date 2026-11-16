@@ -51,7 +51,7 @@ export default function Home() {
           <h2 id="focus-h" className="section__title">What I focus on</h2>
           <div className="card-grid focus-grid">
             {FOCUS.map((f, i) => (
-              <article key={f.title} className="card focus-card">
+              <article key={f.title} className="card focus-card" tabIndex={0}>
                 <span className="focus-card__index" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="card__title">{f.title}</h3>
                 <p className="focus-card__lead">{f.lead}</p>
@@ -67,7 +67,7 @@ export default function Home() {
         <section id="work" className="section" aria-labelledby="work-h">
           <h2 id="work-h" className="section__title">Recent Projects</h2>
           <div className="card-grid card-grid--two">
-            <article className="card">
+            <article className="card" tabIndex={0}>
               <figure className="card__thumb"><img src={FEATURED.thumb.src} alt={FEATURED.thumb.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>
               <p className="card__tag">Assurance</p>
               <h3 className="card__title">{FEATURED.name}</h3>
@@ -77,7 +77,7 @@ export default function Home() {
               </div>
             </article>
             {PROJECTS.map((p) => (
-              <article key={p.name} className="card">
+              <article key={p.name} className="card" tabIndex={0}>
                 {p.thumb && <figure className="card__thumb"><img src={p.thumb.src} alt={p.thumb.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>}
                 <p className="card__tag">{p.tag}</p>
                 <h3 className="card__title">{p.name}</h3>
@@ -96,7 +96,7 @@ export default function Home() {
           <h2 id="labs-h" className="section__title">ICT Labs</h2>
           <div className="card-grid card-grid--two">
             {LABS.map((l, i) => (
-              <article key={l.name} className="card">
+              <article key={l.name} className="card" tabIndex={0}>
                 <figure className="card__thumb"><img src={l.preview.src} alt={l.preview.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>
                 <p className="card__tag">Lab {String(i + 1).padStart(2, "0")} · {l.tag}</p>
                 <h3 className="card__title">{l.name}</h3>
