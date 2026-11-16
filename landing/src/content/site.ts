@@ -64,11 +64,11 @@ export const FEATURED = {
 // More projects, shown under the featured card. A link with an empty href is hidden.
 export const PROJECTS = [
   {
-    name: "Stage 2 translation and TLB maintenance",
+    name: "Stage 2 address translation",
     thumb: { src: "/thumbs/thumb-stage2.png", alt: "Two-stage translation VA to IPA to PA with the Stage 2 table walk, a VMID tagged TLB, and the break-before-make TLBI unmap sequence" },
     tag: "Virtualisation",
     summary:
-      "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. Defines, verifies and implements `Stage 2` address translation and TLB maintenance for a hypervisor at `EL2`. A Sail reference model specifies the walk, a TLA+ model proves the required `TLBI` ordering for unmapping a guest page, and a SystemVerilog walker and VMID tagged TLB are cross checked against the reference across 10,000 probes with no mismatches.",
+      "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. Formally analysed `Stage 2` address translation and memory state transformations to ensure data integrity, race concurrency, and ownership preservation under virtualised hardware semantics.",
     links: [{ text: "Learn More", href: "https://github.com/whatheheckisthis/Intent-to-Auditable-Trust-Object-v7" }],
   },
   {
@@ -76,7 +76,7 @@ export const PROJECTS = [
     thumb: { src: "/thumbs/thumb-aarch64.png", alt: "AArch64 exception levels EL0 to EL3 with Stage 1 and Stage 2 translation, an accelerator behind SMMUv3, and observational equivalence between host and offloaded traces" },
     tag: "Virtualisation",
     summary:
-      "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. Formally analysed `Stage 2` address translation and memory state transformations to ensure data integrity, race concurrency, and ownership preservation under virtualised hardware semantics. Applied observational equivalence and congruence proofs to `VLA` execution models, proving that asynchronous accelerator offloading preserves observable program behavior.",
+      "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. Applied observational equivalence and congruence proofs to Variable-Length Array `VLA` execution models, proving that asynchronous accelerator offloading preserves observable program behavior.",
     links: [
       { text: "Learn More", href: "https://www.dropbox.com/scl/fi/nfrnwf5lten7b74ud1fbn/A64-CBLT-STUDY-001-eca7fe16806a.pdf?rlkey=rl6pegel190x12yx8mhkpbn7s&st=kjv0iqll&dl=0" },
     ],
