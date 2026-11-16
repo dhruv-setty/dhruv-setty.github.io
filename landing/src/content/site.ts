@@ -56,6 +56,7 @@ export const FEATURED = {
   thumb: { src: "/thumbs/thumb-sssd.png", alt: "SSH login on a Debian host through pam_sss and the SSSD idp provider, the device code and token endpoints of the Microsoft identity platform, sign in with MFA and Conditional Access on another device, and users and groups from Microsoft Graph" },
   fullName: "Intent-Auditable Trust Object V2",
   repo: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V2",
+  stack: ["Entra ID", "SSSD", "OAuth 2.0", "C#"],
   readmeText: "Learn More",
   status: "Released. Packages for amd64 and arm64.",
   readme: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V2",
@@ -65,6 +66,7 @@ export const FEATURED = {
 export const PROJECTS = [
   {
     name: "Stage 2 translation and TLB maintenance",
+    stack: ["Sail", "TLA+", "SystemVerilog", "Verilator"],
     thumb: { src: "/thumbs/thumb-stage2.png", alt: "Two-stage translation VA to IPA to PA with the Stage 2 table walk, a VMID tagged TLB, and the break-before-make TLBI unmap sequence" },
     tag: "Virtualisation",
     summary:
@@ -73,6 +75,7 @@ export const PROJECTS = [
   },
   {
     name: "AArch64 virtualisation study",
+    stack: ["Lean 4", "KVM", "QEMU", "Arm Neoverse"],
     thumb: { src: "/thumbs/thumb-aarch64.png", alt: "AArch64 exception levels EL0 to EL3 with Stage 1 and Stage 2 translation, an accelerator behind SMMUv3, and observational equivalence between host and offloaded traces" },
     tag: "Virtualisation",
     summary:
@@ -83,6 +86,7 @@ export const PROJECTS = [
   },
   {
     name: "FPGA to GPU peer-to-peer pipeline",
+    stack: ["PCIe", "DMA", "SMMUv3", "VFIO"],
     thumb: { src: "/thumbs/thumb-p2p.png", alt: "PCIe topology: host SoC with root complex and SMMUv3, a PCIe switch, and peer-to-peer TLPs from the FPGA endpoint to the GPU BAR1 aperture" },
     tag: "HPC",
     summary:

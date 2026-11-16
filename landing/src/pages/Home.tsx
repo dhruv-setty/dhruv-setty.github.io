@@ -72,6 +72,9 @@ export default function Home() {
               <p className="card__tag">Assurance</p>
               <h3 className="card__title">{FEATURED.name}</h3>
               <p className="card__summary">{rich(FEATURED.summary)}</p>
+              <ul className="card__chips" aria-label="Technology stack">
+                {FEATURED.stack.slice(0, 4).map((t) => <li key={t}><code className="ic">{t}</code></li>)}
+              </ul>
               <div className="actions card__links">
                 <a className="text-link" href={FEATURED.readme}>{FEATURED.readmeText}</a>
               </div>
@@ -82,6 +85,9 @@ export default function Home() {
                 <p className="card__tag">{p.tag}</p>
                 <h3 className="card__title">{p.name}</h3>
                 <p className="card__summary">{rich(p.summary)}</p>
+                <ul className="card__chips" aria-label="Technology stack">
+                  {p.stack.slice(0, 4).map((t) => <li key={t}><code className="ic">{t}</code></li>)}
+                </ul>
                 <div className="actions card__links">
                   {p.links.filter((l) => l.href && !l.href.startsWith("__")).map((l) => (
                     <a key={l.text} className="text-link" href={l.href}>{l.text}</a>
