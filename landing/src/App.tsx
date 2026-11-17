@@ -9,10 +9,12 @@ import CaseStudyHmm from "./pages/CaseStudyHmm";
 import CaseStudySpde from "./pages/CaseStudySpde";
 import NotFound from "./pages/NotFound";
 import SiteAvatar from "./components/SiteAvatar";
+import ScrollToTop from "./components/ScrollToTop";
 
 export default function App() {
   return (
     <>
+    <ScrollToTop />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/case-studies/" element={<CaseStudies />} />
