@@ -8,6 +8,7 @@ export const SITE = {
   contact: [
     { label: "GitHub", text: "GitHub", href: "https://github.com/whatheheckisthis", icon: "/icons/github.svg" },
     { label: "LinkedIn", text: "LinkedIn", href: "https://www.linkedin.com/in/its-dhruv-setty", icon: "/icons/linkedin.png" },
+    { label: "Buy me a coffee", text: "Buy me a coffee", href: "https://buymeacoffee.com/dhruvsetty", icon: "/icons/bmc.svg" },
   ],
   location: "",
   // Cloudflare Worker that relays the contact form to Resend. Empty disables sending.

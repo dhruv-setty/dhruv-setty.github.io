@@ -1,4 +1,3 @@
-import { SITE } from "../content/site";
 import { Link } from "react-router-dom";
 import { POSTS, formatShortDate } from "../content/posts";
 
@@ -26,9 +25,6 @@ export default function BlogSidebar({ current }: { current?: string }) {
             </li>
           ))}
         </ol>
-        {SITE.coffee ? (
-          <a className="icon-link blog-side__coffee" href={SITE.coffee} aria-label="Buy me a coffee" title="Buy me a coffee"><img src="/icons/bmc.svg" alt="" width="22" height="22" /></a>
-        ) : null}
       </details>
     </aside>
   );

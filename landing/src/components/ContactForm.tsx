@@ -40,9 +40,6 @@ export default function ContactForm() {
       </div>
       <div className="contact-form__actions">
         <button type="submit" disabled={status === "sending"}>{status === "sending" ? "Sending…" : "Say hello"}</button>
-        {SITE.coffee ? (
-          <a className="button button--ghost" href={SITE.coffee}>Buy me a coffee</a>
-        ) : null}
       </div>
       <p className="contact-form__status" role="status" aria-live="polite">
         {status === "sent" ? "Thanks, your message is on its way." : status === "error" ? "Sorry, that didn't send. Please try again, or reach me on LinkedIn." : ""}
