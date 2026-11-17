@@ -4,8 +4,6 @@ date: 2026-01-13
 summary: The motivation, research questions, assumptions and findings of a Lean 4 study of EL2, Stage-2 translation and the KVM vCPU lifecycle on Arm Neoverse servers, and the limits of what a proof certifies.
 ---
 
-*A study of EL2, Stage-2 translation and the KVM vCPU lifecycle on Arm Neoverse servers*
-
 ## Motivation
 
 Much of my work addresses a single question: what must remain true when nobody is observing? In identity, the answer is that only the right people hold access. In a hypervisor, it is that a guest can reach only the memory it has been given, and that a virtual CPU runs only once it has been correctly configured.

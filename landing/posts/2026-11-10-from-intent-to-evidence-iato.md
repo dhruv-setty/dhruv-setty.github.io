@@ -4,8 +4,6 @@ date: 2026-11-10
 summary: The motivation, objectives, assumptions and design of the IĀTŌ series, which turns access intent into evidence through Entra ID sign in for Debian hosts and SailPoint IdentityIQ governance for legacy Linux file shares.
 ---
 
-*The difference between "a policy exists" and "the control can be demonstrated"*
-
 ## Motivation
 
 Most access reviews reach the same point. A reviewer asks whether a leaver can still log in to a server, or who can write to the finance share, and the accurate answer is that they should not be able to. A policy exists and the intent is clear. What is missing is evidence an auditor can trace from the requirement to the system.

@@ -21,7 +21,6 @@ export default function PostPage() {
           <article className="prose-article">
             <header className="post-header">
               <h1>{post.title}</h1>
-              <p className="post-dek">{post.summary}</p>
               <p className="byline byline--post">
                 <img src="/dhruv.webp" alt="" width="40" height="40" />
                 <span>

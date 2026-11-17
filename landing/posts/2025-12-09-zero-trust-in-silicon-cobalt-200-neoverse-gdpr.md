@@ -4,8 +4,6 @@ date: 2025-12-09
 summary: How Cobalt 200 and Arm Neoverse CSS V3 extend zero trust below the hypervisor, the assumptions that must hold, and what the change means for evidence under GDPR.
 ---
 
-*What changes for zero trust when the processor no longer trusts the host*
-
 ## Motivation
 
 Zero trust rests on three principles: trust is never granted because of location, every access is verified, and breach is assumed. These principles are usually applied to users, devices and networks. Beneath all of them sits a component that has historically been trusted without verification: the cloud host, its hypervisor and its operators.

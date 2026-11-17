@@ -4,8 +4,6 @@ date: 2024-03-12
 summary: The motivation, objectives, assumptions and acceptance criteria for a low-latency FPGA to GPU peer-to-peer data path on Arm Neoverse, specified before the first benchmark runs.
 ---
 
-*Specifying a low-latency accelerator data path before the first measurement, and why the most important column in the specification reads "pending"*
-
 ## Motivation
 
 Moving data between accelerators appears simple until the path is examined. A frame arrives at an FPGA, is parsed, and must reach GPU memory. The conventional route passes through the CPU twice: once into host memory and once again to the GPU. Each copy adds latency, consumes memory bandwidth and creates a place where data can be held longer than intended.

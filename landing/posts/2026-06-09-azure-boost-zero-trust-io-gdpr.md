@@ -4,8 +4,6 @@ date: 2026-06-09
 summary: How the next generation of Azure Boost moves storage and networking onto attested hardware, why removing bounce buffers matters for confidential data, and what must be verified before it counts as GDPR evidence.
 ---
 
-*Data is only as private as the path it takes to storage and the network*
-
 ## Motivation
 
 Considerable effort goes into encrypting data at rest and in transit. The weaker point is usually between the two: the moment data leaves a virtual machine's memory and passes through the host on its way to storage or the network. In a zero-trust model that path is part of the attack surface, and under GDPR it is part of the processing the controller is responsible for securing.
