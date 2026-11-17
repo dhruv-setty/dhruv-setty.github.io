@@ -1,6 +1,6 @@
 ---
 title: "Azure Boost and the Zero-Trust I/O Path in the Age of GDPR"
-date: 2026-11-13
+date: 2026-06-09
 summary: How Azure Boost moves storage and networking onto attested silicon, why removing bounce buffers matters for confidential data, and what it means for GDPR evidence.
 ---
 
@@ -12,7 +12,7 @@ Azure Boost is Microsoft's answer to that path, and its newest generation is a g
 
 ## What Azure Boost is
 
-Azure Boost offloads virtualisation, networking and storage from the host onto dedicated hardware. The [new generation](https://techcommunity.microsoft.com/blog/azurecompute/announcing-the-general-availability-of-the-next-generation-of-azure-boost/4519136), generally available since May 2026, is a PCIe card built around a single ASIC with three parts:
+Azure Boost offloads virtualisation, networking and storage from the host onto dedicated hardware. The [new generation](https://techcommunity.microsoft.com/blog/azurecompute/announcing-the-general-availability-of-the-next-generation-of-azure-boost/4519136), generally available since 7 May 2026, is a PCIe card built around a single ASIC with three parts:
 
 - an ASIC and FPGA hybrid that handles storage acceleration, virtual network encryption, remote storage encryption and the data path;
 - the Microsoft Azure Network Adapter (MANA), with up to 400 Gbps of networking;

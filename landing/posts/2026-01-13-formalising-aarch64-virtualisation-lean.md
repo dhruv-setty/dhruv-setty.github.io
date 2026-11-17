@@ -1,6 +1,6 @@
 ---
 title: "What Has to Stay True: Formalising AArch64 Virtualisation in Lean 4"
-date: 2026-11-13
+date: 2026-01-13
 summary: A Lean 4 study of EL2, Stage-2 translation and the KVM vCPU lifecycle on Arm Neoverse servers, and what a proof can and cannot certify.
 ---
 
@@ -70,4 +70,4 @@ Write down what you haven't proven. A verification gap with an owner is progress
 
 Next steps are the ones the study lists: run the Lean check in CI, add negative lifecycle tests, and collect SKU-level evidence from real N2 and V3 hosts.
 
-The Lean artefact is on [GitHub](https://github.com/whatheheckisthis/Intent-to-Auditable-Trust-Object-v7), and you can [read the full study](https://www.dropbox.com/scl/fi/nfrnwf5lten7b74ud1fbn/A64-CBLT-STUDY-001-eca7fe16806a.pdf?rlkey=rl6pegel190x12yx8mhkpbn7s&st=kjv0iqll&dl=0).
+The Stage 2 boundary at the centre of this study is carried forward as its own piece of work: a Sail model as the reference for the table walk, a TLA+ check of the unmap sequence across two cores, and a SystemVerilog walker with a VMID and ASID tagged TLB that matches the reference across 10,000 random probes. That work is on [GitHub](https://github.com/whatheheckisthis/Intent-to-Auditable-Trust-Object-v7), and you can [read the full study](https://www.dropbox.com/scl/fi/nfrnwf5lten7b74ud1fbn/A64-CBLT-STUDY-001-eca7fe16806a.pdf?rlkey=rl6pegel190x12yx8mhkpbn7s&st=kjv0iqll&dl=0).

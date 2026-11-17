@@ -1,6 +1,6 @@
 ---
 title: "From Hackathon to Simulation: Building Safer Roads with Cloud-Powered Lane Detection"
-date: 2025-06-25
+date: 2023-12-12
 summary: How an NZTA "Save One More Life" hackathon grew into a CARLA lane detection simulation with secured, containerised data paths.
 ---
 

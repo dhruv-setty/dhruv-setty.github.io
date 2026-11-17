@@ -1,6 +1,6 @@
 ---
 title: "Zero Trust Starts in the Silicon: Cobalt 200, Neoverse V3 and GDPR"
-date: 2026-11-13
+date: 2025-12-09
 summary: How Cobalt 200 and Arm Neoverse CSS V3 move zero trust below the hypervisor, and why that matters for meeting GDPR's security and by-design duties.
 ---
 
@@ -14,7 +14,7 @@ Microsoft's Cobalt 200, built on Arm Neoverse, is a useful case study in pushing
 
 ## The hardware
 
-[Cobalt 200](https://techcommunity.microsoft.com/blog/azureinfrastructureblog/announcing-cobalt-200-azure%E2%80%99s-next-cloud-native-cpu/4469807), announced in November 2025, is Microsoft's second Arm server CPU. It's built on Arm Neoverse Compute Subsystems V3 (CSS V3), with 132 active cores, 3 MB of L2 cache per core, 192 MB of L3 system cache and TSMC's 3nm process. Its VMs [entered early access preview](https://azure.microsoft.com/en-us/blog/new-azure-cobalt-200-vms-deliver-50-performance-improvement-fully-optimized-for-modern-agentic-ai-workloads) in June 2026, with up to 128 vCPUs, each a full physical core.
+[Cobalt 200](https://techcommunity.microsoft.com/blog/azureinfrastructureblog/announcing-cobalt-200-azure%E2%80%99s-next-cloud-native-cpu/4469807), announced on 18 November 2025, is Microsoft's second Arm server CPU. It's built on Arm Neoverse Compute Subsystems V3 (CSS V3), with 132 active cores, 3 MB of L2 cache per core, 192 MB of L3 system cache and TSMC's 3nm process. The first production servers are live in Microsoft's datacentres, with wider rollout and customer availability promised for 2026.
 
 The performance claims (up to 50% over Cobalt 100) get the headlines. For zero trust, three other design choices matter more.
 
@@ -44,7 +44,7 @@ Neoverse is Arm's infrastructure platform, and CSS V3 is a pre-integrated subsys
 
 The upside is a shared architecture. Features like CCA come from Arm's architecture, so the isolation model isn't a one-vendor invention.
 
-The catch is that a shared architecture isn't a shared implementation. In my own formal study of AArch64 virtualisation, Cobalt 100 (Neoverse N2) and Cobalt 200 (Neoverse V3) turned out not to be interchangeable. What a guest can actually see and rely on has to be read from the host's own ID registers, not inferred from a product name. Zero trust says the same thing: verify the platform you're actually on.
+The catch is that a shared architecture isn't a shared implementation. In the formal study of AArch64 virtualisation I'm writing up, Cobalt 100 (Neoverse N2) and Cobalt 200 (Neoverse V3) are already proving not to be interchangeable. What a guest can actually see and rely on has to be read from the host's own ID registers, not inferred from a product name. Zero trust says the same thing: verify the platform you're actually on.
 
 ## What this means for GDPR compliance
 
