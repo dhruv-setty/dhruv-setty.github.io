@@ -1419,3 +1419,32 @@ code.ic,
   outline: 1px solid var(--rule);
   box-shadow: none;
 }
+
+/* Journal: tables and ASCII diagrams */
+.post-body table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 0 0 1.5rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.post-body th,
+.post-body td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+}
+.post-body th {
+  background: var(--surface);
+  font-weight: 600;
+}
+.post-body pre {
+  font-size: 0.78rem;
+  white-space: pre;
+}
+.post-body pre code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}

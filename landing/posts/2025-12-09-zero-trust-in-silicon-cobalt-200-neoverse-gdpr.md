@@ -1,63 +1,75 @@
 ---
 title: "Zero Trust Starts in the Silicon: Cobalt 200, Neoverse V3 and GDPR"
 date: 2025-12-09
-summary: How Cobalt 200 and Arm Neoverse CSS V3 move zero trust below the hypervisor, and why that matters for meeting GDPR's security and by-design duties.
+summary: How Cobalt 200 and Arm Neoverse CSS V3 extend zero trust below the hypervisor, the assumptions that must hold, and what the change means for evidence under GDPR.
 ---
 
-*What happens to zero trust when the processor stops trusting the host*
+*What changes for zero trust when the processor no longer trusts the host*
 
-Zero trust has a simple core: never grant trust because of where something sits, always verify, and assume breach. Most of the time we apply it to users, devices and networks. But under all of that is a machine that, until recently, everyone simply had to trust: the cloud host, its hypervisor and its operators.
+## Motivation
 
-GDPR doesn't let that blind spot slide. Article 32 requires controllers and processors to protect personal data with measures "appropriate to the risk", naming encryption and the ongoing confidentiality and integrity of processing systems. Article 25 asks for data protection by design and by default. If the host can read your VM's memory, you're trusting it, whether you meant to or not.
+Zero trust rests on three principles: trust is never granted because of location, every access is verified, and breach is assumed. These principles are usually applied to users, devices and networks. Beneath all of them sits a component that has historically been trusted without verification: the cloud host, its hypervisor and its operators.
 
-Microsoft's Cobalt 200, built on Arm Neoverse, is a useful case study in pushing zero trust down into the silicon.
+GDPR does not accept that gap. Article 32 requires measures "appropriate to the risk", naming encryption and the ongoing confidentiality and integrity of processing systems. Article 25 requires data protection by design and by default. If the host can read a virtual machine's memory, the controller is trusting the host, whether or not that trust was intended.
 
-## The hardware
+Microsoft announced Cobalt 200 on 18 November 2025. It provides a useful case for examining how far zero trust can be extended into the silicon.
 
-[Cobalt 200](https://techcommunity.microsoft.com/blog/azureinfrastructureblog/announcing-cobalt-200-azure%E2%80%99s-next-cloud-native-cpu/4469807), announced on 18 November 2025, is Microsoft's second Arm server CPU. It's built on Arm Neoverse Compute Subsystems V3 (CSS V3), with 132 active cores, 3 MB of L2 cache per core, 192 MB of L3 system cache and TSMC's 3nm process. The first production servers are live in Microsoft's datacentres, with wider rollout and customer availability promised for 2026.
+## Objectives of this analysis
 
-The performance claims (up to 50% over Cobalt 100) get the headlines. For zero trust, three other design choices matter more.
+1. Identify which Cobalt 200 design choices change the zero-trust boundary.
+2. Map each change to the GDPR articles it supports.
+3. State the assumptions that must be verified before any of it counts as evidence.
 
-## 1. Memory encrypted by default
+## The platform
 
-Microsoft built a custom memory controller for Cobalt 200 so that memory encryption is on by default, with what it describes as negligible performance impact.
+[Cobalt 200](https://techcommunity.microsoft.com/blog/azureinfrastructureblog/announcing-cobalt-200-azure%E2%80%99s-next-cloud-native-cpu/4469807) is Microsoft's second Arm server CPU, built on Arm Neoverse Compute Subsystems V3 (CSS V3), with 132 active cores, 3 MB of L2 cache per core, 192 MB of L3 system cache and a TSMC 3 nm process. The first production servers operate in Microsoft's datacentres, and wider rollout and customer availability were announced for 2026.
 
-"By default" is the important phrase. Article 25(2) asks for protection by default, not protection someone remembers to switch on. A control that can't be forgotten is a control you don't have to audit for drift. In zero-trust terms, it removes an implicit assumption that physical memory is safe because it's inside the data centre.
+## Where the trust boundary moves
 
-## 2. The hypervisor stops being trusted
+```
+ Conventional VM                              Cobalt 200 with Arm CCA
+ ---------------                              -----------------------
+ +---------------------------+                +---------------------------+
+ | Guest VM (personal data)  |                | Realm VM (personal data)  |  <- trusted
+ +---------------------------+                +===========================+  <- hardware boundary
+ | Hypervisor / host OS      |  <- trusted    | Hypervisor / host OS      |  <- verified, not trusted
+ +---------------------------+                +---------------------------+
+ | Operator access           |  <- trusted    | Operator access           |  <- no view of realm memory
+ +---------------------------+                +---------------------------+
+ | DRAM (plaintext)          |                | DRAM (encrypted, default)  |
+ +---------------------------+                +---------------------------+
+```
 
-Cobalt 200 implements Arm's Confidential Compute Architecture (CCA), which supports hardware-based isolation of VM memory from the hypervisor and host OS.
+### 1. Memory encryption by default
 
-This is zero trust's "no implicit trust by location" applied to the stack itself. In a traditional VM, the hypervisor sits above the guest and can, in principle, see everything. Under CCA's model, the guest's memory is isolated from that layer by the hardware. The cloud operator's software becomes something to verify, not something to assume.
+A custom memory controller enables memory encryption by default, with what Microsoft describes as negligible performance impact. The significant term is "by default". Article 25(2) requires protection by default, not protection that must be remembered and enabled. A control that cannot be omitted is a control that does not need to be audited for drift.
 
-For GDPR, that changes the shape of the processor relationship. A controller still needs a lawful basis, a processing agreement under Article 28 and appropriate safeguards. But "the provider's staff and software could technically read the data" becomes a weaker statement when hardware isolates it, and that matters for the risk assessments Articles 32 and 35 require.
+### 2. The hypervisor ceases to be trusted
 
-## 3. Cryptography without the performance excuse
+Cobalt 200 implements Arm's Confidential Compute Architecture (CCA), which provides hardware isolation of VM memory from the hypervisor and host OS. This applies the principle of no implicit trust by location to the software stack itself. The operator's software becomes something to be verified rather than assumed.
 
-Microsoft's design modelling found compression, decompression and encryption heavily used in over 30% of cloud workloads, so Cobalt 200 carries dedicated compression and cryptography accelerators on the die. Azure SQL is the example Microsoft gives, offloading that work so cores stay on queries.
+### 3. Cryptography without a cost argument
 
-This matters for privacy more than it first appears. Article 32 weighs "the state of the art" and "the costs of implementation". When encryption is cheap in hardware, the cost argument for not encrypting gets weaker, and the expected baseline rises with it.
+Microsoft's modelling found compression, decompression and encryption heavily used in over 30% of cloud workloads, so Cobalt 200 includes dedicated accelerators for them. Article 32 weighs "the state of the art" and "the costs of implementation". When encryption is inexpensive in hardware, the argument against encrypting weakens and the expected baseline rises.
 
-## Where Neoverse fits
+## Assumptions that must be verified
 
-Neoverse is Arm's infrastructure platform, and CSS V3 is a pre-integrated subsystem: cores, mesh and memory fabric that partners like Microsoft build custom chips around. That has a zero-trust upside and a catch.
+- **Architecture is not implementation.** CCA is defined by Arm's architecture, so the isolation model is not a single-vendor invention. A shared architecture, however, does not imply a shared implementation. Cobalt 100 (Neoverse N2) and Cobalt 200 (Neoverse V3) are not interchangeable, and the features available to a guest must be read from the host's own ID registers rather than inferred from a product name.
+- **Supported is not enabled.** The announcements describe CCA support and default memory encryption. Whether a specific VM size exposes them to a specific guest must be confirmed, recorded and periodically re-checked.
+- **Isolation requires attestation.** Hardware isolation provides assurance only when attestation evidence shows what the platform is and how it booted.
 
-The upside is a shared architecture. Features like CCA come from Arm's architecture, so the isolation model isn't a one-vendor invention.
+## Mapping to GDPR
 
-The catch is that a shared architecture isn't a shared implementation. In the formal study of AArch64 virtualisation I'm writing up, Cobalt 100 (Neoverse N2) and Cobalt 200 (Neoverse V3) are already proving not to be interchangeable. What a guest can actually see and rely on has to be read from the host's own ID registers, not inferred from a product name. Zero trust says the same thing: verify the platform you're actually on.
+| Article | Requirement                         | What Cobalt 200 contributes                               | Evidence required                    |
+|---------|-------------------------------------|-----------------------------------------------------------|--------------------------------------|
+| 25      | Protection by design and by default | Encryption enabled by default                             | SKU configuration record             |
+| 28      | Processor obligations               | Hardware limits on what the processor's software can see  | Contract plus attestation            |
+| 32      | Security of processing              | Encryption and hardware isolation as technical measures   | Attestation report per workload      |
+| 34      | Communication of a breach           | Data unintelligible to unauthorised parties               | Proof encryption was active          |
+| 35      | Impact assessment                   | Reduced host-access risk in the assessment                | Documented assumptions and checks    |
 
-## What this means for GDPR compliance
+## Outcome
 
-None of this makes a workload GDPR-compliant on its own. Hardware isolation doesn't decide your lawful basis, your retention periods or your international transfers. What it does is change the evidence you can bring:
+Hardware isolation does not make a workload compliant. It does not determine the lawful basis, retention periods or international transfers. It does change the evidence available: encryption by default and hardware isolation are concrete technical measures rather than policy statements. Zero trust previously ended at the hypervisor; on Cobalt 200 and Neoverse V3 it can extend to the memory controller. Under GDPR, the remaining question is whether the controller can demonstrate that it did.
 
-- **Article 32:** encryption by default and hardware isolation are concrete technical measures, not policy statements.
-- **Article 25:** protection that's on by default is closer to what "by design and by default" asks for than a setting in a runbook.
-- **Article 34:** if a breach affects data that was encrypted and unintelligible to anyone unauthorised, communication to individuals may not be required. Encryption as a default strengthens that position.
-
-## The zero-trust caveat
-
-Hardware that can isolate memory is only useful if you can prove it's doing so for your workload. That means attestation (evidence of what the platform is and how it booted), and it means not taking "supported" as "enabled". Microsoft's announcements describe CCA support and default memory encryption; what a specific VM size exposes to a specific guest is something to confirm, record and re-check.
-
-That's the real shift. Zero trust used to stop at the hypervisor. With Cobalt 200 and Neoverse V3, it can reach the memory controller. Under GDPR, the question becomes whether you can show it did.
-
-*This is my technical view, not legal advice.* More of my work is on [my site](https://whatheheckisthis.github.io/).
+*This is a technical analysis, not legal advice.*

@@ -1,49 +1,111 @@
 ---
-title: "Hidden States: Modelling Behaviour as Regimes That Jump and Fields That Drift"
+title: "Hidden States: Modelling Driver Behaviour with CARLA, CUDA and a Microcontroller in the Loop"
 date: 2023-12-12
-summary: Why behavioural time series need two latent layers, a hidden Markov model for the jumps and a sparse Gaussian field for the drift, and how the work splits between a GPU and the device.
+summary: How a CARLA simulation, OpenCV and CUDA-accelerated R-CNN detection, and a microcontroller running a hidden Markov model replaced a laboratory of equipment for studying behavioural regime changes.
 ---
 
-*Behaviour does two things at once, and a model that only sees one of them gets both wrong*
+*Modelling behavioural regimes in real time without an instrumented vehicle, an edge computer or a laboratory*
 
-Watch a driver over a long trip and two things happen. Their state jumps between a few qualitative modes: calm, alert, high-stress, and occasionally panic. And inside each mode, things drift: fatigue builds, conditions get worse and then ease, and nearby sensors move together. Any system that wants to decide when to warn, intervene or escalate has to tell those two apart.
+## Motivation
 
-That's the premise behind two of my case studies, and the question I keep coming back to: what is the hidden state, and how do you know when it has changed?
+A driver's behaviour changes in two distinct ways. It moves between a small number of qualitative modes, such as calm, alert, high stress and panic, and it drifts gradually within each mode as fatigue accumulates and conditions change. A system intended to warn or intervene must distinguish a genuine change of mode from slow drift. If it cannot, it either misses the moment that matters or raises alarms that operators learn to ignore.
 
-## Why a plain HMM isn't enough
+Studying this problem conventionally requires substantial equipment: an instrumented vehicle or driving simulator rig, physiological sensors, roadside cameras and an edge computer to process them. The motivation for this work was to establish whether the same question could be studied credibly with simulation and a single low-cost microcontroller.
 
-A hidden Markov model is the natural start. The modes are hidden states, a transition matrix says how likely each switch is, and each state emits observations from its own distribution.
+## Objectives
 
-The trouble is the assumption underneath. Given the state, a standard HMM treats observations as independent draws from a fixed distribution. Behavioural signals don't behave like that. Slow drift either needs far more states than the problem has meaning for, or it shows up as spurious regime switches. Neither helps an interface decide when to act.
+1. Represent behaviour with two latent layers: a hidden Markov model (HMM) for discrete regime changes and a sparse Gaussian field for continuous drift.
+2. Generate realistic, repeatable driving scenarios, including rare and dangerous ones, without physical testing.
+3. Separate computationally heavy perception from the time-critical regime decision, and run each on hardware suited to it.
+4. Execute the regime decision on a microcontroller (MCU) in real time, inside the simulation loop.
 
-## Two latent layers
+## Assumptions
 
-The fix is a second, continuous latent layer. The regimes stay few and interpretable, and a Gaussian field absorbs the gradual drift, the spatial proximity and the noise around them. Each observation depends on both: the current regime sets its mean and noise, and the field adds the slow variation.
+- The behavioural modes can be represented by a small number of discrete states, four in this design.
+- Given the regime and the field, observation noise is Gaussian.
+- Perception does not need to complete within one control cycle. A detection that arrives slightly late is acceptable, provided the regime filter receives a timely summary of it.
+- A simulated sensor stream is a sufficient proxy for early-stage model design. It is not a substitute for validation on recorded data.
 
-The transitions matter as much as the states. Most of the probability sits on staying put or moving to a neighbouring mode, but the model keeps a direct path from calm to panic, because the moments that matter most are the ones with no gradual build-up.
+## Architecture
 
-## Keeping it small enough to run
+The work is divided into a heavy path and a light path.
 
-A smooth Gaussian field normally means a dense covariance matrix, and every likelihood evaluation would cost a dense factorisation. The SPDE approach of Lindgren, Rue and Lindström avoids that. It represents the field as the solution of a stochastic equation, which turns it into a Gaussian Markov random field with a sparse precision matrix. The number of nonzeros per row stays fixed as the mesh grows.
+```
+ +-------------------+     frames      +----------------------------+
+ |  CARLA simulator  | --------------> |  OpenCV preprocessing      |
+ |  scenarios, ego   |                 |  resize, normalise, ROI    |
+ |  vehicle, sensors |                 +-------------+--------------+
+ +---------^---------+                               |
+           |                                         v
+           |                           +----------------------------+
+           |                           |  CUDA GPU (near time)      |
+           |                           |  R-CNN object detection    |
+           |                           |  feature extraction        |
+           |                           +-------------+--------------+
+           |                                         | compact feature
+           |                                         | vector (UART)
+           |                                         v
+           |    regime estimate        +----------------------------+
+           +-------------------------- |  MCU (hard real time)      |
+              (closes the loop)        |  int8 HMM forward filter   |
+                                       +----------------------------+
+```
 
-Exact inference over every possible regime path is out of reach, so the model alternates. Given the field, the regimes are an ordinary HMM and forward filtering is cheap. Given the regimes, the field is Gaussian with a precision that is still sparse, so one sparse Cholesky factorisation gives its mean, a sample and the log-determinant for the likelihood.
+CARLA renders the scene and the camera streams. OpenCV prepares each frame. The GPU runs region-based convolutional neural network (R-CNN) detection and reduces each frame to a small feature vector. The MCU receives that vector and updates its belief over the four regimes. The estimate is returned to the simulation, so the scenario can respond to it.
 
-## Heavy path, light path
+## Why the GPU handles perception
 
-That split also decides where the work runs. Estimating the field and its parameters means factorising large sparse matrices again and again, which belongs on a GPU and only needs to happen as often as the environment changes. Deciding the current mode is one small recursion per sample, a four by four matrix-vector product and a normalisation, which belongs on the device.
+R-CNN detection is expensive, irregular in cost and tolerant of small delays. It therefore belongs off the real-time path. CUDA allows the GPU to process detection in near time, in batches, while the regime filter continues to run at a fixed rate on the latest available features. The heavy path determines what the model sees; it does not determine when the model decides.
 
-The field lives on mesh nodes but the signals arrive at sensors, so a sparse projector lifts one onto the other, with each sensor reading from the three corners of the triangle it sits in. On the device, the forward step has the same shape as a fully connected layer, so it can run as an int8 kernel on an Arm Cortex-M class microcontroller, with a fixed-point rescale to keep the belief from underflowing.
+## Why a microcontroller rather than a Raspberry Pi
 
-## What's proven and what isn't
+A Raspberry Pi was considered and rejected for the decision path.
 
-Both studies are designs, not measured results. The sparsity and fill-in figures are computed from real lattice precisions and real factorisations, but the regimes, transitions and emission parameters are illustrative and haven't been fitted to recorded data. Detection accuracy, GPU timings, device latency and the accuracy of the int8 filter against a floating-point reference are all open until they're measured. I'd rather say that plainly than borrow confidence from the maths.
+| Consideration        | Raspberry Pi (Linux)            | Microcontroller (bare metal)      |
+|----------------------|----------------------------------|-----------------------------------|
+| Timing               | Scheduler jitter from the OS     | Deterministic, cycle-bounded loop |
+| Workload fit         | Capacity largely unused          | Matches a 4 by 4 recursion        |
+| Representativeness   | Unlike an embedded target        | The class of device that ships    |
+| Power and cost       | Higher                           | Lower                             |
 
-## What I took from it
+The forward step of the filter is one four by four matrix-vector product, four multiplications and a normalisation per sample:
 
-Name the hidden state before you model it. A few regimes that map onto real decisions beat many that nobody can act on.
+```
+ alpha_t(k)  is proportional to  b_k(y_t) * sum_j [ a_jk * alpha_(t-1)(j) ]
 
-Let the continuous layer carry the drift. If slow change is forced into discrete states, it shows up as false alarms.
+   previous belief --> [ A^T * alpha ] --> [ x emission b_k(y_t) ] --> normalise --> current belief
+       (4 values)       int8 kernel          lifted field offsets       fixed point       argmax = mode
+```
 
-Put each piece of work where it fits. The expensive part depends on how fast the world changes; the cheap part depends on every sample.
+That product has the same shape as a fully connected layer, so it runs on an int8 kernel, with a fixed-point rescale to prevent the belief from underflowing. A general-purpose computer adds capacity the task does not use and timing behaviour the task cannot tolerate.
 
-You can read the full case studies on [hidden Markov models with Gaussian fields](/case-studies/hmm-gaussian-fields/) and on [lifting SPDE-GMRF fields to the GPU and the edge](/case-studies/spde-gmrf-gpu-edge/).
+## Why no edge computing was required
+
+An edge deployment answers a deployment question: where processing runs once sensors exist in the world. This work asked a modelling question: whether the two-layer model detects regime changes correctly and within a time budget. CARLA supplied the sensors, the GPU workstation supplied perception, and the MCU supplied the time-critical decision. Each element an edge node would have provided was already present in the loop.
+
+```
+ Conventional study                         This approach
+ ------------------                         -------------
+ instrumented vehicle or rig      --->      CARLA scenarios
+ physiological and road sensors   --->      simulated camera and vehicle signals
+ edge computer for perception     --->      CUDA GPU workstation
+ embedded decision unit           --->      MCU in the simulation loop
+```
+
+## The model
+
+The regime chain moves through a transition matrix. Most probability remains on staying in a regime or moving to a neighbouring one, but a direct path from calm to panic is retained, because the most important events have no gradual build-up. The continuous field is a Gaussian Markov random field obtained through the SPDE approach of Lindgren, Rue and Lindström, which gives a sparse precision matrix whose nonzeros per row remain fixed as the mesh grows. Inference alternates: given the field, the regimes are an ordinary HMM; given the regimes, the field is Gaussian with a precision that remains sparse, so one sparse Cholesky factorisation provides its mean and the log-determinant for the likelihood.
+
+## Outcomes
+
+- A closed simulation loop in which perception, field estimation and regime filtering run on separate hardware, each matched to its workload.
+- A regime filter small enough for a microcontroller, with a per-sample cost set by the number of regimes rather than the size of the field.
+- A method for studying rare and dangerous scenarios repeatably, without physical risk or laboratory equipment.
+
+## Limitations
+
+This is a model and system design, not a measured result. The sparsity figures in the related case studies are computed from real lattice precisions and real factorisations, but the regimes, transition probabilities and emission parameters are illustrative and have not been fitted to recorded driving data. Detection accuracy, end-to-end latency and the agreement of the int8 filter with a floating-point reference remain to be measured, and simulated behaviour must be validated against real behaviour before any conclusion is drawn about drivers.
+
+## Further reading
+
+The full case studies cover [hidden Markov models with Gaussian fields](/case-studies/hmm-gaussian-fields/) and [lifting SPDE-GMRF fields to the GPU and the device](/case-studies/spde-gmrf-gpu-edge/).
