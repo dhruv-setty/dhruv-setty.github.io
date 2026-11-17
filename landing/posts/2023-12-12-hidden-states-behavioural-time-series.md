@@ -4,8 +4,6 @@ date: 2023-12-12
 summary: How a CARLA simulation, OpenCV and CUDA-accelerated R-CNN detection, and a microcontroller running a hidden Markov model replaced a laboratory of equipment for studying behavioural regime changes.
 ---
 
-*Modelling behavioural regimes in real time without an instrumented vehicle, an edge computer or a laboratory*
-
 ## Motivation
 
 A driver's behaviour changes in two distinct ways. It moves between a small number of qualitative modes, such as calm, alert, high stress and panic, and it drifts gradually within each mode as fatigue accumulates and conditions change. A system intended to warn or intervene must distinguish a genuine change of mode from slow drift. If it cannot, it either misses the moment that matters or raises alarms that operators learn to ignore.
