@@ -5,6 +5,7 @@ import { FEATURED, FOCUS, PROJECTS, SITE, LABS } from "../content/site";
 import { GREETING, STORY } from "../content/story";
 import { rich } from "../lib/rich";
 import HopGreeting from "../components/HopGreeting";
+import Reveal from "../components/Reveal";
 
 export default function Home() {
   const story = STORY.trim();
@@ -12,14 +13,14 @@ export default function Home() {
     <>
       <Header />
       <main id="main" className="page fade-in">
-        <section className="hero" aria-labelledby="hero-h">
+        <Reveal />
+        <section className="hero phase phase--one" aria-labelledby="hero-h">
           {SITE.location ? <p className="eyebrow">{SITE.location}</p> : null}
           <h1 id="hero-h" className="hero__name" aria-label={SITE.name}>
             <span className="hero__word hero__first animate__animated animate__fadeIn" aria-hidden="true">{SITE.name.split(" ")[0]}</span>{" "}
             <span className="hero__word hero__last animate__animated animate__fadeIn" aria-hidden="true">{SITE.name.split(" ").slice(1).join(" ")}</span>
           </h1>
           <p className="hero__positioning">{SITE.positioning}</p>
-          <p className="hero__focus">{SITE.focus}</p>
           <div className="actions">
             <a className="button" href="#contact">Get in touch</a>
             {SITE.resume ? (
@@ -28,9 +29,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="about" className="section about" aria-labelledby="about-h">
-          <h2 id="about-h" className="section__title">About</h2>
-          <div className="about__grid">
+        <section id="about" className="section about phase phase--two" aria-labelledby="about-h">
+          <h2 id="about-h" className="visually-hidden">About</h2>
+          <div className="about__grid phase-reveal">
             <figure className="portrait">
               <div className="portrait__frame">
                 <img className="portrait__img" src={SITE.photo.src} srcSet={`${SITE.photo.src} 1x, /dhruv@2x.webp 2x`} alt="Portrait of Dhruv Setty" width={SITE.photo.width} height={SITE.photo.height} loading="lazy" decoding="async" />
@@ -38,6 +39,7 @@ export default function Home() {
             </figure>
             <div className="about__story">
               {GREETING ? <HopGreeting text={GREETING} /> : null}
+              <p className="hero__focus">{SITE.focus}</p>
               {story ? story.split("\n\n").map((para) => (
                 <p key={para.slice(0, 24)}>
                   {para.split(/(asking why)/).map((part, i) => (part === "asking why" ? <span key={i}>asking <em className="about__why">why</em></span> : part))}
@@ -47,7 +49,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="focus" className="section" aria-labelledby="focus-h">
+        <section id="focus" className="section phase--three phase-reveal" aria-labelledby="focus-h">
           <h2 id="focus-h" className="section__title">What I focus on</h2>
           <div className="card-grid focus-grid">
             {FOCUS.map((f, i) => (

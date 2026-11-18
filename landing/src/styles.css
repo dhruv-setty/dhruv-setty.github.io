@@ -1427,3 +1427,15 @@ code.ic,
 .post-body pre code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
+
+/* Home page in three phases: 1 name, positioning and two buttons alone on the first screen;
+   2 portrait and body text on the next screen; 3 the lower third, from focus areas down. */
+.hero.phase--one { min-height: calc(100svh - var(--nav-h)); display: flex; flex-direction: column; justify-content: center; padding: 0; }
+.about.phase--two { min-height: 100svh; display: flex; align-items: center; border-top: 0; padding: clamp(3rem, 8vh, 5rem) 0; }
+.about.phase--two .about__grid { width: 100%; align-items: center; }
+.about.phase--two .portrait { position: static; }
+.about.phase--two .hero__focus { margin: 0 0 1.25rem; max-width: 62ch; color: var(--muted); font-size: 1.0625rem; }
+.phase-reveal { opacity: 0; transform: translateY(24px); transition: opacity 700ms ease, transform 700ms ease; }
+.phase-reveal.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .phase-reveal { opacity: 1; transform: none; } }
+@media (scripting: none) { .phase-reveal { opacity: 1; transform: none; } }
