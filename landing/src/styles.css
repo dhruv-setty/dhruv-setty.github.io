@@ -1439,3 +1439,7 @@ code.ic,
 .phase-reveal.is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .phase-reveal { opacity: 1; transform: none; } }
 @media (scripting: none) { .phase-reveal { opacity: 1; transform: none; } }
+
+/* Get in touch: square the lede to its column so it reads straight, not ragged */
+.contact__lede { max-width: none; text-align: justify; text-justify: inter-word; hyphens: manual; }
+.contact__grid { align-items: start; }
