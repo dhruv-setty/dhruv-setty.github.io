@@ -33,11 +33,6 @@ export default function Home() {
         <section id="about" className="section about phase phase--two" aria-labelledby="about-h">
           <h2 id="about-h" className="visually-hidden">About</h2>
           <div className="about__grid phase-reveal">
-            <figure className="portrait">
-              <div className="portrait__frame">
-                <img className="portrait__img" src={SITE.photo.src} srcSet={`${SITE.photo.src} 1x, /dhruv@2x.webp 2x`} alt="Portrait of Dhruv Setty" width={SITE.photo.width} height={SITE.photo.height} loading="lazy" decoding="async" />
-              </div>
-            </figure>
             <div className="about__story">
               {GREETING ? <HopGreeting text={GREETING} /> : null}
               {story ? story.split("\n\n").map((para) => (

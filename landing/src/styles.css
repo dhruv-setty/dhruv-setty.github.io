@@ -1443,3 +1443,6 @@ code.ic,
 /* Get in touch: square the lede to its column so it reads straight, not ragged */
 .contact__lede { max-width: none; text-align: justify; text-justify: inter-word; hyphens: manual; }
 .contact__grid { align-items: start; }
+
+/* Homepage portrait removed (Dhruv, 2026-11-19): story takes the full About row. */
+.about.phase--two .about__grid { grid-template-columns: minmax(0, 1fr); }
