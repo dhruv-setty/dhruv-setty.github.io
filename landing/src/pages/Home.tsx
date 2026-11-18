@@ -44,8 +44,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="focus" className="section phase--three phase-reveal" aria-labelledby="focus-h">
-          <h2 id="focus-h" className="section__title">What I focus on</h2>
+        <section id="focus" className="section panel phase--three phase-reveal" aria-labelledby="focus-h">
+          <header className="panel__head"><h2 id="focus-h" className="section__title">What I focus on</h2><p className="panel__dek">Three areas where I design access controls and test them against evidence.</p></header>
           <div className="card-grid focus-grid">
             {FOCUS.map((f, i) => (
               <article key={f.title} className="card focus-card">
@@ -61,8 +61,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="labs" className="section" aria-labelledby="labs-h">
-          <h2 id="labs-h" className="section__title">ICT Labs</h2>
+        <section id="labs" className="section panel" aria-labelledby="labs-h">
+          <header className="panel__head"><h2 id="labs-h" className="section__title">ICT Labs</h2><p className="panel__dek">Hands-on identity builds, each with its architecture and source.</p></header>
           <div className="card-grid card-grid--two">
             {LABS.map((l, i) => (
               <article key={l.name} className="card" tabIndex={0}>
@@ -93,8 +93,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="work" className="section" aria-labelledby="work-h">
-          <h2 id="work-h" className="section__title">Recent Projects</h2>
+        <section id="work" className="section panel" aria-labelledby="work-h">
+          <header className="panel__head"><h2 id="work-h" className="section__title">Recent Projects</h2><p className="panel__dek">Research in virtualisation and HPC, specified and verified from first principles.</p></header>
           <div className="card-grid card-grid--two">
             {PROJECTS.map((p) => (
               <article key={p.name} className="card" tabIndex={0}>
@@ -115,8 +115,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="contact" className="section contact" aria-labelledby="contact-h">
-          <h2 id="contact-h" className="section__title">Get in touch</h2>
+        <section id="contact" className="section panel contact" aria-labelledby="contact-h">
+          <header className="panel__head"><h2 id="contact-h" className="section__title">Get in touch</h2></header>
           <div className="contact__grid">
             <div>
               <p className="contact__lede">Hiring for identity or access work, or want to compare notes? Send a message. I reply within two working days.</p>
