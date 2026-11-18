@@ -1,10 +1,10 @@
 export const SITE = {
   name: "Dhruv Setty",
-  positioning: "IAM Practitioner",
+  positioning: "IT Support & Identity Administration",
   focus: "I design access controls across hybrid Entra ID and Active Directory, and back every one with evidence an auditor can test.",
   url: "https://whatheheckisthis.github.io",
   description:
-    "Dhruv Setty is an IAM practitioner in New Zealand working in identity governance and access management across Microsoft Entra ID and Active Directory.",
+    "Dhruv Setty works in IT support and identity administration in New Zealand, across Microsoft Entra ID and Active Directory.",
   contact: [
     { label: "GitHub", text: "GitHub", href: "https://github.com/whatheheckisthis", icon: "/icons/github.svg" },
     { label: "LinkedIn", text: "LinkedIn", href: "https://www.linkedin.com/in/its-dhruv-setty", icon: "/icons/linkedin.png" },

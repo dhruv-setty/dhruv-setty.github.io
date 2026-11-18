@@ -1488,3 +1488,12 @@ code.ic,
   .hero__lede .hero__positioning { white-space: nowrap; }
   .hero__lede .hero__focus { width: 0; min-width: 100%; max-width: none; text-align: justify; text-justify: inter-word; hyphens: manual; }
 }
+
+/* Hero title as a clean professional label under the name (Dhruv, 2026-11-19). */
+.hero__lede { margin-top: clamp(1.25rem, 3vh, 2rem); }
+.hero__lede .hero__positioning {
+  display: flex; align-items: center; gap: 1rem; margin: 0;
+  font-size: clamp(0.95rem, 1.35vw, 1.2rem); font-weight: 600; line-height: 1.3;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--text);
+}
+.hero__lede .hero__positioning::before { content: ""; flex: 0 0 clamp(2rem, 4vw, 3.5rem); height: 2px; background: currentColor; }

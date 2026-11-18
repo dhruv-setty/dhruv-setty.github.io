@@ -33,7 +33,7 @@ for (const url of routes()) {
           "@context": "https://schema.org",
           "@type": "Person",
           name: "Dhruv Setty",
-          jobTitle: "IAM Practitioner",
+          jobTitle: "IT Support & Identity Administration",
           url: siteUrl,
           image: `${siteUrl}/dhruv.webp`,
           address: { "@type": "PostalAddress", addressLocality: "Auckland", addressCountry: "NZ" },
