@@ -22,7 +22,6 @@ export default function Home() {
           </h1>
           <div className="hero__lede">
             <p className="hero__positioning">{SITE.positioning}</p>
-            <p className="hero__focus">{SITE.focus}</p>
           </div>
           <div className="actions">
             <a className="button" href="#contact">Get in touch</a>

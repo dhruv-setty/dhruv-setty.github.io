@@ -1,6 +1,6 @@
 export const SITE = {
   name: "Dhruv Setty",
-  positioning: "IAM Practitioner. Identity governance and access control assurance.",
+  positioning: "IAM Practitioner",
   focus: "I design access controls across hybrid Entra ID and Active Directory, and back every one with evidence an auditor can test.",
   url: "https://whatheheckisthis.github.io",
   description:
