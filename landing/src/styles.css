@@ -1446,3 +1446,16 @@ code.ic,
 
 /* Homepage portrait removed (Dhruv, 2026-11-19): story takes the full About row. */
 .about.phase--two .about__grid { grid-template-columns: minmax(0, 1fr); }
+
+/* Home text blocks fill the page (Dhruv, 2026-11-19): wider measures, larger type, editorial About. */
+.hero__positioning { font-size: clamp(1.4rem, 2.8vw, 2rem); max-width: none; }
+.hero__focus { max-width: 46rem; font-size: clamp(1.125rem, 1.6vw, 1.35rem); line-height: 1.55; }
+.about.phase--two .about__story { display: grid; gap: 1.5rem 3rem; }
+.about.phase--two .about__story p { max-width: none; margin: 0; font-size: clamp(1.125rem, 1.4vw, 1.25rem); line-height: 1.65; }
+.about.phase--two .about__story p:first-of-type { font-size: clamp(1.6rem, 3vw, 2.5rem); line-height: 1.25; font-weight: 500; letter-spacing: -0.015em; text-align: left; }
+@media (min-width: 900px) {
+  .about.phase--two .about__story { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about.phase--two .about__story p:first-of-type { grid-column: 1 / -1; }
+}
+.contact__lede { font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.4; text-align: left; }
+.card-grid.focus-grid .focus-card__lead { font-size: 1.125rem; font-weight: 600; }
