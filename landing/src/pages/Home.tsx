@@ -64,40 +64,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="work" className="section" aria-labelledby="work-h">
-          <h2 id="work-h" className="section__title">Recent Projects</h2>
-          <div className="card-grid card-grid--two">
-            <article className="card" tabIndex={0}>
-              <figure className="card__thumb"><img src={FEATURED.thumb.src} alt={FEATURED.thumb.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>
-              <p className="card__tag">Assurance</p>
-              <h3 className="card__title">{FEATURED.name}</h3>
-              <p className="card__summary">{rich(FEATURED.summary)}</p>
-              <ul className="card__chips" aria-label="Technology stack">
-                {FEATURED.stack.slice(0, 4).map((t) => <li key={t}><code className="ic">{t}</code></li>)}
-              </ul>
-              <div className="actions card__links">
-                <a className="text-link" href={FEATURED.readme}>{FEATURED.readmeText}</a>
-              </div>
-            </article>
-            {PROJECTS.map((p) => (
-              <article key={p.name} className="card" tabIndex={0}>
-                {p.thumb && <figure className="card__thumb"><img src={p.thumb.src} alt={p.thumb.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>}
-                <p className="card__tag">{p.tag}</p>
-                <h3 className="card__title">{p.name}</h3>
-                <p className="card__summary">{rich(p.summary)}</p>
-                <ul className="card__chips" aria-label="Technology stack">
-                  {p.stack.slice(0, 4).map((t) => <li key={t}><code className="ic">{t}</code></li>)}
-                </ul>
-                <div className="actions card__links">
-                  {p.links.filter((l) => l.href && !l.href.startsWith("__")).map((l) => (
-                    <a key={l.text} className="text-link" href={l.href}>{l.text}</a>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
         <section id="labs" className="section" aria-labelledby="labs-h">
           <h2 id="labs-h" className="section__title">ICT Labs</h2>
           <div className="card-grid card-grid--two">
@@ -112,6 +78,40 @@ export default function Home() {
                 </ul>
                 <div className="actions card__links">
                   <a className="text-link" href={l.href}>Learn More</a>
+                </div>
+              </article>
+            ))}
+            <article className="card" tabIndex={0}>
+              <figure className="card__thumb"><img src={FEATURED.thumb.src} alt={FEATURED.thumb.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>
+              <p className="card__tag">Lab {String(LABS.length + 1).padStart(2, "0")} · Assurance</p>
+              <h3 className="card__title">{FEATURED.name}</h3>
+              <p className="card__summary">{rich(FEATURED.summary)}</p>
+              <ul className="card__chips" aria-label="Technology stack">
+                {FEATURED.stack.slice(0, 4).map((t) => <li key={t}><code className="ic">{t}</code></li>)}
+              </ul>
+              <div className="actions card__links">
+                <a className="text-link" href={FEATURED.readme}>{FEATURED.readmeText}</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="work" className="section" aria-labelledby="work-h">
+          <h2 id="work-h" className="section__title">Recent Projects</h2>
+          <div className="card-grid card-grid--two">
+            {PROJECTS.map((p) => (
+              <article key={p.name} className="card" tabIndex={0}>
+                {p.thumb && <figure className="card__thumb"><img src={p.thumb.src} alt={p.thumb.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>}
+                <p className="card__tag">{p.tag}</p>
+                <h3 className="card__title">{p.name}</h3>
+                <p className="card__summary">{rich(p.summary)}</p>
+                <ul className="card__chips" aria-label="Technology stack">
+                  {p.stack.slice(0, 4).map((t) => <li key={t}><code className="ic">{t}</code></li>)}
+                </ul>
+                <div className="actions card__links">
+                  {p.links.filter((l) => l.href && !l.href.startsWith("__")).map((l) => (
+                    <a key={l.text} className="text-link" href={l.href}>{l.text}</a>
+                  ))}
                 </div>
               </article>
             ))}
