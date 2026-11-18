@@ -21,6 +21,7 @@ export default function Home() {
             <span className="hero__word hero__last animate__animated animate__fadeIn" aria-hidden="true">{SITE.name.split(" ").slice(1).join(" ")}</span>
           </h1>
           <p className="hero__positioning">{SITE.positioning}</p>
+          <p className="hero__focus">{SITE.focus}</p>
           <div className="actions">
             <a className="button" href="#contact">Get in touch</a>
             {SITE.resume ? (
@@ -39,7 +40,6 @@ export default function Home() {
             </figure>
             <div className="about__story">
               {GREETING ? <HopGreeting text={GREETING} /> : null}
-              <p className="hero__focus">{SITE.focus}</p>
               {story ? story.split("\n\n").map((para) => (
                 <p key={para.slice(0, 24)}>
                   {para.split(/(asking why)/).map((part, i) => (part === "asking why" ? <span key={i}>asking <em className="about__why">why</em></span> : part))}
