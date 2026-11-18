@@ -1457,7 +1457,7 @@ code.ic,
   .about.phase--two .about__story { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .about.phase--two .about__story p:first-of-type { grid-column: 1 / -1; }
 }
-.contact__lede { font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.4; text-align: left; }
+.contact__lede { font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.4; text-align: justify; text-justify: inter-word; hyphens: manual; }
 .card-grid.focus-grid .focus-card__lead { font-size: 1.125rem; font-weight: 600; }
 
 /* Back paneling (Dhruv, 2026-11-19): content sections sit on paper panels over the graticule,
