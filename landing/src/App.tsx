@@ -5,11 +5,13 @@ import PostPage from "./pages/PostPage";
 import NotFound from "./pages/NotFound";
 import SiteAvatar from "./components/SiteAvatar";
 import ScrollToTop from "./components/ScrollToTop";
+import FastScroll from "./components/FastScroll";
 
 export default function App() {
   return (
     <>
     <ScrollToTop />
+    <FastScroll />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/blog/" element={<BlogIndex />} />
