@@ -97,7 +97,7 @@ export const PROJECTS = [
   {
     name: "Split SPDE-GMRF inference for lane perception",
     stack: ["cuDSS", "cuSPARSE", "CMSIS-NN", "Cortex-M4F"],
-    thumb: { src: "/thumbs/thumb-spde.png", alt: "Host NVIDIA GPU assembles the sparse SPDE precision and factorises it with cuDSS; a sparse projector lifts the field estimate to sensor sites; an Arm Cortex-M4F runs the int8 forward filter each sample, with periodic re-estimation off the latency path" },
+    thumb: { src: "/thumbs/thumb-spde.png", alt: "CUDA host CPU assembles the FEM mesh and optimises theta, sending Q values to the NVIDIA GPU where cuSPARSE holds Q in CSR and cuDSS refactorises it per theta, returning log determinant and field estimate; the host lifts and quantises the result into a generated model header in Cortex-M4F flash, where hmm_step runs once per lane observation and keeps a 16 byte belief in SRAM" },
     tag: "HPC",
     summary:
       "Splits inference for lane perception between host and device. A GPU path built with `cuSPARSE` and `cuDSS` factorises the sparse SPDE precision to estimate the spatial field, and an int8 forward filter on `Cortex-M4F` tracks the driver's behavioural mode in 40 MACs per sample and 1,998 bytes of flash. Reordering cuts factor fill-in by about 74%, and the int8 filter matches the float reference on 99.66% of samples.",
