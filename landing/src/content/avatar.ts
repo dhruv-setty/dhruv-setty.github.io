@@ -37,7 +37,7 @@ export const AVATAR_QA = [
   {
     q: "How do your other interests connect?",
     keys: ["arm", "fpga", "gpu", "hmm", "case stud", "interest", "hardware", "formal", "other"],
-    a: "I read them through the same lens: what has to stay true, who is allowed to touch it, and what evidence proves it. The case studies are where that governance habit meets hardware and models.",
+    a: "I read them through the same lens: what has to stay true, who is allowed to touch it, and what evidence proves it. The Journal entries are where that governance habit meets hardware and models.",
   },
   {
     q: "How can I reach you?",

@@ -4,7 +4,7 @@ import { metaFor } from "../content/meta";
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
-// Opens every new page (a Journal entry, a case study) at the top and keeps the tab title in step with the page. Back and forward keep the browser's saved position, and in-page anchors (#about, #contact) are left to the browser.
+// Opens every new page (a Journal entry) at the top and keeps the tab title in step with the page. Back and forward keep the browser's saved position, and in-page anchors (#about, #contact) are left to the browser.
 export default function ScrollToTop() {
   const { pathname, hash } = useLocation();
   const navType = useNavigationType();

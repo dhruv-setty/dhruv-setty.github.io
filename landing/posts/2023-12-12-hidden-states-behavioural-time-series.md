@@ -94,6 +94,35 @@ An edge deployment answers a deployment question: where processing runs once sen
 
 The regime chain moves through a transition matrix. Most probability remains on staying in a regime or moving to a neighbouring one, but a direct path from calm to panic is retained, because the most important events have no gradual build-up. The continuous field is a Gaussian Markov random field obtained through the SPDE approach of Lindgren, Rue and Lindström, which gives a sparse precision matrix whose nonzeros per row remain fixed as the mesh grows. Inference alternates: given the field, the regimes are an ordinary HMM; given the regimes, the field is Gaussian with a precision that remains sparse, so one sparse Cholesky factorisation provides its mean and the log-determinant for the likelihood.
 
+## Model in detail
+
+<p>Human behaviour does two things at once: it jumps between qualitative modes, and it drifts slowly inside them. A hidden Markov model captures the jumps. A Gaussian Markov random field captures the drift. Joined together, and kept sparse through the SPDE approach, the model stays small enough to filter in real time.</p>
+
+<figure class="cs-figure"><img src="/case-studies/hmm-graphical-model.png" alt="Graphical model: a chain of discrete regimes S and a chain of continuous field values x both feed each observation y" width="1138" height="411" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 1 · Two latent layers, one observation</span> The regime chain <code class="ic">S_t</code> moves through the transition matrix <code class="ic">A</code>. The field <code class="ic">x_t</code> is a Gaussian Markov structure with precision <code class="ic">Q(θ)</code>. Each observation depends on both: <code class="ic">y_t = μ_S + H x_t + ε_t</code>, with noise <code class="ic">ε_t ~ N(0, Σ_S)</code> set by the current regime. </figcaption></figure>
+
+### Why a plain HMM is not enough
+
+<p> A standard HMM assumes that, given the regime, observations are independent draws from a fixed distribution. Behavioural signals break that assumption. Fatigue builds over a drive, environmental pressure rises and falls, and nearby sensors move together. Forcing that slow variation into discrete states either needs far more states than the problem has meaning for, or it shows up as spurious regime switches. Neither helps an interface decide when to escalate. </p>
+<p> The fix is to give the model a second, continuous latent layer. The regimes stay few and interpretable, and the field absorbs the gradual drift, the spatial proximity and the non-stationary noise around them. </p>
+
+### The HMM backbone
+
+<figure class="cs-figure"><img src="/case-studies/hmm-regimes.png" alt="Four regimes in a row, calm, alert, high-stress and panic, with self-transitions, transitions between neighbours, and a dashed direct jump from calm to panic" width="1138" height="419" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 2 · Regimes and transitions</span> Each regime has its own emission <code class="ic">N(μ_k + H x_t, Σ_k)</code>. Most mass sits on self-transitions and neighbours, but the model keeps a direct path such as <code class="ic">a_14</code> from calm to panic, because the moments that matter most are the ones with no gradual build-up. </figcaption></figure>
+
+### Keeping the field sparse with SPDE
+
+<p> A Gaussian field with a Matérn covariance is the natural choice for smooth variation, but its covariance matrix is dense, and every likelihood evaluation would cost a dense factorisation. The SPDE approach of Lindgren, Rue and Lindström replaces it. A Matérn field is the solution of <code class="ic">(κ² − Δ)^(α/2) (τ x) = W</code>, driven by white noise <code class="ic">W</code>. Solving that equation with finite elements gives a Gaussian Markov random field whose precision is sparse. For <code class="ic">α = 2</code>, <code class="ic">Q = τ² (κ⁴ C + 2κ² G + G C⁻¹ G)</code>, where <code class="ic">C</code> is the lumped mass matrix and <code class="ic">G</code> the stiffness matrix. </p>
+<figure class="cs-figure"><img src="/case-studies/hmm-sparse-precision.png" alt="Two matrix patterns for a 10 by 10 lattice: the dense covariance fills the whole square, the SPDE precision has a few narrow bands" width="919" height="491" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 3 · Dense covariance against sparse precision</span> Computed on a 10 by 10 lattice with <code class="ic">n = 100</code>. The covariance has 10,000 entries. The precision has 1,104 nonzeros, at most 13 per row, and that count per row stays fixed as the mesh grows. The parameter <code class="ic">κ</code> sets the range, about <code class="ic">√(8ν)/κ</code> with <code class="ic">ν = α − d/2</code>, and <code class="ic">τ</code> sets the variance. </figcaption></figure>
+
+### Joint inference
+
+<p> Exact inference in a switching model is out of reach: the posterior over the field is a mixture of <code class="ic">K^T</code> Gaussians, one for every regime path. The model is split instead. Given the field, the regimes are an ordinary HMM, and forward filtering with backward sampling costs <code class="ic">O(TK²)</code>. Given the regimes, the field is Gaussian with precision <code class="ic">Q + Hᵀ D_S H</code>, which is still sparse, so one sparse Cholesky factorisation gives its mean and a sample. </p>
+<figure class="cs-figure"><img src="/case-studies/hmm-inference-loop.png" alt="Two boxes exchanging estimates, a forward filter for the regimes and a Gaussian field update, both feeding a hyperparameter update" width="973" height="428" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 4 · The inference loop</span> The two steps alternate, and the hyperparameters <code class="ic">θ = (A, μ_k, Σ_k, κ, τ)</code> are updated from the joint likelihood by EM or a Laplace step. The same Cholesky factor <code class="ic">L</code> that solves for the field gives <code class="ic">log|Q| = 2 Σ log L_ii</code>, so the likelihood costs no extra factorisation. </figcaption></figure>
+
+### What the model buys
+
+<p> Few, meaningful regimes that map directly onto interface states and escalation logic. A continuous layer that explains slow drift instead of mislabelling it as a regime change. And a cost per step that grows with the number of nonzeros in <code class="ic">Q</code>, not with the square of the field size. </p>
+
 ## Outcomes
 
 - A closed simulation loop in which perception, field estimation and regime filtering run on separate hardware, each matched to its workload.
@@ -102,8 +131,10 @@ The regime chain moves through a transition matrix. Most probability remains on 
 
 ## Limitations
 
-This is a model and system design, not a measured result. The sparsity figures in the related case studies are computed from real lattice precisions and real factorisations, but the regimes, transition probabilities and emission parameters are illustrative and have not been fitted to recorded driving data. Detection accuracy, end-to-end latency and the agreement of the int8 filter with a floating-point reference remain to be measured, and simulated behaviour must be validated against real behaviour before any conclusion is drawn about drivers.
+This is a model and system design, not a measured result. The sparsity figures in this entry and in the companion entry on lifting SPDE-GMRF fields are computed from real lattice precisions and real factorisations, but the regimes, transition probabilities and emission parameters are illustrative and have not been fitted to recorded driving data. Detection accuracy, end-to-end latency and the agreement of the int8 filter with a floating-point reference remain to be measured, and simulated behaviour must be validated against real behaviour before any conclusion is drawn about drivers.
 
 ## Further reading
 
-The full case studies cover [hidden Markov models with Gaussian fields](/case-studies/hmm-gaussian-fields/) and [lifting SPDE-GMRF fields to the GPU and the device](/case-studies/spde-gmrf-gpu-edge/).
+- [Lindgren, Rue and Lindström, An explicit link between Gaussian fields and Gaussian Markov random fields: the SPDE approach](https://doi.org/10.1111/j.1467-9868.2011.00777.x)
+- [Hidden Markov model overview](https://en.wikipedia.org/wiki/Hidden_Markov_model)
+- The companion entry, [Lifting SPDE-GMRF Fields: GPU Estimation and On-Device Forward Filtering](/blog/lifting-spde-gmrf-gpu-edge/)
