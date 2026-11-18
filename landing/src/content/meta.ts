@@ -32,5 +32,5 @@ export function metaFor(path: string): PageMeta {
   if (post) {
     return { title: `${post.title} | ${SITE.name}`, description: post.summary, path, type: "article" };
   }
-  return { title: `${SITE.name}, Identity Engineer`, description: SITE.description, path: "/", type: "website" };
+  return { title: `${SITE.name}, IAM Practitioner`, description: SITE.description, path: "/", type: "website" };
 }
