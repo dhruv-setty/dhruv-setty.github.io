@@ -3,6 +3,7 @@ site_url: https://whatheheckisthis.github.io/
 repo_url: https://github.com/whatheheckisthis/Intent-to-Auditable-Trust-Object-Index
 theme:
   name: material
+  favicon: assets/ds-favicon.png
 plugins:
   - search
 nav:
