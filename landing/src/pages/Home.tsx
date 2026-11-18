@@ -47,9 +47,8 @@ export default function Home() {
         <section id="focus" className="section panel phase--three phase-reveal" aria-labelledby="focus-h">
           <header className="panel__head"><h2 id="focus-h" className="section__title">What I focus on</h2><p className="panel__dek">Three areas where I design access controls and test them against evidence.</p></header>
           <div className="card-grid focus-grid">
-            {FOCUS.map((f, i) => (
+            {FOCUS.map((f) => (
               <article key={f.title} className="card focus-card">
-                <span className="focus-card__index" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="card__title">{f.title}</h3>
                 <p className="focus-card__lead">{f.lead}</p>
                 <p className="focus-card__body">{f.body}</p>
