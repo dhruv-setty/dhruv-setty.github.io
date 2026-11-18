@@ -20,8 +20,10 @@ export default function Home() {
             <span className="hero__word hero__first animate__animated animate__fadeIn" aria-hidden="true">{SITE.name.split(" ")[0]}</span>{" "}
             <span className="hero__word hero__last animate__animated animate__fadeIn" aria-hidden="true">{SITE.name.split(" ").slice(1).join(" ")}</span>
           </h1>
-          <p className="hero__positioning">{SITE.positioning}</p>
-          <p className="hero__focus">{SITE.focus}</p>
+          <div className="hero__lede">
+            <p className="hero__positioning">{SITE.positioning}</p>
+            <p className="hero__focus">{SITE.focus}</p>
+          </div>
           <div className="actions">
             <a className="button" href="#contact">Get in touch</a>
             {SITE.resume ? (

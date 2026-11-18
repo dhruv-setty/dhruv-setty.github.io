@@ -1480,3 +1480,11 @@ code.ic,
 .panel__dek { margin: 0; max-width: 46rem; color: var(--muted); font-size: clamp(1.05rem, 1.4vw, 1.2rem); line-height: 1.5; }
 .section.panel .card-grid { background: var(--bg); }
 @media (max-width: 520px) { .section.panel { border-radius: 10px; } }
+
+/* Hero lede squared off (Dhruv, 2026-11-19): the focus line takes the exact width of the
+   positioning line and is justified, so both share one straight left and right edge. */
+@media (min-width: 760px) {
+  .hero__lede { width: fit-content; max-width: 100%; }
+  .hero__lede .hero__positioning { white-space: nowrap; }
+  .hero__lede .hero__focus { width: 0; min-width: 100%; max-width: none; text-align: justify; text-justify: inter-word; hyphens: manual; }
+}
