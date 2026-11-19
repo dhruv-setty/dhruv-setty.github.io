@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ContactForm from "../components/ContactForm";
-import { FOCUS, PROJECTS, SITE } from "../content/site";
+import { PROJECTS, SITE } from "../content/site";
 import { GREETING, STORY } from "../content/story";
 import { rich } from "../lib/rich";
 import HopGreeting from "../components/HopGreeting";
@@ -40,22 +40,6 @@ export default function Home() {
                 {para.split(/(asking why)/).map((part, i) => (part === "asking why" ? <span key={i}>asking <em className="about__why">why</em></span> : part))}
               </p>
             )) : null}
-          </div>
-        </section>
-
-        <section id="focus" className="section panel phase--three phase-reveal" aria-labelledby="focus-h">
-          <header className="panel__head"><h2 id="focus-h" className="section__title">What I focus on</h2><p className="panel__dek">Three areas where I design access controls and test them against evidence.</p></header>
-          <div className="card-grid focus-grid">
-            {FOCUS.map((f) => (
-              <article key={f.title} className="card focus-card">
-                <h3 className="card__title">{f.title}</h3>
-                <p className="focus-card__lead">{f.lead}</p>
-                <p className="focus-card__body">{f.body}</p>
-                <ul className="focus-card__refs" aria-label="Control references">
-                  {f.refs.map((r) => <li key={r}><code className="ic">{r}</code></li>)}
-                </ul>
-              </article>
-            ))}
           </div>
         </section>
 
