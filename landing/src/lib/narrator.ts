@@ -65,13 +65,16 @@ export interface PlayOptions {
   onMark?: (el: HTMLElement | null) => void; // the block being spoken, null when done
   onEnd?: () => void; // reached the end
   onStop?: () => void; // stopped by someone else (another narration started, or the page was left)
+  onBlocked?: () => void; // the browser refused to speak (no user gesture), so nothing will play
 }
 
 interface Active {
   owner: string;
   token: number;
   index: number;
+  chunks: Chunk[];
   opts: PlayOptions;
+  started: boolean; // the browser has begun speaking (onstart fired)
 }
 
 let active: Active | null = null;
@@ -150,23 +153,24 @@ export function play(owner: string, chunks: Chunk[], start: number, opts: PlayOp
   }
   cancel();
   const token = run;
-  const me: Active = { owner, token, index: start, opts };
+  const me: Active = { owner, token, index: start, chunks, opts, started: false };
   active = me;
+  // me.chunks and me.opts are read on every step, so adopt() can hand a running narration to a new owner.
   const say = (i: number) => {
     if (token !== run) return;
-    if (i >= chunks.length) {
+    if (i >= me.chunks.length) {
       active = null;
       clearKeepAlive();
-      opts.onMark?.(null);
-      opts.onEnd?.();
+      me.opts.onMark?.(null);
+      me.opts.onEnd?.();
       emit();
       return;
     }
     me.index = i;
-    const chunk = chunks[i]!;
-    opts.onMark?.(chunk.el);
+    const chunk = me.chunks[i]!;
+    me.opts.onMark?.(chunk.el);
     const u = new SpeechSynthesisUtterance(chunk.text);
-    const { voiceURI, rate } = opts.settings();
+    const { voiceURI, rate } = me.opts.settings();
     const voice = synth.getVoices().find((v) => v.voiceURI === voiceURI);
     if (voice) {
       u.voice = voice;
@@ -175,10 +179,22 @@ export function play(owner: string, chunks: Chunk[], start: number, opts: PlayOp
       u.lang = "en-GB";
     }
     u.rate = rate;
+    u.onstart = () => {
+      if (token === run) me.started = true;
+    };
     u.onend = () => say(i + 1);
     u.onerror = (e) => {
       if (token !== run) return;
       if (e.error === "interrupted" || e.error === "canceled") return;
+      if (e.error === "not-allowed") {
+        // No user gesture behind this start: end quietly rather than skipping through every block.
+        active = null;
+        cancel();
+        me.opts.onMark?.(null);
+        me.opts.onBlocked?.();
+        emit();
+        return;
+      }
       say(i + 1);
     };
     synth.speak(u);
@@ -189,6 +205,31 @@ export function play(owner: string, chunks: Chunk[], start: number, opts: PlayOp
   if (busy) window.setTimeout(() => say(start), 60);
   else say(start);
 }
+
+/** True once the browser has begun speaking the active narration. */
+export function started(): boolean {
+  return active?.started ?? false;
+}
+
+/**
+ * Hands the running narration from `from` to `to` without restarting it: the current utterance carries on,
+ * later blocks come from `chunks` and callbacks go to `opts`. Used when a list icon starts a post in the tap
+ * and the post page then takes it over. Refused (false) unless `from` is speaking and the texts match exactly.
+ */
+export function adopt(from: string, to: string, chunks: Chunk[], opts: PlayOptions): boolean {
+  const me = active;
+  if (!me || me.owner !== from) return false;
+  if (chunks.length !== me.chunks.length || chunks.some((c, i) => c.text !== me.chunks[i]!.text)) return false;
+  me.owner = to;
+  me.chunks = chunks;
+  me.opts = opts;
+  opts.onMark?.(chunks[me.index]?.el ?? null);
+  emit();
+  return true;
+}
+
+/** Owner used by a list icon for the narration it starts before opening the post. */
+export const openerOwner = (slug: string) => `open:${slug}`;
 
 // Leaving the page ends any narration.
 if (typeof window !== "undefined") {

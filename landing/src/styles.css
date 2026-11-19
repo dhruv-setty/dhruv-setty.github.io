@@ -1635,37 +1635,29 @@ code.ic,
 }
 @media print { .listen { display: none; } }
 
-/* Journal read-aloud icons (Dhruv, 2026-11-20): a small speaker after each post's reading time on the post list.
-   Reads that post in place with the Listen player's engine. Hairline circle, orange on hover, a stop square while reading. */
-.preview__length { display: inline-flex; align-items: center; gap: 0.4rem; }
+/* Journal open-and-listen icon (Dhruv, 2026-11-20): one more item in a post's meta line, after the reading time.
+   It reads as the meta text does: same colour, size, weight and baseline, the same separator before it, no chrome.
+   Hover is the orange of the site's text links; focus is the site's focus ring. It opens the post and reads it there. */
+.listen-item { display: inline-flex; align-items: baseline; gap: 0.45rem; }
+.listen-item--side { display: inline; }
+.listen-item[data-hidden] { visibility: hidden; } /* no speech: keep the width so nothing moves */
 .listen-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  width: 1.5rem;
-  height: 1.5rem;
-  margin: -0.25rem 0;
-  padding: 0;
+  position: relative;
+  display: inline-block;
+  color: inherit;
   font: inherit;
-  line-height: 1;
-  color: var(--text);
-  background: #ffffff;
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  cursor: pointer;
-  vertical-align: middle;
-  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+  line-height: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+  transition: color 220ms ease;
 }
-.listen-icon:hover:not([disabled]) { background: var(--press); border-color: var(--press); color: #fffaf5; }
-.listen-icon:active:not([disabled]) { background: var(--press-deep); border-color: var(--press-deep); color: #fffaf5; transition-duration: 0s; }
-.listen-icon[aria-pressed="true"] { border-color: var(--press); color: var(--press); }
-.listen-icon[aria-pressed="true"]:hover:not([disabled]) { color: #fffaf5; }
-.listen-icon[disabled] { opacity: 0.5; cursor: default; }
-.listen-icon:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
-.listen-icon svg { display: block; }
-.listen-icon--side { position: relative; z-index: 1; width: 1.35rem; height: 1.35rem; margin: -0.2rem 0 -0.2rem 0.4rem; }
-@media print { .listen-icon { display: none; } }
+.listen-icon svg { display: inline-block; width: 1.1em; height: 1.1em; vertical-align: -0.2em; }
+/* A larger tap area than the glyph, without changing the line. */
+.listen-icon::before { content: ""; position: absolute; inset: -0.6rem -0.5rem; }
+.listen-icon:hover { color: var(--press); }
+.listen-icon:active { color: var(--press-deep); }
+.listen-item--side .listen-icon { z-index: 1; }
+@media print { .listen-item { display: none; } }
 
 /* Side list entries: the entry is the card, the title link is stretched over it, so the icon can sit beside the reading time. */
 .blog-side__item {
@@ -1684,4 +1676,3 @@ code.ic,
 .blog-side__item .blog-side__link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
 .blog-side__item .blog-side__link:focus-visible { outline: none; }
 .blog-side__item:has(.blog-side__link:focus-visible) { outline: 2px solid var(--text); outline-offset: 0; }
-.blog-side__item .blog-side__meta { display: flex; align-items: center; flex-wrap: wrap; }

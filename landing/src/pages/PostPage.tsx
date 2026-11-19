@@ -38,7 +38,7 @@ export default function PostPage() {
                     ) : null}
                   </span>
                 </span>
-                <ListenPlayer key={post.slug} articleRef={articleRef} />
+                <ListenPlayer key={post.slug} articleRef={articleRef} slug={post.slug} />
               </div>
             </header>
             <div className="post-body" dangerouslySetInnerHTML={{ __html: post.html }} />

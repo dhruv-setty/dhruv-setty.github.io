@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
+import { useLocation } from "react-router-dom";
 import { extractChunks, type Chunk } from "../lib/speech";
 import * as narrator from "../lib/narrator";
 import { RATES, RATE_KEY, VOICE_KEY, savedRate, savedVoiceURI, sortVoices, speechSupported, writeSetting } from "../lib/narrator";
 
 // Journal "Listen" player: reads the live post with the browser's own voices (Web Speech API).
 // No audio files and no service. Hidden where speechSynthesis is unavailable. The speech engine is shared
-// with the read-aloud icons on the post list (lib/narrator.ts), so only one narration plays at a time.
+// with the open-and-listen icons on the post list (lib/narrator.ts), so only one narration plays at a time.
+// When an icon opened this post, its narration is already running (it had to start inside the tap): the player
+// adopts it rather than restarting. After a full load with ?listen=1 it starts where the browser allows, and
+// otherwise puts focus on the Listen button.
 
 type State = "idle" | "playing" | "paused";
 
@@ -15,7 +19,23 @@ function offscreen(el: HTMLElement): boolean {
   return r.top < top || r.bottom > window.innerHeight;
 }
 
-export default function ListenPlayer({ articleRef }: { articleRef: RefObject<HTMLElement> }) {
+function listenRequested(state: unknown, search: string): boolean {
+  const viaState = typeof state === "object" && state !== null && (state as Record<string, unknown>).listen === true;
+  return viaState || new URLSearchParams(search).get("listen") === "1";
+}
+
+/** Drops ?listen=1 and the navigation flag from the address and history entry, without a router navigation. */
+function clearListenFlag() {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("listen");
+  const st = window.history.state;
+  const next = st && typeof st === "object" ? { ...st, usr: null } : st;
+  window.history.replaceState(next, "", url.pathname + url.search + url.hash);
+}
+
+export default function ListenPlayer({ articleRef, slug }: { articleRef: RefObject<HTMLElement>; slug: string }) {
+  const location = useLocation();
+  const mainBtn = useRef<HTMLButtonElement>(null);
   // null until mounted, so the server render and the first client render match.
   const [supported, setSupported] = useState<boolean | null>(null);
   const [state, setState] = useState<State>("idle");
@@ -41,23 +61,33 @@ export default function ListenPlayer({ articleRef }: { articleRef: RefObject<HTM
     }
   }, []);
 
+  const options = useCallback(
+    (): narrator.PlayOptions => ({
+      settings: () => settings.current,
+      onMark: mark,
+      onEnd: () => {
+        index.current = 0;
+        setState("idle");
+      },
+      onStop: () => {
+        index.current = 0;
+        setState("idle");
+      },
+      onBlocked: () => {
+        index.current = 0;
+        setState("idle");
+        mainBtn.current?.focus();
+      },
+    }),
+    [mark],
+  );
+
   const speakFrom = useCallback(
     (start: number) => {
-      narrator.play(owner.current, chunks.current, start, {
-        settings: () => settings.current,
-        onMark: mark,
-        onEnd: () => {
-          index.current = 0;
-          setState("idle");
-        },
-        onStop: () => {
-          index.current = 0;
-          setState("idle");
-        },
-      });
+      narrator.play(owner.current, chunks.current, start, options());
       setState("playing");
     },
-    [mark],
+    [options],
   );
 
   const stop = useCallback(() => {
@@ -89,6 +119,34 @@ export default function ListenPlayer({ articleRef }: { articleRef: RefObject<HTM
       stop();
     };
   }, [stop]);
+
+  // Opened from a list icon: take over the narration it started, or start it now where the browser allows.
+  const handled = useRef(false);
+  useEffect(() => {
+    if (!supported || handled.current) return;
+    handled.current = true;
+    if (!listenRequested(location.state, location.search)) return;
+    clearListenFlag();
+    const article = articleRef.current;
+    if (!article) return;
+    chunks.current = extractChunks(article);
+    if (narrator.adopt(narrator.openerOwner(slug), owner.current, chunks.current, options())) {
+      setState("playing");
+      return;
+    }
+    // The icon's narration did not survive (a full page load, or a new tab): try to start, else offer the button.
+    narrator.stop(narrator.openerOwner(slug));
+    speakFrom(0);
+    const check = window.setTimeout(() => {
+      if (narrator.activeOwner() === owner.current && !narrator.started()) {
+        narrator.stop(owner.current);
+        index.current = 0;
+        setState("idle");
+        mainBtn.current?.focus();
+      }
+    }, 2500);
+    return () => window.clearTimeout(check);
+  }, [supported, slug, articleRef, location.state, location.search, options, speakFrom]);
 
   const toggle = () => {
     if (state === "playing") {
@@ -131,6 +189,7 @@ export default function ListenPlayer({ articleRef }: { articleRef: RefObject<HTM
       <button
         type="button"
         className="listen__btn listen__btn--main"
+        ref={mainBtn}
         onClick={toggle}
         disabled={!ready}
         aria-label={aria}

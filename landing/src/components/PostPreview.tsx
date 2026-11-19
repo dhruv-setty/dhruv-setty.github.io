@@ -19,10 +19,8 @@ export default function PostPreview({ post, listen = false }: { post: Post; list
       <p className="preview__meta">
         <time dateTime={post.date}>{formatShortDate(post.date)}</time>
         <span aria-hidden="true">·</span>
-        <span className="preview__length">
-          {post.minutes} min read
-          {listen ? <ListenIcon post={post} /> : null}
-        </span>
+        <span className="preview__length">{post.minutes} min read</span>
+        {listen ? <ListenIcon post={post} /> : null}
         {post.medium ? (
           <>
             <span aria-hidden="true">·</span>
