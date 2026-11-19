@@ -1571,3 +1571,66 @@ code.ic,
 @media (max-width: 600px) {
   .post-body .cs-figure figcaption code.ic { white-space: normal; }
 }
+
+/* Journal Listen player (Dhruv, 2026-11-20): browser voices read the live post. Sits inside the byline band,
+   on its own line under the name and date, aligned with the text. Buttons follow the Journal panel look: white, hairline rule, orange on hover. */
+.byline--post { flex-wrap: wrap; row-gap: 0.75rem; }
+.byline--post > span { flex: 1 1 auto; min-width: 0; }
+.listen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 1 0 100%;
+  margin-left: calc(40px + 0.55rem);
+  font-size: 0.8rem;
+  line-height: 1;
+  max-width: 100%;
+}
+.listen__btn,
+.listen__select {
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--text);
+  background: #ffffff;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  height: 2rem;
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+}
+.listen__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0 0.8rem;
+  cursor: pointer;
+  font-weight: var(--w-link);
+}
+.listen__btn:hover:not([disabled]) { background: var(--press); border-color: var(--press); color: #fffaf5; }
+.listen__btn:active:not([disabled]) { background: var(--press-deep); border-color: var(--press-deep); color: #fffaf5; transition-duration: 0s; }
+.listen__btn[aria-pressed="true"] { border-color: var(--text); }
+.listen__btn[disabled] { opacity: 0.5; cursor: default; }
+.listen__select {
+  padding: 0 0.6rem;
+  cursor: pointer;
+  max-width: 100%;
+}
+.listen__select:hover:not([disabled]) { border-color: var(--press); }
+.listen__select--voice { width: 11rem; text-overflow: ellipsis; }
+.listen__field { display: inline-flex; min-width: 0; max-width: 100%; }
+.listen__btn:focus-visible,
+.listen__select:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; border-radius: 999px; }
+.post-body .is-reading,
+.post-header .is-reading {
+  background: rgba(232, 89, 12, 0.07);
+  box-shadow: 0 0 0 0.35rem rgba(232, 89, 12, 0.07);
+  border-radius: 3px;
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+}
+.post-body tr.is-reading { box-shadow: none; }
+@media (max-width: 600px) {
+  .listen { margin-left: 0; }
+  .listen__field--voice { flex: 1 1 8rem; }
+  .listen__select--voice { width: 100%; }
+}
+@media print { .listen { display: none; } }

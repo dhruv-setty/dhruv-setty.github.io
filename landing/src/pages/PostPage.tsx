@@ -1,13 +1,16 @@
+import { useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import BlogSidebar from "../components/BlogSidebar";
+import ListenPlayer from "../components/ListenPlayer";
 import NotFound from "./NotFound";
 import { POSTS, findPost, formatDate } from "../content/posts";
 import { SITE } from "../content/site";
 
 export default function PostPage() {
   const { slug } = useParams();
+  const articleRef = useRef<HTMLElement>(null);
   const post = slug ? findPost(slug) : undefined;
   if (!post) return <NotFound />;
   const i = POSTS.indexOf(post);
@@ -18,10 +21,10 @@ export default function PostPage() {
       <Header />
       <div className="blog-shell fade-in" id="main">
         <main className="blog-main">
-          <article className="prose-article section panel journal-panel">
+          <article className="prose-article section panel journal-panel" ref={articleRef}>
             <header className="post-header">
               <h1>{post.title}</h1>
-              <p className="byline byline--post">
+              <div className="byline byline--post">
                 <img src="/dhruv.webp" alt="" width="40" height="40" />
                 <span>
                   <strong>{SITE.name}</strong>
@@ -35,7 +38,8 @@ export default function PostPage() {
                     ) : null}
                   </span>
                 </span>
-              </p>
+                <ListenPlayer key={post.slug} articleRef={articleRef} />
+              </div>
             </header>
             <div className="post-body" dangerouslySetInnerHTML={{ __html: post.html }} />
           </article>
