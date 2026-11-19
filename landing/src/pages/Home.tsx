@@ -79,11 +79,6 @@ export default function Home() {
           <div className="contact__grid">
             <div>
               <p className="contact__lede">Hiring for identity or access work, or want to compare notes? Send a message. I reply within two working days.</p>
-              <ul className="inline-list">
-                {SITE.contact.map((c) => (
-                  <li key={c.label}><a className="icon-link" href={c.href} aria-label={c.label} title={c.label}><img src={c.icon} alt="" width="22" height="22" /></a></li>
-                ))}
-              </ul>
             </div>
             <ContactForm />
           </div>
