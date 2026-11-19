@@ -1,16 +1,20 @@
 ---
 title: "Azure Boost and the Zero-Trust I/O Path Under GDPR"
 date: 2026-06-09
-summary: My view on the next generation of Azure Boost. The I/O path between a virtual machine and its storage or network is where confidential data is weakest, attested devices and the removal of bounce buffers address it directly, and none of it counts as GDPR evidence until it is confirmed per VM size and the attestation can be kept.
+summary: Opinion. Next-generation Azure Boost: Cerberus-attested firmware, an Arm SoC control plane isolated from the data path, and TDISP over IDE-encrypted PCIe eliminating the confidential VM bounce buffer; GDPR evidence only when confirmed per VM size and the attestation is retained.
 ---
 
-## The weak point, as I see it
+## Position
 
-This post sets out my view of the engineering of the I/O path. It is an opinion, not a measurement. Considerable effort goes into encrypting data at rest and in transit. In my view the weaker point is usually between the two: the moment data leaves a virtual machine's memory and passes through the host on its way to storage or the network. In a zero-trust model that path is part of the attack surface, and under GDPR it is part of the processing the controller is responsible for securing. The [next generation of Azure Boost](https://techcommunity.microsoft.com/blog/azurecompute/announcing-the-general-availability-of-the-next-generation-of-azure-boost/4519136), generally available since 7 May 2026, is aimed at exactly that path, which is why I think it deserves an engineering reading rather than a product one.
+This is an opinion on the engineering of the I/O path. It is not a measurement and not legal advice.
 
-## The hardware, reduced to its trust boundaries
+The weakest segment of a confidential workload lies between data at rest and data in transit: egress from guest memory through the host to storage or the network. Under a zero-trust model, that segment is attack surface; under GDPR, it is processing the controller is obliged to secure. The [next generation of Azure Boost](https://techcommunity.microsoft.com/blog/azurecompute/announcing-the-general-availability-of-the-next-generation-of-azure-boost/4519136), generally available since 2026-05-07, targets that segment. Attested devices and the elimination of the bounce buffer address it directly, and shall count as evidence only once confirmed per VM size with the attestation retained.
 
-Azure Boost offloads virtualisation, networking and storage from the host onto dedicated hardware. The new generation is a PCIe card built around a single ASIC with three parts:
+## Rationale
+
+### Trust boundaries of the card
+
+Azure Boost offloads virtualisation, networking and storage from the host to dedicated hardware. The new generation is a PCIe card built around a single ASIC with three parts:
 
 ```
  +--------------------------------------------------------------------+
@@ -31,13 +35,13 @@ Azure Boost offloads virtualisation, networking and storage from the host onto d
  +--------------------------------------------------------------------+
 ```
 
-The part of this diagram I find most significant is the separation of the Arm SoC control plane from the data path. A component that manages the card but cannot see customer data is a component whose compromise is bounded, and that is the property I would design for first.
+The separation of the Arm SoC control plane from the data path is the decisive property. A management component without visibility of customer data has a bounded compromise, and that bound shall be the first design objective.
 
 Cobalt 200 systems include the latest Boost capabilities. Against Cobalt 100, Microsoft reports 20% higher remote storage IOPS and 15% higher network bandwidth for Cobalt 200 VMs.
 
-## Zero trust principles, read as engineering controls
+### Zero-trust principles as controls
 
-This is how I map the design to zero-trust principles. Each row is a control that can, in principle, be tested:
+Each row is a control that can, in principle, be tested.
 
 | Principle                     | Implementation in Azure Boost                                                            |
 |-------------------------------|------------------------------------------------------------------------------------------|
@@ -47,9 +51,9 @@ This is how I map the design to zero-trust principles. Each row is a control tha
 | Isolate tenants               | Per-tenant cryptographic separation on the data path                                     |
 | Minimise privileged software  | The host runs a smaller, hardened stack; critical components are memory safe             |
 
-## Why I think the bounce buffer is the real story
+### Bounce buffer elimination
 
-In current confidential computing, a VM's memory is encrypted with a key that devices cannot access. Every I/O operation must therefore be copied into a shared bounce buffer before a network card or storage controller can use it.
+In current confidential computing, guest memory is encrypted with a key inaccessible to devices, so every I/O shall be staged through a shared bounce buffer before a NIC or storage controller can consume it.
 
 ```
  Today (confidential VM)
@@ -61,18 +65,27 @@ In current confidential computing, a VM's memory is encrypted with a key that de
                     (no staging copy)
 ```
 
-The bounce buffer costs an extra copy and an extra encryption cycle on every operation, and it creates a staging area outside the VM's protected memory. From a data path perspective I regard that staging area as the more serious problem of the two: it is a place where data is held in a form the confidential VM no longer protects, on every I/O.
+The cost is measured in the literature. The CVM-IO tax, composed mainly of the bounce buffer mechanism and in-guest packet processing, can occupy more than 50% of vCPU cycles in network-intensive workloads [1]. On AMD SEV-SNP and Intel TDX, bounce-buffered default I/O stacks produce up to a 60% performance drop for heavy network processing under high CPU utilisation [2].
 
-With the Boost Confidential Device, a confidential VM attests the Boost hardware and firmware using TDISP, a PCI-SIG standard, and then permits the attested device to read encrypted VM memory directly over IDE-encrypted PCIe links. Only the attested ASIC, FPGA and real-time firmware are inside the trust boundary; the Arm SoC remains outside it. Microsoft reports that attested offloads perform at near parity with general-purpose VMs. My reading is that this removes the copy rather than securing it, which is the better engineering outcome.
+The bounce buffer also places a staging area outside protected memory. The staging area is the more serious defect: on every I/O, data resides in a form the confidential VM no longer protects. The host-facing I/O interface is itself a vulnerability surface; confidential I/O interfaces have been shown to fail on both performance and security when confronted with interface vulnerabilities and host observability [3].
 
-## What I would verify before relying on it
+### Device attestation and the trusted device path
 
-- The hardware foundation ships on every card. VM sizes that use the confidential device enter preview on Intel first and AMD afterwards. Arm-based families will also ship on this generation, but I would not assume confidential I/O on Arm until it is available for a given size.
-- Remote storage encryption by default has been signalled as this generation spreads across VM families. I would confirm it per SKU.
-- Attestation evidence is only useful to a controller if it can be retained in the controller's own records.
-- Any fallback to a software or bounce-buffer path should be reported when it occurs. A fast path that can silently degrade is not a control.
+With the Boost Confidential Device, the confidential VM attests Boost hardware and firmware via TDISP (PCI-SIG) and then permits the attested device to read encrypted guest memory directly over IDE-encrypted PCIe links. TDISP uses SPDM to attest the device and establish a secure connection, and PCIe IDE for encrypted and integrity-protected communication at the transaction layer, which permits the trusted device to DMA directly into CVM private memory [2]. The trust boundary contains only the attested ASIC, FPGA and real-time firmware; the Arm SoC remains outside it.
 
-## How I map it to GDPR
+SPDM inherits requirements and design from TLS 1.3, but its state machines and transcript handling are substantially more complex [4]. A device attestation claim shall therefore rest on an SPDM implementation of a formally analysed protocol version, not on the presence of the protocol name.
+
+Microsoft reports near parity with general-purpose VMs for attested offloads. The design removes the copy rather than securing it.
+
+### Countervailing view
+
+Trusted I/O is not uniformly beneficial. For network I/O, CVM traffic is already encrypted under the CVM threat model, so PCIe-level encryption is redundant, and trusted I/O expands the TCB to include the device; a software path on off-the-shelf CPUs has been shown to come within 6% of an optimal trusted I/O configuration [5]. Admission of the device to the TCB shall be justified per I/O class, with storage and network evaluated separately.
+
+### DMA trust
+
+A device admitted to the TCB holds DMA authority over guest memory. IOMMU protection has been bypassed within seconds by malicious DMA-capable peripherals on vulnerable macOS, FreeBSD and Linux systems [6]. Admission therefore shall be conditioned on attestation of the device identity and firmware, not on IOMMU configuration alone.
+
+### GDPR mapping
 
 | Article  | Obligation                              | Contribution                                                       |
 |----------|-----------------------------------------|--------------------------------------------------------------------|
@@ -82,8 +95,26 @@ With the Boost Confidential Device, a confidential VM attests the Boost hardware
 | 32(1)(d) | Regular testing of security measures    | Continuous attestation with automatic removal from service         |
 | 34       | Communication of a breach               | Data remains unintelligible along the whole I/O path               |
 
-## Where I land
+## Observations
 
-Zero trust originally meant not trusting the network. In my view Azure Boost extends it to the host and to the I/O device itself: the card is trusted with data only after it proves its identity, and data is not copied anywhere it does not need to go. Under GDPR, I think that moves secure I/O from a contractual assurance towards verifiable evidence, provided the checks above are run for the workload in question and the attestation is kept.
+- The hardware foundation ships on every card. VM sizes using the confidential device enter preview on Intel first and AMD afterwards. Arm-based families will also ship on this generation; confidential I/O on Arm shall not be assumed until available for a given size.
+- Remote storage encryption by default has been signalled as this generation spreads across VM families. It shall be confirmed per SKU.
+- Attestation evidence is of use to a controller only if retained in the controller's own records.
+- Any fallback to a software or bounce-buffer path shall be reported when it occurs. A fast path that can degrade silently is not a control.
+- Zero trust extends here from the network to the host and the I/O device: the card is trusted with data only after proving its identity, and data is not copied beyond where it must go. Under GDPR, this moves secure I/O from contractual assurance towards verifiable evidence, conditional on the checks above being run per workload and the attestation being retained.
 
 *This is an opinion on the engineering, not legal advice.*
+
+## References
+
+[1] D. Li, Z. Mi, C. Ji, Y. Tan, B. Zang, H. Guan and H. Chen. Bifrost: Analysis and Optimization of Network I/O Tax in Confidential Virtual Machines. In *2023 USENIX Annual Technical Conference (USENIX ATC 23)*, 2023. [USENIX proceedings](https://www.usenix.org/conference/atc23/presentation/li-dingji)
+
+[2] M. Misono, D. Stavrakakis, N. Santos and P. Bhatotia. Confidential VMs Explained: An Empirical Analysis of AMD SEV-SNP and Intel TDX. *Proceedings of the ACM on Measurement and Analysis of Computing Systems* 8 (3), Article 36, 2024. [DOI 10.1145/3700418](https://doi.org/10.1145/3700418)
+
+[3] H. Lefeuvre, D. Chisnall, M. Kogias and P. Olivier. Towards (Really) Safe and Fast Confidential I/O. In *Proceedings of the 19th Workshop on Hot Topics in Operating Systems (HotOS 2023)*, pp. 214–222, 2023. [DOI 10.1145/3593856.3595913](https://doi.org/10.1145/3593856.3595913)
+
+[4] C. Cremers, A. Dax and A. Naska. Formal Analysis of SPDM: Security Protocol and Data Model version 1.2. In *32nd USENIX Security Symposium (USENIX Security 23)*, 2023. [USENIX proceedings](https://www.usenix.org/conference/usenixsecurity23/presentation/cremers-spdm)
+
+[5] M. Li, S. Srivastava and M. Yan. Bridge the Future: High-Performance Networks in Confidential VMs without Trusted I/O devices. arXiv preprint, 2024. [arXiv:2403.03360](https://arxiv.org/abs/2403.03360)
+
+[6] A. T. Markettos, C. Rothwell, B. F. Gutstein, A. Pearce, P. G. Neumann, S. W. Moore and R. N. M. Watson. Thunderclap: Exploring Vulnerabilities in Operating System IOMMU Protection via DMA from Untrustworthy Peripherals. In *Network and Distributed System Security Symposium (NDSS)*, 2019. [DOI 10.14722/ndss.2019.23194](https://doi.org/10.14722/ndss.2019.23194)

@@ -1564,3 +1564,10 @@ code.ic,
 .byline--post > span { display: block; }
 .byline--post .byline__meta { display: block; }
 .byline--post .byline__meta time { display: inline; margin: 0; }
+
+/* Journal posts: long inline code spans wrap instead of overflowing narrow viewports */
+.post-body code.ic,
+.post-body :not(pre) > code { overflow-wrap: anywhere; word-break: normal; }
+@media (max-width: 600px) {
+  .post-body .cs-figure figcaption code.ic { white-space: normal; }
+}
