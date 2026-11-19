@@ -18,7 +18,7 @@ export default function PostPage() {
       <Header />
       <div className="blog-shell fade-in" id="main">
         <main className="blog-main">
-          <article className="prose-article">
+          <article className="prose-article section panel journal-panel">
             <header className="post-header">
               <h1>{post.title}</h1>
               <p className="byline byline--post">

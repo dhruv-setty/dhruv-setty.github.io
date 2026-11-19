@@ -1545,3 +1545,22 @@ code.ic,
   .project__points { padding-left: 1rem; font-size: 0.92rem; }
   .project__points code.ic, .project__summary code.ic { font-size: 0.8em; padding: 0 0.2em; }
 }
+
+/* Journal (Dhruv, 2026-11-19): same build as Home. White paper panels over the graticule,
+   the post list sits at the side in full with no inner scroll bar. */
+.blog-main { max-width: calc(var(--measure) + 6rem); }
+.journal-panel { background: #ffffff; }
+.journal-panel .panel__head .section__title { font-size: var(--step-2); }
+.journal-panel .preview-feed .preview:first-child { border-top: 0; padding-top: 0.25rem; }
+.journal-panel .preview-feed .preview:last-child { border-bottom: 0; padding-bottom: 0.25rem; }
+.journal-panel .post-nav { margin-bottom: 0; }
+.blog-side { position: static; max-height: none; overflow: visible; align-self: start; }
+.blog-side__box {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem 1.25rem;
+  box-shadow: 0 1px 0 rgba(17, 17, 17, 0.03), 0 18px 40px -28px rgba(17, 17, 17, 0.25);
+}
+.byline--post > span { display: block; }
+.byline--post .byline__meta { display: block; }
+.byline--post .byline__meta time { display: inline; margin: 0; }
