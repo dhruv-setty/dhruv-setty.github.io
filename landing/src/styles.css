@@ -1441,7 +1441,6 @@ code.ic,
 @media (scripting: none) { .phase-reveal { opacity: 1; transform: none; } }
 
 /* Get in touch: square the lede to its column so it reads straight, not ragged */
-.contact__lede { max-width: none; text-align: justify; text-justify: inter-word; hyphens: manual; }
 .contact__grid { align-items: start; }
 
 /* Homepage portrait removed (Dhruv, 2026-11-19): story takes the full About row. */
@@ -1450,13 +1449,19 @@ code.ic,
 /* Home text blocks fill the page (Dhruv, 2026-11-19): wider measures, larger type, editorial About. */
 .hero__positioning { font-size: clamp(1.4rem, 2.8vw, 2rem); max-width: none; }
 .hero__focus { max-width: 46rem; font-size: clamp(1.125rem, 1.6vw, 1.35rem); line-height: 1.55; }
-.about.phase--two .about__story { display: grid; gap: 1.5rem 3rem; }
-.about.phase--two .about__story p { max-width: none; margin: 0; font-size: clamp(1.125rem, 1.4vw, 1.25rem); line-height: 1.65; }
-.about.phase--two .about__story p:first-of-type { font-size: clamp(1.6rem, 3vw, 2.5rem); line-height: 1.25; font-weight: 500; letter-spacing: -0.015em; text-align: left; }
-/* About lead only (Dhruv, 2026-11-19): the two story columns were removed, so the section
-   sizes to its single lead paragraph instead of filling a full screen. */
-.about.phase--two { min-height: 0; }
-.contact__lede { font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.4; text-align: justify; text-justify: inter-word; hyphens: manual; }
+/* About as a quiet panel (Dhruv, 2026-11-19): small uppercase label with a hairline rule like
+   Projects, and the story in body text, justified to the panel's full text width. */
+.about.panel .about__story p,
+.about.panel .about__story p:first-of-type { max-width: none; margin: 0 0 1rem; font-size: var(--step-0); font-weight: 400; line-height: 1.6; letter-spacing: normal; color: var(--text); text-align: justify; text-justify: inter-word; hyphens: manual; }
+.about.panel .about__story p:last-child { margin-bottom: 0; }
+/* Get in touch lede (Dhruv, 2026-11-19): ragged right, not justified, so a short lede has no
+   word gaps; one spacing step between the header, the lede, the icons and the form. */
+.contact { --contact-gap: clamp(1.25rem, 2.5vw, 2rem); }
+.contact .panel__head { margin-bottom: var(--contact-gap); }
+.contact__grid { row-gap: var(--contact-gap); }
+.contact__lede { margin: 0 0 var(--contact-gap); max-width: 60ch; font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.4; text-align: left; text-justify: auto; word-spacing: normal; letter-spacing: normal; hyphens: none; text-wrap: pretty; }
+.contact .inline-list { margin: 0; }
+.contact .contact-form > label:first-of-type { margin-top: 0; }
 .card-grid.focus-grid .focus-card__lead { font-size: 1.125rem; font-weight: 600; }
 
 /* Back paneling (Dhruv, 2026-11-19): content sections sit on paper panels over the graticule,

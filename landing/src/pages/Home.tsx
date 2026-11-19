@@ -31,17 +31,15 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="about" className="section about phase phase--two" aria-labelledby="about-h">
-          <h2 id="about-h" className="visually-hidden">About</h2>
-          <div className="about__grid phase-reveal">
-            <div className="about__story">
-              {GREETING ? <HopGreeting text={GREETING} /> : null}
-              {story ? story.split("\n\n").map((para) => (
-                <p key={para.slice(0, 24)}>
-                  {para.split(/(asking why)/).map((part, i) => (part === "asking why" ? <span key={i}>asking <em className="about__why">why</em></span> : part))}
-                </p>
-              )) : null}
-            </div>
+        <section id="about" className="section panel about" aria-labelledby="about-h">
+          <header className="panel__head"><h2 id="about-h" className="section__title">About</h2></header>
+          <div className="about__story">
+            {GREETING ? <HopGreeting text={GREETING} /> : null}
+            {story ? story.split("\n\n").map((para) => (
+              <p key={para.slice(0, 24)}>
+                {para.split(/(asking why)/).map((part, i) => (part === "asking why" ? <span key={i}>asking <em className="about__why">why</em></span> : part))}
+              </p>
+            )) : null}
           </div>
         </section>
 
