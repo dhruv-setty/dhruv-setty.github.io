@@ -1,22 +1,14 @@
 ---
 title: "Azure Boost and the Zero-Trust I/O Path Under GDPR"
 date: 2026-06-09
-summary: How the next generation of Azure Boost moves storage and networking onto attested hardware, why removing bounce buffers matters for confidential data, and what must be verified before it counts as GDPR evidence.
+summary: My view on the next generation of Azure Boost. The I/O path between a virtual machine and its storage or network is where confidential data is weakest, attested devices and the removal of bounce buffers address it directly, and none of it counts as GDPR evidence until it is confirmed per VM size and the attestation can be kept.
 ---
 
-## Motivation
+## The weak point, as I see it
 
-Considerable effort goes into encrypting data at rest and in transit. The weaker point is usually between the two: the moment data leaves a virtual machine's memory and passes through the host on its way to storage or the network. In a zero-trust model that path is part of the attack surface, and under GDPR it is part of the processing the controller is responsible for securing.
+This post sets out my view of the engineering of the I/O path. It is an opinion, not a measurement. Considerable effort goes into encrypting data at rest and in transit. In my view the weaker point is usually between the two: the moment data leaves a virtual machine's memory and passes through the host on its way to storage or the network. In a zero-trust model that path is part of the attack surface, and under GDPR it is part of the processing the controller is responsible for securing. The [next generation of Azure Boost](https://techcommunity.microsoft.com/blog/azurecompute/announcing-the-general-availability-of-the-next-generation-of-azure-boost/4519136), generally available since 7 May 2026, is aimed at exactly that path, which is why I think it deserves an engineering reading rather than a product one.
 
-The [next generation of Azure Boost](https://techcommunity.microsoft.com/blog/azurecompute/announcing-the-general-availability-of-the-next-generation-of-azure-boost/4519136), generally available since 7 May 2026, addresses that path directly.
-
-## Objectives of this analysis
-
-1. Describe how Azure Boost changes the I/O trust boundary.
-2. Explain why the removal of bounce buffers matters for confidential workloads.
-3. Map the design to GDPR obligations and identify what must be verified before relying on it.
-
-## The platform
+## The hardware, reduced to its trust boundaries
 
 Azure Boost offloads virtualisation, networking and storage from the host onto dedicated hardware. The new generation is a PCIe card built around a single ASIC with three parts:
 
@@ -39,19 +31,23 @@ Azure Boost offloads virtualisation, networking and storage from the host onto d
  +--------------------------------------------------------------------+
 ```
 
+The part of this diagram I find most significant is the separation of the Arm SoC control plane from the data path. A component that manages the card but cannot see customer data is a component whose compromise is bounded, and that is the property I would design for first.
+
 Cobalt 200 systems include the latest Boost capabilities. Against Cobalt 100, Microsoft reports 20% higher remote storage IOPS and 15% higher network bandwidth for Cobalt 200 VMs.
 
-## How the design applies zero trust
+## Zero trust principles, read as engineering controls
 
-| Principle                     | Implementation in Azure Boost                                                         |
-|-------------------------------|----------------------------------------------------------------------------------------|
-| Verify before trust           | Cerberus measures and attests firmware; the card does not start if measurement fails  |
+This is how I map the design to zero-trust principles. Each row is a control that can, in principle, be tested:
+
+| Principle                     | Implementation in Azure Boost                                                            |
+|-------------------------------|------------------------------------------------------------------------------------------|
+| Verify before trust           | Cerberus measures and attests firmware; the card does not start if measurement fails     |
 | Verify continuously           | Azure Attestation Service re-checks devices; failing devices leave service automatically |
-| Separate control from data    | The Arm SoC manages the card without access to customer data                          |
-| Isolate tenants               | Per-tenant cryptographic separation on the data path                                 |
-| Minimise privileged software  | The host runs a smaller, hardened stack; critical components are memory safe          |
+| Separate control from data    | The Arm SoC manages the card without access to customer data                             |
+| Isolate tenants               | Per-tenant cryptographic separation on the data path                                     |
+| Minimise privileged software  | The host runs a smaller, hardened stack; critical components are memory safe             |
 
-## The bounce-buffer problem
+## Why I think the bounce buffer is the real story
 
 In current confidential computing, a VM's memory is encrypted with a key that devices cannot access. Every I/O operation must therefore be copied into a shared bounce buffer before a network card or storage controller can use it.
 
@@ -65,33 +61,29 @@ In current confidential computing, a VM's memory is encrypted with a key that de
                     (no staging copy)
 ```
 
-The bounce buffer costs an extra copy and an extra encryption cycle on every operation, and it creates a staging area outside the VM's protected memory. With the Boost Confidential Device, a confidential VM attests the Boost hardware and firmware using TDISP, a PCI-SIG standard, and then permits the attested device to read encrypted VM memory directly over IDE-encrypted PCIe links. Only the attested ASIC, FPGA and real-time firmware are inside the trust boundary; the Arm SoC remains outside it. Microsoft reports that attested offloads perform at near parity with general-purpose VMs.
+The bounce buffer costs an extra copy and an extra encryption cycle on every operation, and it creates a staging area outside the VM's protected memory. From a data path perspective I regard that staging area as the more serious problem of the two: it is a place where data is held in a form the confidential VM no longer protects, on every I/O.
 
-## Assumptions and conditions
+With the Boost Confidential Device, a confidential VM attests the Boost hardware and firmware using TDISP, a PCI-SIG standard, and then permits the attested device to read encrypted VM memory directly over IDE-encrypted PCIe links. Only the attested ASIC, FPGA and real-time firmware are inside the trust boundary; the Arm SoC remains outside it. Microsoft reports that attested offloads perform at near parity with general-purpose VMs. My reading is that this removes the copy rather than securing it, which is the better engineering outcome.
 
-- The hardware foundation ships on every card. VM sizes that use the confidential device enter preview on Intel first and AMD afterwards. Arm-based families will also ship on this generation, but confidential I/O on Arm should not be assumed until it is available for a given size.
-- Remote storage encryption by default has been signalled as this generation spreads across VM families. It must be confirmed per SKU.
+## What I would verify before relying on it
+
+- The hardware foundation ships on every card. VM sizes that use the confidential device enter preview on Intel first and AMD afterwards. Arm-based families will also ship on this generation, but I would not assume confidential I/O on Arm until it is available for a given size.
+- Remote storage encryption by default has been signalled as this generation spreads across VM families. I would confirm it per SKU.
 - Attestation evidence is only useful to a controller if it can be retained in the controller's own records.
+- Any fallback to a software or bounce-buffer path should be reported when it occurs. A fast path that can silently degrade is not a control.
 
-## Mapping to GDPR
+## How I map it to GDPR
 
-| Article  | Obligation                              | Contribution                                                      |
-|----------|-----------------------------------------|-------------------------------------------------------------------|
+| Article  | Obligation                              | Contribution                                                       |
+|----------|-----------------------------------------|--------------------------------------------------------------------|
 | 5(2)     | Accountability                          | Attestation allows compliance to be demonstrated cryptographically |
-| 25       | Protection by design and by default     | Default remote storage encryption                                 |
-| 32       | Security of processing                  | Per-tenant isolation and encrypted PCIe on the I/O path          |
-| 32(1)(d) | Regular testing of security measures    | Continuous attestation with automatic removal from service       |
-| 34       | Communication of a breach               | Data remains unintelligible along the whole I/O path             |
+| 25       | Protection by design and by default     | Default remote storage encryption                                  |
+| 32       | Security of processing                  | Per-tenant isolation and encrypted PCIe on the I/O path            |
+| 32(1)(d) | Regular testing of security measures    | Continuous attestation with automatic removal from service         |
+| 34       | Communication of a breach               | Data remains unintelligible along the whole I/O path               |
 
-## Verification checklist
+## Where I land
 
-- Which VM sizes run on the new Boost generation, and which confidential I/O features they expose today.
-- Whether remote storage encryption is enabled by default for the specific SKU in use.
-- Whether attestation evidence can be exported into the controller's records.
-- Whether any fallback to a software or bounce-buffer path is reported when it occurs.
+Zero trust originally meant not trusting the network. In my view Azure Boost extends it to the host and to the I/O device itself: the card is trusted with data only after it proves its identity, and data is not copied anywhere it does not need to go. Under GDPR, I think that moves secure I/O from a contractual assurance towards verifiable evidence, provided the checks above are run for the workload in question and the attestation is kept.
 
-## Outcome
-
-Zero trust originally meant not trusting the network. Azure Boost extends it to the host and to the I/O device itself: the card is trusted with data only after it proves its identity, and data is not copied anywhere it does not need to go. Under GDPR, that moves secure I/O from a contractual assurance to verifiable evidence.
-
-*This is a technical analysis, not legal advice.*
+*This is an opinion on the engineering, not legal advice.*
