@@ -165,34 +165,4 @@ export const PROJECTS: readonly Project[] = [
     },
     href: "https://github.com/whatheheckisthis/SPDE-GMRF",
   },
-  {
-    slug: "aarch64-study",
-    name: "AArch64 virtualisation study",
-    tag: "Virtualisation",
-    summary:
-      "A 22 page formal review of `EL2` hypervisor configuration, `Stage 2` translation and the KVM vCPU lifecycle on Microsoft Cobalt 100 and 200, built on Arm Neoverse N2 and V3, with results formalised in Lean 4 and each claim graded against the Arm Architecture Reference Manual, Linux KVM and QEMU.",
-    stack: ["Lean 4", "KVM", "QEMU", "Arm Neoverse"],
-    image: {
-      src: "/thumbs/thumb-aarch64.png",
-      alt: "AArch64 exception levels EL0 to EL3 with Stage 1 and Stage 2 translation, an accelerator behind SMMUv3, and observational equivalence between host and offloaded traces",
-      width: 1600,
-      height: 900,
-    },
-    href: "https://www.dropbox.com/scl/fi/nfrnwf5lten7b74ud1fbn/A64-CBLT-STUDY-001-eca7fe16806a.pdf?rlkey=rl6pegel190x12yx8mhkpbn7s&st=kjv0iqll&dl=0",
-  },
-  {
-    slug: "fpga-gpu-p2p",
-    name: "FPGA to GPU peer-to-peer pipeline",
-    tag: "HPC",
-    summary:
-      "Designed and evaluated FPGA to GPU `PCIe P2P` memory access paths, covering `DMA`, `IOMMU/SMMU` address translation and cache coherence across heterogeneous interconnects.",
-    stack: ["PCIe", "DMA", "SMMUv3", "VFIO"],
-    image: {
-      src: "/thumbs/thumb-p2p.png",
-      alt: "PCIe topology: host SoC with root complex and SMMUv3, a PCIe switch, and peer-to-peer TLPs from the FPGA endpoint to the GPU BAR1 aperture",
-      width: 1600,
-      height: 900,
-    },
-    href: "https://www.dropbox.com/scl/fi/lrntb1t05v04yb1wz4ei8/CBLT-2-1cf710990566.pdf?rlkey=rp2c40yxcu7wo0m9yqnl13ckc&st=1x4jym61&dl=0",
-  },
 ];
