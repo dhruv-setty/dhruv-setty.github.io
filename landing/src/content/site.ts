@@ -7,7 +7,7 @@ export const SITE = {
     "Dhruv Setty works in IT support and identity administration in New Zealand, across Microsoft Entra ID and Active Directory.",
   contact: [
     { label: "GitHub", text: "GitHub", href: "https://github.com/dhruv-setty", icon: "/icons/github.svg" },
-    { label: "LinkedIn", text: "LinkedIn", href: "https://www.linkedin.com/in/its-dhruv-setty", icon: "/icons/linkedin.png" },
+    { label: "LinkedIn", text: "LinkedIn", href: "https://www.linkedin.com/in/dhruv-setty-nz", icon: "/icons/linkedin.png" },
     { label: "Buy me a coffee", text: "Buy me a coffee", href: "https://buymeacoffee.com/dhruvsetty", icon: "/icons/bmc.svg" },
   ],
   location: "",
