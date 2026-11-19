@@ -1634,3 +1634,54 @@ code.ic,
   .listen__select--voice { width: 100%; }
 }
 @media print { .listen { display: none; } }
+
+/* Journal read-aloud icons (Dhruv, 2026-11-20): a small speaker after each post's reading time on the post list.
+   Reads that post in place with the Listen player's engine. Hairline circle, orange on hover, a stop square while reading. */
+.preview__length { display: inline-flex; align-items: center; gap: 0.4rem; }
+.listen-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: -0.25rem 0;
+  padding: 0;
+  font: inherit;
+  line-height: 1;
+  color: var(--text);
+  background: #ffffff;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+}
+.listen-icon:hover:not([disabled]) { background: var(--press); border-color: var(--press); color: #fffaf5; }
+.listen-icon:active:not([disabled]) { background: var(--press-deep); border-color: var(--press-deep); color: #fffaf5; transition-duration: 0s; }
+.listen-icon[aria-pressed="true"] { border-color: var(--press); color: var(--press); }
+.listen-icon[aria-pressed="true"]:hover:not([disabled]) { color: #fffaf5; }
+.listen-icon[disabled] { opacity: 0.5; cursor: default; }
+.listen-icon:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.listen-icon svg { display: block; }
+.listen-icon--side { position: relative; z-index: 1; width: 1.35rem; height: 1.35rem; margin: -0.2rem 0 -0.2rem 0.4rem; }
+@media print { .listen-icon { display: none; } }
+
+/* Side list entries: the entry is the card, the title link is stretched over it, so the icon can sit beside the reading time. */
+.blog-side__item {
+  position: relative;
+  padding: 0.6rem 0.65rem;
+  margin: 0 -0.65rem;
+  border-left: 2px solid transparent;
+  border-radius: 0 4px 4px 0;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+.blog-side__item:hover { background: rgba(110, 82, 52, 0.06); }
+.blog-side__item[data-current] { border-left-color: var(--text); background: rgba(110, 82, 52, 0.08); }
+.blog-side__item .blog-side__link,
+.blog-side__item .blog-side__link:hover,
+.blog-side__item .blog-side__link[aria-current] { display: block; padding: 0; margin: 0; border: 0; background: none; border-radius: 0; }
+.blog-side__item .blog-side__link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.blog-side__item .blog-side__link:focus-visible { outline: none; }
+.blog-side__item:has(.blog-side__link:focus-visible) { outline: 2px solid var(--text); outline-offset: 0; }
+.blog-side__item .blog-side__meta { display: flex; align-items: center; flex-wrap: wrap; }

@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { SITE } from "../content/site";
 import { formatShortDate, type Post } from "../content/posts";
+import ListenIcon from "./ListenIcon";
 
 // Medium-style story preview: byline, headline, subtitle, date and reading time.
-export default function PostPreview({ post }: { post: Post }) {
+export default function PostPreview({ post, listen = false }: { post: Post; listen?: boolean }) {
   const href = `/blog/${post.slug}/`;
   return (
     <article className="preview">
@@ -18,7 +19,10 @@ export default function PostPreview({ post }: { post: Post }) {
       <p className="preview__meta">
         <time dateTime={post.date}>{formatShortDate(post.date)}</time>
         <span aria-hidden="true">·</span>
-        <span>{post.minutes} min read</span>
+        <span className="preview__length">
+          {post.minutes} min read
+          {listen ? <ListenIcon post={post} /> : null}
+        </span>
         {post.medium ? (
           <>
             <span aria-hidden="true">·</span>

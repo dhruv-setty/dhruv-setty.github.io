@@ -1,46 +1,13 @@
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { extractChunks, type Chunk } from "../lib/speech";
+import * as narrator from "../lib/narrator";
+import { RATES, RATE_KEY, VOICE_KEY, savedRate, savedVoiceURI, sortVoices, speechSupported, writeSetting } from "../lib/narrator";
 
 // Journal "Listen" player: reads the live post with the browser's own voices (Web Speech API).
-// No audio files and no service. Hidden where speechSynthesis is unavailable.
-
-const RATES = [0.9, 1, 1.25, 1.5];
-const VOICE_KEY = "journal.listen.voice";
-const RATE_KEY = "journal.listen.rate";
-const PREFERRED = ["en-GB", "en-NZ", "en-AU"];
+// No audio files and no service. Hidden where speechSynthesis is unavailable. The speech engine is shared
+// with the read-aloud icons on the post list (lib/narrator.ts), so only one narration plays at a time.
 
 type State = "idle" | "playing" | "paused";
-
-function langRank(lang: string): number {
-  const l = lang.replace("_", "-").toLowerCase();
-  const i = PREFERRED.findIndex((p) => l.startsWith(p.toLowerCase()));
-  if (i !== -1) return i;
-  if (l.startsWith("en-us")) return 3;
-  if (l.startsWith("en")) return 4;
-  return 5;
-}
-
-function sortVoices(list: SpeechSynthesisVoice[]): SpeechSynthesisVoice[] {
-  const english = list.filter((v) => /^en/i.test(v.lang));
-  const pool = english.length ? english : list;
-  return [...pool].sort((a, b) => langRank(a.lang) - langRank(b.lang) || a.name.localeCompare(b.name));
-}
-
-function read(key: string): string | null {
-  try {
-    return window.localStorage.getItem(key);
-  } catch {
-    return null;
-  }
-}
-
-function write(key: string, value: string) {
-  try {
-    window.localStorage.setItem(key, value);
-  } catch {
-    /* storage unavailable: the choice lasts for this page only */
-  }
-}
 
 function offscreen(el: HTMLElement): boolean {
   const r = el.getBoundingClientRect();
@@ -58,10 +25,10 @@ export default function ListenPlayer({ articleRef }: { articleRef: RefObject<HTM
 
   const chunks = useRef<Chunk[]>([]);
   const index = useRef(0);
-  const run = useRef(0); // bumps on every start or stop, so callbacks from a cancelled utterance are ignored
+  const owner = useRef("post:" + Math.random().toString(36).slice(2));
   const current = useRef<HTMLElement | null>(null);
-  const settings = useRef({ voiceURI: "", rate: 1, voices: [] as SpeechSynthesisVoice[] });
-  settings.current = { voiceURI, rate, voices };
+  const settings = useRef({ voiceURI: "", rate: 1 });
+  settings.current = { voiceURI, rate };
 
   const mark = useCallback((el: HTMLElement | null) => {
     if (current.current && current.current !== el) current.current.classList.remove("is-reading");
@@ -74,79 +41,43 @@ export default function ListenPlayer({ articleRef }: { articleRef: RefObject<HTM
     }
   }, []);
 
-  const halt = useCallback(() => {
-    run.current += 1;
-    if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel();
-  }, []);
-
   const speakFrom = useCallback(
     (start: number) => {
-      const synth = window.speechSynthesis;
-      const busy = synth.speaking || synth.pending;
-      halt();
-      const token = run.current;
-      const list = chunks.current;
-      const say = (i: number) => {
-        if (token !== run.current) return;
-        if (i >= list.length) {
+      narrator.play(owner.current, chunks.current, start, {
+        settings: () => settings.current,
+        onMark: mark,
+        onEnd: () => {
           index.current = 0;
-          mark(null);
           setState("idle");
-          return;
-        }
-        index.current = i;
-        const chunk = list[i]!;
-        mark(chunk.el);
-        const u = new SpeechSynthesisUtterance(chunk.text);
-        const { voiceURI: uri, rate: r, voices: vs } = settings.current;
-        const voice = vs.find((v) => v.voiceURI === uri);
-        if (voice) {
-          u.voice = voice;
-          u.lang = voice.lang;
-        } else {
-          u.lang = "en-GB";
-        }
-        u.rate = r;
-        u.onend = () => say(i + 1);
-        u.onerror = (e) => {
-          if (token !== run.current) return;
-          if (e.error === "interrupted" || e.error === "canceled") return;
-          say(i + 1);
-        };
-        synth.speak(u);
-      };
+        },
+        onStop: () => {
+          index.current = 0;
+          setState("idle");
+        },
+      });
       setState("playing");
-      // Speak at once when idle, so iOS sees the call inside the tap; after a cancel, Chrome needs a moment first.
-      if (busy) window.setTimeout(() => say(start), 60);
-      else say(start);
     },
-    [halt, mark],
+    [mark],
   );
 
   const stop = useCallback(() => {
-    halt();
+    narrator.stop(owner.current);
     index.current = 0;
     mark(null);
     setState("idle");
-  }, [halt, mark]);
+  }, [mark]);
 
   // Feature detection, voices, saved choices, and cleanup on navigation.
   useEffect(() => {
-    const ok = typeof window !== "undefined" && "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+    const ok = speechSupported();
     setSupported(ok);
     if (!ok) return;
     const synth = window.speechSynthesis;
-    const savedRate = Number(read(RATE_KEY));
-    if (RATES.includes(savedRate)) setRate(savedRate);
+    setRate(savedRate());
     const load = () => {
       const list = sortVoices(synth.getVoices());
       setVoices(list);
-      const saved = read(VOICE_KEY);
-      setVoiceURI((prev) => {
-        if (prev && list.some((v) => v.voiceURI === prev)) return prev;
-        if (saved && list.some((v) => v.voiceURI === saved)) return saved;
-        return list[0]?.voiceURI ?? "";
-      });
+      setVoiceURI((prev) => (prev && list.some((v) => v.voiceURI === prev) ? prev : savedVoiceURI(list)));
     };
     load();
     synth.addEventListener?.("voiceschanged", load);
@@ -159,24 +90,10 @@ export default function ListenPlayer({ articleRef }: { articleRef: RefObject<HTM
     };
   }, [stop]);
 
-  // Chrome stops a long-running utterance after about 15 seconds; a pause and resume every 10 seconds keeps it going.
-  // Skipped on Android, where pause ends the utterance.
-  useEffect(() => {
-    if (state !== "playing" || /android/i.test(navigator.userAgent)) return;
-    const id = window.setInterval(() => {
-      const synth = window.speechSynthesis;
-      if (synth.speaking && !synth.paused) {
-        synth.pause();
-        synth.resume();
-      }
-    }, 10000);
-    return () => window.clearInterval(id);
-  }, [state]);
-
   const toggle = () => {
     if (state === "playing") {
       // Pause by cancelling and remembering the block, which behaves the same in every browser.
-      halt();
+      index.current = narrator.stop(owner.current, true);
       setState("paused");
       return;
     }
@@ -192,16 +109,16 @@ export default function ListenPlayer({ articleRef }: { articleRef: RefObject<HTM
 
   const onRate = (value: number) => {
     setRate(value);
-    write(RATE_KEY, String(value));
+    writeSetting(RATE_KEY, String(value));
     settings.current.rate = value;
-    if (state === "playing") speakFrom(index.current);
+    if (state === "playing") speakFrom(narrator.position());
   };
 
   const onVoice = (uri: string) => {
     setVoiceURI(uri);
-    write(VOICE_KEY, uri);
+    writeSetting(VOICE_KEY, uri);
     settings.current.voiceURI = uri;
-    if (state === "playing") speakFrom(index.current);
+    if (state === "playing") speakFrom(narrator.position());
   };
 
   if (supported === false) return null;

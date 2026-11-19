@@ -20,13 +20,13 @@ export default function BlogIndex() {
             ) : (
               <div className="preview-feed">
                 {POSTS.map((p) => (
-                  <PostPreview key={p.slug} post={p} />
+                  <PostPreview key={p.slug} post={p} listen />
                 ))}
               </div>
             )}
           </section>
         </main>
-        <BlogSidebar />
+        <BlogSidebar listen />
       </div>
       <Footer />
     </>
