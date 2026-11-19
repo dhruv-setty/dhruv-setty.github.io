@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ContactForm from "../components/ContactForm";
-import { FEATURED, FOCUS, PROJECTS, SITE, LABS } from "../content/site";
+import { FOCUS, PROJECTS, SITE } from "../content/site";
 import { GREETING, STORY } from "../content/story";
 import { rich } from "../lib/rich";
 import HopGreeting from "../components/HopGreeting";
@@ -61,54 +61,31 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="labs" className="section panel" aria-labelledby="labs-h">
-          <header className="panel__head"><h2 id="labs-h" className="section__title">ICT Labs</h2><p className="panel__dek">Hands-on identity builds, each with its architecture and source.</p></header>
-          <div className="card-grid card-grid--two">
-            {LABS.map((l, i) => (
-              <article key={l.name} className="card" tabIndex={0}>
-                <figure className="card__thumb"><img src={l.preview.src} alt={l.preview.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>
-                <p className="card__tag">Lab {String(i + 1).padStart(2, "0")} · {l.tag}</p>
-                <h3 className="card__title">{l.name}</h3>
-                <p className="card__summary">{l.summary}</p>
-                <ul className="card__chips" aria-label="Technology stack">
-                  {l.stack.slice(0, 4).map((t) => <li key={t}><code className="ic">{t}</code></li>)}
-                </ul>
-                <div className="actions card__links">
-                  <a className="text-link" href={l.href}>Learn More</a>
-                </div>
-              </article>
-            ))}
-            <article className="card" tabIndex={0}>
-              <figure className="card__thumb"><img src={FEATURED.thumb.src} alt={FEATURED.thumb.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>
-              <p className="card__tag">Lab {String(LABS.length + 1).padStart(2, "0")} · Assurance</p>
-              <h3 className="card__title">{FEATURED.name}</h3>
-              <p className="card__summary">{rich(FEATURED.summary)}</p>
-              <ul className="card__chips" aria-label="Technology stack">
-                {FEATURED.stack.slice(0, 4).map((t) => <li key={t}><code className="ic">{t}</code></li>)}
-              </ul>
-              <div className="actions card__links">
-                <a className="text-link" href={FEATURED.readme}>{FEATURED.readmeText}</a>
-              </div>
-            </article>
-          </div>
-        </section>
-
         <section id="work" className="section panel" aria-labelledby="work-h">
-          <header className="panel__head"><h2 id="work-h" className="section__title">Recent Projects</h2><p className="panel__dek">Research in virtualisation and HPC, specified and verified from first principles.</p></header>
-          <div className="card-grid card-grid--two">
+          <header className="panel__head"><h2 id="work-h" className="section__title">Projects</h2><p className="panel__dek">Identity, hardware and inference work, each evidenced in its own repository.</p></header>
+          <div className="project-list">
             {PROJECTS.map((p) => (
-              <article key={p.name} className="card" tabIndex={0}>
-                {p.thumb && <figure className="card__thumb"><img src={p.thumb.src} alt={p.thumb.alt} width="1600" height="900" loading="lazy" decoding="async" /></figure>}
-                <p className="card__tag">{p.tag}</p>
-                <h3 className="card__title">{p.name}</h3>
-                <p className="card__summary">{rich(p.summary)}</p>
-                <ul className="card__chips" aria-label="Technology stack">
-                  {p.stack.slice(0, 4).map((t) => <li key={t}><code className="ic">{t}</code></li>)}
-                </ul>
-                <div className="actions card__links">
-                  {p.links.filter((l) => l.href && !l.href.startsWith("__")).map((l) => (
-                    <a key={l.text} className="text-link" href={l.href}>{l.text}</a>
-                  ))}
+              <article key={p.slug} className="project" aria-labelledby={`project-${p.slug}`}>
+                <figure className="project__figure">
+                  <img src={p.image.src} alt={p.image.alt} width={p.image.width} height={p.image.height} loading="lazy" decoding="async" />
+                </figure>
+                <div className="project__body">
+                  <p className="card__tag">{p.tag}</p>
+                  <h3 id={`project-${p.slug}`} className="project__title">{p.name}</h3>
+                  <p className="project__summary">{rich(p.summary)}</p>
+                  {p.points ? (
+                    <ul className="project__points">
+                      {p.points.map((pt) => <li key={pt.slice(0, 32)}>{rich(pt)}</li>)}
+                    </ul>
+                  ) : null}
+                  {p.stack ? (
+                    <ul className="card__chips" aria-label="Technology stack">
+                      {p.stack.map((t) => <li key={t}><code className="ic">{t}</code></li>)}
+                    </ul>
+                  ) : null}
+                  <div className="project__links">
+                    <a className="button button--ghost" href={p.href} target="_blank" rel="noopener" aria-label={`Learn More: ${p.name}`}>Learn More</a>
+                  </div>
                 </div>
               </article>
             ))}

@@ -51,96 +51,148 @@ export const FOCUS = [
   },
 ] as const;
 
-export const FEATURED = {
-  summary: "Entra ID sign in for Debian hosts through the SSSD `idp` provider, managed by `iato`, a self contained C# (.NET 8) command line tool. Users log in over SSH with the OAuth 2.0 Device Authorization Grant (RFC 8628), so MFA and Conditional Access apply at every login, and `access_provider = simple` limits access to one Entra group. POSIX UIDs and GIDs are derived from Entra object IDs, with no ID mapping kept by hand. `iato register-app` creates the app registration and admin consent through Microsoft Graph with only `User.Read.All` and `GroupMember.Read.All`; `iato check --host` validates the rendered `sssd.conf` against the installed SSSD before the service starts. Shipped as signed `.deb` packages for amd64 and arm64 with published checksums.",
-  name: "Entra ID sign in for Debian with SSSD",
-  thumb: { src: "/thumbs/thumb-sssd.png", alt: "SSH login on a Debian host through pam_sss and the SSSD idp provider, the device code and token endpoints of the Microsoft identity platform, sign in with MFA and Conditional Access on another device, and users and groups from Microsoft Graph" },
-  fullName: "Intent-Auditable Trust Object V2",
-  repo: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V2",
-  stack: ["Entra ID", "SSSD", "OAuth 2.0", "C#"],
-  readmeText: "Learn More",
-  status: "Released. Packages for amd64 and arm64.",
-  readme: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V2",
-} as const;
+export type Project = {
+  slug: string;
+  name: string;
+  tag: string;
+  summary: string;
+  points?: readonly string[];
+  stack?: readonly string[];
+  image: { src: string; alt: string; width: number; height: number };
+  href: string;
+};
 
-// More projects, shown under the featured card. A link with an empty href is hidden.
-export const PROJECTS = [
+// Projects on Home. Each of the first five is drawn from its repository README, with one
+// figure taken from that README (padded to 16:9, otherwise unedited).
+export const PROJECTS: readonly Project[] = [
   {
-    name: "Stage 2 translation and TLB maintenance",
-    stack: ["Sail", "TLA+", "SystemVerilog", "Verilator"],
-    thumb: { src: "/thumbs/thumb-stage2.png", alt: "Two-stage translation VA to IPA to PA with the Stage 2 table walk, a VMID tagged TLB, and the break-before-make TLBI unmap sequence" },
-    tag: "Virtualisation",
-    summary:
-      "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. Specifies, verifies and implements `Stage 2` address translation and TLB maintenance for a hypervisor at `EL2`, with a 4 KiB granule and 48 bit IPA. A Sail model is the reference for the table walk and its translation, access flag and permission faults. A TLA+ specification checks the unmap sequence across two cores, where both incorrect orderings break `NoUseAfterFree`. The SystemVerilog walker and the VMID and ASID tagged TLB match the reference across 10,000 random probes with no mismatches.",
-    links: [{ text: "Learn More", href: "https://github.com/whatheheckisthis/Intent-to-Auditable-Trust-Object-v7" }],
-  },
-  {
-    name: "AArch64 virtualisation study",
-    stack: ["Lean 4", "KVM", "QEMU", "Arm Neoverse"],
-    thumb: { src: "/thumbs/thumb-aarch64.png", alt: "AArch64 exception levels EL0 to EL3 with Stage 1 and Stage 2 translation, an accelerator behind SMMUv3, and observational equivalence between host and offloaded traces" },
-    tag: "Virtualisation",
-    summary:
-      "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. A 22 page formal review of `EL2` hypervisor configuration, `Stage 2` translation and the KVM vCPU lifecycle on Microsoft Cobalt 100 and 200, built on Arm Neoverse N2 and V3. The results are formalised in Lean 4: observational equivalence, refinement and migration preservation, Stage 2 denial dominance and the SVE finalisation gate. Each claim is checked against the Arm Architecture Reference Manual, Linux KVM and QEMU, then graded as a correction, a precision defect, conformant or a verification gap.",
-    links: [
-      { text: "Learn More", href: "https://www.dropbox.com/scl/fi/nfrnwf5lten7b74ud1fbn/A64-CBLT-STUDY-001-eca7fe16806a.pdf?rlkey=rl6pegel190x12yx8mhkpbn7s&st=kjv0iqll&dl=0" },
-    ],
-  },
-  {
-    name: "FPGA to GPU peer-to-peer pipeline",
-    stack: ["PCIe", "DMA", "SMMUv3", "VFIO"],
-    thumb: { src: "/thumbs/thumb-p2p.png", alt: "PCIe topology: host SoC with root complex and SMMUv3, a PCIe switch, and peer-to-peer TLPs from the FPGA endpoint to the GPU BAR1 aperture" },
-    tag: "HPC",
-    summary:
-      "Part of my Correctness Framework for Heterogeneous Accelerator Architectures. Designed and evaluated low-latency FPGA GPU `PCIe P2P` memory access paths, optimising `DMA`, `IOMMU/SMMU` address translation, and cache coherence across heterogeneous interconnects.",
-    links: [{ text: "Learn More", href: "https://www.dropbox.com/scl/fi/lrntb1t05v04yb1wz4ei8/CBLT-2-1cf710990566.pdf?rlkey=rp2c40yxcu7wo0m9yqnl13ckc&st=1x4jym61&dl=0" }],
-  },
-  {
-    name: "Split SPDE-GMRF inference for lane perception",
-    stack: ["cuDSS", "cuSPARSE", "CMSIS-NN", "Cortex-M4F"],
-    thumb: { src: "/thumbs/thumb-spde.png", alt: "CUDA host CPU assembles the FEM mesh and optimises theta, sending Q values to the NVIDIA GPU where cuSPARSE holds Q in CSR and cuDSS refactorises it per theta, returning log determinant and field estimate; the host lifts and quantises the result into a generated model header in Cortex-M4F flash, where hmm_step runs once per lane observation and keeps a 16 byte belief in SRAM" },
-    tag: "HPC",
-    summary:
-      "Splits inference for lane perception between host and device. A GPU path built with `cuSPARSE` and `cuDSS` factorises the sparse SPDE precision to estimate the spatial field, and an int8 forward filter on `Cortex-M4F` tracks the driver's behavioural mode in 40 MACs per sample and 1,998 bytes of flash. Reordering cuts factor fill-in by about 74%, and the int8 filter matches the float reference on 99.66% of samples.",
-    links: [{ text: "Learn More", href: "https://github.com/whatheheckisthis/android-opencv-lanedetection-master" }],
-  },
-] as const;
-
-// ICT labs subsection on Home. Each card shows an architecture diagram of the lab.
-export const LABS = [
-  {
+    slug: "entra-sssd",
+    name: "Entra ID sign in for Debian with SSSD",
     tag: "IAM",
-    name: "Cloud Identity Federation for Linux Workloads",
     summary:
-      "Federates Debian Linux hosts with Microsoft Entra ID through SSSD, extending Conditional Access and MFA to every server login and removing local account sprawl.",
+      "A C# (.NET 8) command line tool, `iato`, that configures Debian hosts to authenticate Microsoft Entra ID users through the SSSD `idp` provider.",
     points: [
-      "Service principal provisioning via Microsoft Graph with least privilege permissions",
-      "OAuth 2.0 Device Authorization Grant at the PAM layer",
-      "Deterministic POSIX identity mapping and group based RBAC",
-      "Signed packages through a CI/CD release pipeline",
+      "Creates the Entra ID app registration through Microsoft Graph with application `User.Read.All` and `GroupMember.Read.All`, and grants admin consent.",
+      "Renders `sssd.conf` for the `idp` domain; users sign in with the OAuth 2.0 Device Authorization Grant, so MFA and Conditional Access apply.",
+      "Checks the configuration and the host before SSSD starts: SSSD 2.11.0 or later, `libsss_idp.so` present and file mode 0600.",
+      "10 of 10 xUnit tests pass in CI, and the host check passes against SSSD 2.13.1 in Debian forky.",
     ],
-    stack: ["Entra ID", "Microsoft Graph", "OAuth 2.0", "SSSD", "PAM", "C#"],
-    preview: {
-      src: "/thumbs/thumb-lab-federation.png",
-      alt: "Architecture: a release pipeline builds signed Debian packages; Microsoft Graph provisions a least privilege service principal in Entra ID; Debian hosts sign in through SSSD and PAM with a device code token, with Conditional Access and MFA on every login and Entra groups mapped to POSIX IDs and RBAC",
+    image: {
+      src: "/projects/entra-sssd.png",
+      alt: "Terminal output of dotnet test listing the SssdConfigTests cases as passed, ending with Total tests: 10 and Passed: 10",
+      width: 1200,
+      height: 675,
     },
     href: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V2",
   },
   {
+    slug: "iiq-legacy-fs",
+    name: "Identity governance for legacy Linux file shares",
     tag: "IGA",
-    name: "Identity Governance for Legacy Unstructured Data",
     summary:
-      "A SailPoint IdentityIQ solution that governs legacy Linux file shares across the Joiner, Mover, Leaver lifecycle, from access request to closed loop remediation.",
+      "A SailPoint IdentityIQ project that brings POSIX permissions, ACLs and NFSv3 exports on legacy file servers under request, approval and certification. The configuration has not yet been imported into a running IdentityIQ instance.",
     points: [
-      "HR authoritative source with correlation and identity refresh",
-      "Entitlement catalogue, role model and approval workflow",
-      "Segregation of Duties policy and access certification campaigns",
-      "Attestation evidence that revoked access is removed on disk",
+      "Ordered, idempotent change plan with revocations first; planning again against the result yields an empty plan.",
+      "Effective access computed from POSIX modes, POSIX.1e ACLs, group nesting and NFSv3 export options.",
+      "Certification evidence classifies each account and path as match, excess, missing or divergent, with hygiene findings such as dangling ACL entries.",
+      "115 tests pass under Maven verify, including build checks over the IdentityIQ XML and the JBoss EAP 7.4 material.",
     ],
-    stack: ["SailPoint IdentityIQ", "Java", "JBoss EAP", "POSIX ACLs", "NFS", "Azure Files"],
-    preview: {
-      src: "/thumbs/thumb-lab-governance.png",
-      alt: "Architecture: HR and host inventory feed SailPoint IdentityIQ; the identity cube drives Joiner, Mover, Leaver, access request and approval, SoD and certification into a revoke before grant change plan; a host executor applies POSIX groups, ACLs and NFS exports, verified as attestation evidence and reaggregated",
+    image: {
+      src: "/projects/iiq-legacy-fs.png",
+      alt: "Terminal summary of mvn verify: Surefire test counts for fsgov-core and fsgov-config-validation with no failures, errors or skips, and BUILD SUCCESS",
+      width: 956,
+      height: 538,
     },
     href: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V3",
+  },
+  {
+    slug: "iato-pcie-dma-tlb",
+    name: "PCIe, DMA and TLB hardware with formal checks",
+    tag: "Hardware",
+    summary:
+      "RTL for a PCIe device front end, a descriptor ring DMA engine and a TLB, each paired with a written specification and checked in simulation and open tool synthesis.",
+    points: [
+      "PCIe TLP header decode for 3DW and 4DW requests and completions, and a Type 0 configuration space with BAR sizing.",
+      "DMA engine driven by a C driver under Verilator, with every copy in the sweep verified byte for byte.",
+      "Fully associative TLB with fill and invalidate, and a TLA+ shootdown model in which no core keeps a translation to a freed frame.",
+      "Yosys schematics, Icarus Verilog testbenches with GTKWave waveforms, Verilator lint and nextpnr on a Lattice ECP5.",
+    ],
+    image: {
+      src: "/projects/iato-pcie-dma-tlb.png",
+      alt: "GTKWave view of the tb_tlp_hdr_decode testbench: one PCIe TLP header per step with the decoded type flags, length, attributes, requester ID, tag and address, and the errors signal at 0",
+      width: 1200,
+      height: 675,
+    },
+    href: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object",
+  },
+  {
+    slug: "stage2-tlb",
+    name: "Stage 2 translation and TLB maintenance",
+    tag: "Formal",
+    summary:
+      "Stage 2 address translation and TLB maintenance for a hypervisor at `EL2`, specified in Sail and TLA+ and implemented in SystemVerilog.",
+    points: [
+      "TLA+ model of the unmap sequence: the required order holds over 74 states under TLC, and both incorrect orderings violate `NoUseAfterFree`.",
+      "Stage 2 walker for a 4 KiB granule and 48 bit IPA, with 0 mismatches against the Sail reference across 10,000 random probes.",
+      "TLB tagged by VMID and ASID with four broadcast TLBI scopes, checked by 8 Sail assertions and 13 directed RTL checks.",
+      "Yosys and nextpnr synthesis on a Lattice ECP5, with both modules clean under Verilator lint.",
+    ],
+    image: {
+      src: "/projects/stage2-tlb.png",
+      alt: "Terminal output of TLC on S2Unmap.cfg: model checking completed with no error, 435 states generated, 74 distinct states found, depth 8",
+      width: 950,
+      height: 534,
+    },
+    href: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V7",
+  },
+  {
+    slug: "spde-gmrf",
+    name: "Split SPDE-GMRF inference for lane perception",
+    tag: "HPC",
+    summary:
+      "Estimates a sparse SPDE Gaussian field on the host and runs an int8 forward filter over four driver behaviour regimes on a `Cortex-M4F`.",
+    points: [
+      "Python reference for FEM assembly, sparse Cholesky and the projector, with 20 pytest tests; reverse Cuthill-McKee cuts factor nonzeros from 45,258 to 11,378.",
+      "Int8 filter at 40 MACs per sample in 1,802 bytes of flash; the CMSIS-NN backend is bit-exact against the Python reference under QEMU.",
+      "A CUDA path with cuSPARSE and cuDSS compiles with nvcc 12.9 and has not yet been run.",
+      "Lean 4 proof sketch of the structural claims, with CARLA dashcam clips bundled as sample input.",
+    ],
+    image: {
+      src: "/projects/spde-gmrf.png",
+      alt: "Forward filter plot over 600 simulated samples: lateral offset and SDLP observations, the simulated regime against the int8 mode, and the float and int8 beliefs over calm, alert, high-stress and panic",
+      width: 1200,
+      height: 675,
+    },
+    href: "https://github.com/whatheheckisthis/SPDE-GMRF",
+  },
+  {
+    slug: "aarch64-study",
+    name: "AArch64 virtualisation study",
+    tag: "Virtualisation",
+    summary:
+      "A 22 page formal review of `EL2` hypervisor configuration, `Stage 2` translation and the KVM vCPU lifecycle on Microsoft Cobalt 100 and 200, built on Arm Neoverse N2 and V3, with results formalised in Lean 4 and each claim graded against the Arm Architecture Reference Manual, Linux KVM and QEMU.",
+    stack: ["Lean 4", "KVM", "QEMU", "Arm Neoverse"],
+    image: {
+      src: "/thumbs/thumb-aarch64.png",
+      alt: "AArch64 exception levels EL0 to EL3 with Stage 1 and Stage 2 translation, an accelerator behind SMMUv3, and observational equivalence between host and offloaded traces",
+      width: 1600,
+      height: 900,
+    },
+    href: "https://www.dropbox.com/scl/fi/nfrnwf5lten7b74ud1fbn/A64-CBLT-STUDY-001-eca7fe16806a.pdf?rlkey=rl6pegel190x12yx8mhkpbn7s&st=kjv0iqll&dl=0",
+  },
+  {
+    slug: "fpga-gpu-p2p",
+    name: "FPGA to GPU peer-to-peer pipeline",
+    tag: "HPC",
+    summary:
+      "Designed and evaluated FPGA to GPU `PCIe P2P` memory access paths, covering `DMA`, `IOMMU/SMMU` address translation and cache coherence across heterogeneous interconnects.",
+    stack: ["PCIe", "DMA", "SMMUv3", "VFIO"],
+    image: {
+      src: "/thumbs/thumb-p2p.png",
+      alt: "PCIe topology: host SoC with root complex and SMMUv3, a PCIe switch, and peer-to-peer TLPs from the FPGA endpoint to the GPU BAR1 aperture",
+      width: 1600,
+      height: 900,
+    },
+    href: "https://www.dropbox.com/scl/fi/lrntb1t05v04yb1wz4ei8/CBLT-2-1cf710990566.pdf?rlkey=rp2c40yxcu7wo0m9yqnl13ckc&st=1x4jym61&dl=0",
   },
 ];

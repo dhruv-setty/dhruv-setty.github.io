@@ -1497,3 +1497,47 @@ code.ic,
   letter-spacing: 0.14em; text-transform: uppercase; color: var(--text);
 }
 .hero__lede .hero__positioning::before { content: ""; flex: 0 0 clamp(2rem, 4vw, 3.5rem); height: 2px; background: currentColor; }
+
+/* Projects (2026-11-19): one row per repository, figure beside the copy on wide screens and
+   above it on narrow ones. Justified text, square edges, no hover effects on the row. */
+.project-list { display: grid; gap: clamp(1.25rem, 2.5vw, 1.75rem); }
+.project {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.1rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+}
+.project + .project { border-top: 1px solid var(--rule); }
+.project__figure {
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f3f3f0;
+}
+.project__figure img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.project__body { display: flex; flex-direction: column; min-width: 0; }
+.project__body .card__tag { margin: 0 0 0.4rem; }
+.project__title { margin: 0 0 0.6rem; font-size: var(--step-1); line-height: 1.25; letter-spacing: -0.01em; }
+.project__summary,
+.project__points li { text-align: justify; text-justify: inter-word; hyphens: manual; }
+.project .project__summary { margin: 0; color: var(--text); line-height: 1.55; }
+.project__points { margin: 0.75rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
+.project__points li + li { margin-top: 0.35rem; }
+.project__summary code.ic, .project__points code.ic { white-space: normal; overflow-wrap: anywhere; }
+.project .card__chips { margin-top: 0.9rem; }
+.project__links { margin-top: auto; padding-top: 1rem; }
+.project__links .button { display: inline-block; }
+@media (min-width: 900px) {
+  .project { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: clamp(1.25rem, 2.5vw, 2rem); align-items: start; }
+}
+@media (max-width: 520px) {
+  #work.section.panel { padding: 1.1rem 0.85rem; }
+  .project { padding: 0.85rem; gap: 0.9rem; }
+  .project__points { padding-left: 1rem; font-size: 0.92rem; }
+  .project__points code.ic, .project__summary code.ic { font-size: 0.8em; padding: 0 0.2em; }
+}
