@@ -8,6 +8,8 @@ export const SITE = {
   contact: [
     { label: "GitHub", text: "GitHub", href: "https://github.com/dhruv-setty", icon: "/icons/github.svg" },
     { label: "LinkedIn", text: "LinkedIn", href: "https://www.linkedin.com/in/dhruv-setty-nz", icon: "/icons/linkedin.png" },
+    { label: "Stack Overflow", text: "Stack Overflow", href: "https://stackoverflow.com/users/33327882/dhruvsetty", icon: "/icons/stackoverflow.svg" },
+    { label: "Substack", text: "Substack", href: "https://substack.com/@dhruvsetty", icon: "/icons/substack.svg" },
     { label: "Buy me a coffee", text: "Buy me a coffee", href: "https://buymeacoffee.com/dhruvsetty", icon: "/icons/bmc.svg" },
   ],
   location: "",
