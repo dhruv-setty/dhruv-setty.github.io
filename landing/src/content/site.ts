@@ -7,12 +7,12 @@ export const SITE = {
     "Dhruv Setty works in IT support and identity administration in New Zealand, across Microsoft Entra ID and Active Directory.",
   contact: [
     { label: "GitHub", text: "GitHub", href: "https://github.com/dhruv-setty", icon: "/icons/github.svg" },
-    { label: "LinkedIn", text: "LinkedIn", href: "https://www.linkedin.com/in/dhruv-setty-nz", icon: "/icons/linkedin.png" },
+    { label: "LinkedIn", text: "LinkedIn", href: "https://www.linkedin.com/in/dhruv-setty-nz", icon: "/icons/linkedin.svg" },
     { label: "Stack Overflow", text: "Stack Overflow", href: "https://stackoverflow.com/users/33327882/dhruvsetty", icon: "/icons/stackoverflow.svg" },
     { label: "Substack", text: "Substack", href: "https://substack.com/@dhruvsetty", icon: "/icons/substack.svg" },
     { label: "Kaggle", text: "Kaggle", href: "https://www.kaggle.com/dhruvsetty", icon: "/icons/kaggle.svg" },
     { label: "Hugging Face", text: "Hugging Face", href: "https://huggingface.co/itsdhruvsetty", icon: "/icons/huggingface.svg" },
-    { label: "Buy me a coffee", text: "Buy me a coffee", href: "https://buymeacoffee.com/dhruvsetty", icon: "/icons/bmc.svg" },
+    { label: "Buy me a coffee", text: "Buy me a coffee", href: "https://buymeacoffee.com/dhruvsetty", icon: "/icons/buymeacoffee.svg" },
   ],
   location: "",
   // Cloudflare Worker that relays the contact form to Resend. Empty disables sending.
