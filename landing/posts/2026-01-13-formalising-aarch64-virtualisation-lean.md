@@ -131,4 +131,4 @@ The Figure 12 numbers differ from the committed synthesis table, as the reposito
 - FEAT_HAFDBS (hardware access flag and dirty state update) is out of scope.
 - Not implemented: a cross-check of the walker and TLBI scopes against a QEMU TCG guest at EL2; overlapped walks and cached level 0 to 2 descriptors, measured again at latency 32; concatenated start tables with a 40 bit IPA and start level 1, and FEAT_HAFDBS; the walker, TLB and TLBI unit integrated and synthesised as one block.
 
-Source: [Stage 2 and TLB maintenance repository on GitHub](https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V7)
+Source: [Stage 2 and TLB maintenance repository on GitHub](https://github.com/dhruv-setty/Intent-Auditable-Trust-Object-V7)

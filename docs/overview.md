@@ -2,7 +2,7 @@
 
 IATO is a read-only collector and policy harness. It normalises SailPoint IdentityIQ (IIQ) XML exports and Microsoft Entra ID snapshots into one JSON document, then evaluates access-control assertions with Rego policies.
 
-Source: [`whatheheckisthis/Intent-to-Auditable-Trust-Object-Index`](https://github.com/whatheheckisthis/Intent-to-Auditable-Trust-Object-Index)
+Source: [`dhruv-setty/Intent-to-Auditable-Trust-Object-Index`](https://github.com/dhruv-setty/Intent-to-Auditable-Trust-Object-Index)
 
 ## Implementation status
 

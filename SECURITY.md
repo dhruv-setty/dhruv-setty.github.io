@@ -9,7 +9,7 @@ Commits and tags in this repository SHALL be signed with the maintainer key publ
 | Algorithm | Ed25519 (OpenPGP) |
 | Key ID | `2CC9231D80106E16` |
 | Fingerprint | `E4E4 3B59 CAD0 3044 D381 7449 2CC9 231D 8010 6E16` |
-| Identity | Dhruv Setty, `91457220+whatheheckisthis@users.noreply.github.com` |
+| Identity | Dhruv Setty, `91457220+dhruv-setty@users.noreply.github.com` |
 | Expiry | 2028-11-13 |
 
 To verify a commit or tag:

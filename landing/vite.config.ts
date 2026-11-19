@@ -22,7 +22,7 @@ function markdownPosts(): Plugin {
   };
 }
 
-// Served from the user-site root (https://whatheheckisthis.github.io/).
+// Served from the user-site root (https://dhruv-setty.github.io/).
 // Assets go to /app-assets/ so they never collide with MkDocs' /assets/.
 export default defineConfig({
   base: "/",

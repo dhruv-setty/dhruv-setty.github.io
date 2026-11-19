@@ -1,4 +1,4 @@
-# whatheheckisthis.github.io
+# dhruv-setty.github.io
 
 This repository builds one GitHub Pages site from two sources: a landing page and blog written in React 18, TypeScript and Vite (prerendered to static HTML), and a documentation section built with MkDocs Material. It is the source for Dhruv Setty's personal site. It is not a reusable template, a library or a hosted service, and it contains no server-side code.
 

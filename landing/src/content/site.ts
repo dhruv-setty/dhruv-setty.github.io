@@ -2,11 +2,11 @@ export const SITE = {
   name: "Dhruv Setty",
   positioning: "IT Support & Identity Administration",
   focus: "I design access controls across hybrid Entra ID and Active Directory, and back every one with evidence an auditor can test.",
-  url: "https://whatheheckisthis.github.io",
+  url: "https://dhruv-setty.github.io",
   description:
     "Dhruv Setty works in IT support and identity administration in New Zealand, across Microsoft Entra ID and Active Directory.",
   contact: [
-    { label: "GitHub", text: "GitHub", href: "https://github.com/whatheheckisthis", icon: "/icons/github.svg" },
+    { label: "GitHub", text: "GitHub", href: "https://github.com/dhruv-setty", icon: "/icons/github.svg" },
     { label: "LinkedIn", text: "LinkedIn", href: "https://www.linkedin.com/in/its-dhruv-setty", icon: "/icons/linkedin.png" },
     { label: "Buy me a coffee", text: "Buy me a coffee", href: "https://buymeacoffee.com/dhruvsetty", icon: "/icons/bmc.svg" },
   ],
@@ -83,7 +83,7 @@ export const PROJECTS: readonly Project[] = [
       width: 1200,
       height: 675,
     },
-    href: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V2",
+    href: "https://github.com/dhruv-setty/Intent-Auditable-Trust-Object-V2",
   },
   {
     slug: "iiq-legacy-fs",
@@ -103,7 +103,7 @@ export const PROJECTS: readonly Project[] = [
       width: 956,
       height: 538,
     },
-    href: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V3",
+    href: "https://github.com/dhruv-setty/Intent-Auditable-Trust-Object-V3",
   },
   {
     slug: "iato-pcie-dma-tlb",
@@ -123,7 +123,7 @@ export const PROJECTS: readonly Project[] = [
       width: 1200,
       height: 675,
     },
-    href: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object",
+    href: "https://github.com/dhruv-setty/Intent-Auditable-Trust-Object",
   },
   {
     slug: "stage2-tlb",
@@ -143,7 +143,7 @@ export const PROJECTS: readonly Project[] = [
       width: 950,
       height: 534,
     },
-    href: "https://github.com/whatheheckisthis/Intent-Auditable-Trust-Object-V7",
+    href: "https://github.com/dhruv-setty/Intent-Auditable-Trust-Object-V7",
   },
   {
     slug: "spde-gmrf",
@@ -163,6 +163,6 @@ export const PROJECTS: readonly Project[] = [
       width: 1200,
       height: 675,
     },
-    href: "https://github.com/whatheheckisthis/SPDE-GMRF",
+    href: "https://github.com/dhruv-setty/SPDE-GMRF",
   },
 ];
