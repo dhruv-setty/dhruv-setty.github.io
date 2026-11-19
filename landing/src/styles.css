@@ -1453,10 +1453,9 @@ code.ic,
 .about.phase--two .about__story { display: grid; gap: 1.5rem 3rem; }
 .about.phase--two .about__story p { max-width: none; margin: 0; font-size: clamp(1.125rem, 1.4vw, 1.25rem); line-height: 1.65; }
 .about.phase--two .about__story p:first-of-type { font-size: clamp(1.6rem, 3vw, 2.5rem); line-height: 1.25; font-weight: 500; letter-spacing: -0.015em; text-align: left; }
-@media (min-width: 900px) {
-  .about.phase--two .about__story { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .about.phase--two .about__story p:first-of-type { grid-column: 1 / -1; }
-}
+/* About lead only (Dhruv, 2026-11-19): the two story columns were removed, so the section
+   sizes to its single lead paragraph instead of filling a full screen. */
+.about.phase--two { min-height: 0; }
 .contact__lede { font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.4; text-align: justify; text-justify: inter-word; hyphens: manual; }
 .card-grid.focus-grid .focus-card__lead { font-size: 1.125rem; font-weight: 600; }
 
