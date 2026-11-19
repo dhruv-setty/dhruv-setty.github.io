@@ -13,7 +13,6 @@ export default function Header() {
         <Link to="/" className="site-header__brand">{"DS"}<span className="visually-hidden"> Dhruv Setty, home</span></Link>
         <span className="site-header__spacer" />
         <Link to="/" aria-current={onHome && !hash ? "page" : undefined}>Home</Link>
-        <a href="/#about" aria-current={current("#about")}>About</a>
         {SITE.resume ? <a href={SITE.resume}>Resume</a> : null}
         <Link to="/blog/" aria-current={pathname.startsWith("/blog/") ? "page" : undefined}>Journal</Link>
         <a href="/#contact" aria-current={current("#contact")}>Contact</a>
