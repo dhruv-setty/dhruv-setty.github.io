@@ -166,4 +166,4 @@ The figure is the read-back, not the request: `fs_fin_rw` contains alice, `fs_au
 - The host executor is not part of the repository; the workflow substitutes for it on a runner that is discarded afterwards.
 - The IdentityIQ configuration is a reviewed starting point. It shall be imported and tested in a sandbox before promotion to any higher environment.
 
-Source: [Entra ID sign-in for Debian on GitHub](https://github.com/dhruv-setty/Intent-Auditable-Trust-Object-V2) and [IdentityIQ legacy file share governance on GitHub](https://github.com/dhruv-setty/Intent-Auditable-Trust-Object-V3)
+Source: [Entra ID sign-in for Debian on GitHub](https://github.com/dhruv-setty/entra-id-debian-sssd) and [IdentityIQ legacy file share governance on GitHub](https://github.com/dhruv-setty/sailpoint-iiq-linux-fs-governance)

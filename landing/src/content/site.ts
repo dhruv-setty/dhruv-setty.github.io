@@ -89,7 +89,7 @@ export const PROJECTS: readonly Project[] = [
       width: 1200,
       height: 675,
     },
-    href: "https://github.com/dhruv-setty/Intent-Auditable-Trust-Object-V2",
+    href: "https://github.com/dhruv-setty/entra-id-debian-sssd",
   },
   {
     slug: "iiq-legacy-fs",
@@ -109,7 +109,7 @@ export const PROJECTS: readonly Project[] = [
       width: 956,
       height: 538,
     },
-    href: "https://github.com/dhruv-setty/Intent-Auditable-Trust-Object-V3",
+    href: "https://github.com/dhruv-setty/sailpoint-iiq-linux-fs-governance",
   },
   {
     slug: "iato-pcie-dma-tlb",
@@ -129,7 +129,7 @@ export const PROJECTS: readonly Project[] = [
       width: 1200,
       height: 675,
     },
-    href: "https://github.com/dhruv-setty/Intent-Auditable-Trust-Object",
+    href: "https://github.com/dhruv-setty/arm-coherence-pcie-formal-rtl",
   },
   {
     slug: "stage2-tlb",
@@ -149,7 +149,7 @@ export const PROJECTS: readonly Project[] = [
       width: 950,
       height: 534,
     },
-    href: "https://github.com/dhruv-setty/Intent-Auditable-Trust-Object-V7",
+    href: "https://github.com/dhruv-setty/arm-el2-stage2-tlb-verification",
   },
   {
     slug: "spde-gmrf",
