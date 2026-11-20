@@ -78,7 +78,7 @@ export default function Home() {
           <header className="panel__head"><h2 id="contact-h" className="section__title">Get in touch</h2></header>
           <div className="contact__grid">
             <div>
-              <p className="contact__lede">Hiring for identity or access work, or want to compare notes? Send a message. I reply within two working days.</p>
+              <p className="contact__lede">Hiring for a service desk or IT support role, or for IAM and IGA work? Send a message and I&rsquo;ll reply within two working days.</p>
             </div>
             <ContactForm />
           </div>
