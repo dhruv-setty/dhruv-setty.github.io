@@ -75,11 +75,8 @@ export default function Home() {
         </section>
 
         <section id="contact" className="section panel contact" aria-labelledby="contact-h">
-          <header className="panel__head"><h2 id="contact-h" className="section__title">Get in touch</h2></header>
-          <div className="contact__grid">
-            <div>
-              <p className="contact__lede">Hiring for a service desk or IT support role, or for IAM and IGA work? Send a message and I&rsquo;ll reply within two working days.</p>
-            </div>
+          <header className="panel__head"><h2 id="contact-h" className="section__title">Get in touch</h2><p className="panel__dek">Hiring for a service desk or IT support role, or for IAM and IGA work? Send a message and I&rsquo;ll reply within two working days.</p></header>
+          <div className="contact__body">
             <ContactForm />
           </div>
         </section>
