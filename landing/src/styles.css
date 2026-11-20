@@ -1310,7 +1310,7 @@ code.ic,
 .sa-stack { display: flex; align-items: center; }
 .sa-peer { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--bg); margin-right: -8px; display: inline-grid; place-items: center; font-size: 0.7rem; font-weight: 600; color: #fff; }
 .sa-more { background: var(--muted); }
-.sa-dhruv { width: 52px; height: 52px; padding: 0; border-radius: 50%; border: 2px solid #e8590c; background: var(--surface); cursor: pointer; overflow: hidden; box-shadow: 0 8px 24px -12px rgba(17,17,17,.4); position: relative; z-index: 1; }
+.sa-dhruv { touch-action: none; user-select: none; cursor: grab; width: 52px; height: 52px; padding: 0; border-radius: 50%; border: 2px solid #e8590c; background: var(--surface); overflow: hidden; box-shadow: 0 8px 24px -12px rgba(17,17,17,.4); position: relative; z-index: 1; }
 .sa-dhruv img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .sa-panel { width: min(22rem, calc(100vw - 2rem)); max-height: min(32rem, calc(100vh - 7rem)); display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; box-shadow: 0 18px 40px -20px rgba(17,17,17,.35); overflow: hidden; }
 .sa-head { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0.85rem; border-bottom: 1px solid var(--rule); }
@@ -1676,3 +1676,11 @@ code.ic,
 .blog-side__item .blog-side__link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
 .blog-side__item .blog-side__link:focus-visible { outline: none; }
 .blog-side__item:has(.blog-side__link:focus-visible) { outline: 2px solid var(--text); outline-offset: 0; }
+
+.sa-dhruv:active { cursor: grabbing; }
+.sa-log p { white-space: pre-wrap; }
+.sa-typing { display: inline-flex; gap: 4px; }
+.sa-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); animation: sa-dot 1s infinite ease-in-out; }
+.sa-typing span:nth-child(2) { animation-delay: .15s; } .sa-typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes sa-dot { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+.sa-form button:disabled, .sa-form input:disabled { opacity: .6; cursor: default; }
