@@ -24,7 +24,7 @@ export const SITE = {
   supabaseUrl: "https://gsluekbphbusnaguqeol.supabase.co",
   supabaseKey: "sb_publishable_LfQ_ECqRy0NFRcYTvarw5A_lrAdimGS",
   // Cloudflare Worker that relays avatar questions to Claude. Empty uses the scripted Q&A.
-  avatarEndpoint: "",
+  avatarEndpoint: "https://dhruv-avatar.itsdhruvsetty.workers.dev/",
   // Buy Me a Coffee or Ko-fi page. Empty hides the button.
   coffee: "https://buymeacoffee.com/dhruvsetty",
   // Existing MkDocs pages, served from the same site. Plain links, not router links.
