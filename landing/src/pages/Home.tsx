@@ -44,7 +44,7 @@ export default function Home() {
         </section>
 
         <section id="work" className="section panel" aria-labelledby="work-h">
-          <header className="panel__head"><h2 id="work-h" className="section__title">Projects</h2><p className="panel__dek">Identity, hardware and inference work, each evidenced in its own repository.</p></header>
+          <header className="panel__head"><h2 id="work-h" className="section__title">Projects</h2></header>
           <div className="project-list">
             {PROJECTS.map((p) => (
               <article key={p.slug} className="project" aria-labelledby={`project-${p.slug}`}>
