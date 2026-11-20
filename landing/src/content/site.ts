@@ -169,6 +169,6 @@ export const PROJECTS: readonly Project[] = [
       width: 1200,
       height: 675,
     },
-    href: "https://github.com/dhruv-setty/SPDE-GMRF",
+    href: "https://github.com/dhruv-setty/spde-gmrf-lane-perception",
   },
 ];

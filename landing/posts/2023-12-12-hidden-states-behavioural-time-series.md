@@ -64,4 +64,4 @@ The decomposition places the sparse factorisation on the field side, where it ex
 - The closed loop (CARLA scene rendering, OpenCV lane detection producing lateral offset and SDLP, GPU R-CNN detection, and a microcontroller receiving features over UART, updating the regime belief and returning the estimate to the simulation) exists as a design only.
 - Implemented: the model, the filter, and firmware bit-exact with the Python reference under QEMU for Cortex-M4F. GPU timing, on-device timing and accuracy on recorded drives are not measured.
 
-Source: [SPDE-GMRF on GitHub](https://github.com/dhruv-setty/SPDE-GMRF)
+Source: [SPDE-GMRF lane perception repository on GitHub](https://github.com/dhruv-setty/spde-gmrf-lane-perception)
