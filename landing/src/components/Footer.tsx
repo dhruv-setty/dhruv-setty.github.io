@@ -1,5 +1,4 @@
 import { SITE } from "../content/site";
-import BackToTop from "./BackToTop";
 import PlaneTrails from "./PlaneTrails";
 
 export default function Footer({ icons = true }: { icons?: boolean }) {
@@ -16,7 +15,6 @@ export default function Footer({ icons = true }: { icons?: boolean }) {
         </ul>
         ) : null}
       </div>
-      <BackToTop />
       <PlaneTrails />
     </footer>
   );
