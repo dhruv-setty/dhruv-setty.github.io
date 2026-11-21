@@ -111,4 +111,4 @@ Each evaluation rebuilds the values of `Q(θ)` on a fixed sparsity pattern, fact
 - RCM yields 11,378 or 11,370 nonzeros depending on input labelling: 500 and 500 of 1,000 seeds in this run, 502 and 498 in an earlier run. The cause of the inter-run variation has not been established. Seeds 0, 1 and 2, used by the tests, gave 11,378 in every run.
 - GPU estimation and on-device timing remain unmeasured; no result above substitutes for either.
 
-Source: [SPDE-GMRF lane perception repository on GitHub](https://github.com/dhruv-setty/spde-gmrf-lane-perception)
+Source: [SPDE-GMRF lane perception repository on GitHub](https://github.com/dhruv-setty/split-spde-gmrf-inference-for-lane-perception)

@@ -86,7 +86,7 @@ export const PROJECTS: readonly Project[] = [
       width: 1200,
       height: 675,
     },
-    href: "https://github.com/dhruv-setty/entra-id-debian-sssd",
+    href: "https://github.com/dhruv-setty/entra-id-sign-in-for-debian-with-sssd",
   },
   {
     slug: "iiq-legacy-fs",
@@ -106,7 +106,7 @@ export const PROJECTS: readonly Project[] = [
       width: 956,
       height: 538,
     },
-    href: "https://github.com/dhruv-setty/sailpoint-iiq-linux-fs-governance",
+    href: "https://github.com/dhruv-setty/identity-governance-for-legacy-linux-file-shares",
   },
   {
     slug: "iato-pcie-dma-tlb",
@@ -126,7 +126,7 @@ export const PROJECTS: readonly Project[] = [
       width: 1200,
       height: 675,
     },
-    href: "https://github.com/dhruv-setty/arm-coherence-pcie-formal-rtl",
+    href: "https://github.com/dhruv-setty/pcie-dma-and-tlb-hardware-with-formal-checks",
   },
   {
     slug: "stage2-tlb",
@@ -146,7 +146,7 @@ export const PROJECTS: readonly Project[] = [
       width: 950,
       height: 534,
     },
-    href: "https://github.com/dhruv-setty/arm-el2-stage2-tlb-verification",
+    href: "https://github.com/dhruv-setty/stage-2-translation-and-tlb-maintenance",
   },
   {
     slug: "spde-gmrf",
@@ -166,6 +166,6 @@ export const PROJECTS: readonly Project[] = [
       width: 1200,
       height: 675,
     },
-    href: "https://github.com/dhruv-setty/spde-gmrf-lane-perception",
+    href: "https://github.com/dhruv-setty/split-spde-gmrf-inference-for-lane-perception",
   },
 ];

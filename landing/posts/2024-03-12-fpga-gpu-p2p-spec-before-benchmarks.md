@@ -91,4 +91,4 @@ The testbench scans bus 0, skips empty slots, sizes every BAR with an all-ones w
 - Not implemented: completion ordering and a TLP generator wired to the DMA engine; descriptor prefetch, scatter gather and MSI on completion; a Linux PCI driver skeleton on the same register map; SystemVerilog assertions on the DMA handoff checked with SymbiYosys.
 - Out of scope: physical FPGA measurement and the GPU side of a peer-to-peer path.
 
-Source: [framework repository on GitHub](https://github.com/dhruv-setty/arm-coherence-pcie-formal-rtl)
+Source: [framework repository on GitHub](https://github.com/dhruv-setty/pcie-dma-and-tlb-hardware-with-formal-checks)

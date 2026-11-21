@@ -82,4 +82,4 @@ Trace sequence: VPN `00010` filled with PPN `A0010`; lookup of `00011` misses; `
 
 The CI workflow runs on the GitHub `ubuntu-24.04` runner; its hardware litmus step exercises the runner's CPU, not the Neoverse V2 host.
 
-Source: [framework repository on GitHub](https://github.com/dhruv-setty/arm-coherence-pcie-formal-rtl)
+Source: [framework repository on GitHub](https://github.com/dhruv-setty/pcie-dma-and-tlb-hardware-with-formal-checks)
