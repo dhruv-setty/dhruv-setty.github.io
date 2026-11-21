@@ -67,6 +67,9 @@ export default function Home() {
                   ) : null}
                   <div className="project__links">
                     <a className="button button--ghost" href={p.href} target="_blank" rel="noopener" aria-label={`Learn More: ${p.name}`}>Learn More</a>
+                    {p.extra?.map((x) => (
+                      <a key={x.href} className="button button--ghost" href={x.href} target="_blank" rel="noopener" aria-label={`${x.label}: ${p.name}`}>{x.label}</a>
+                    ))}
                   </div>
                 </div>
               </article>

@@ -63,6 +63,7 @@ export type Project = {
   stack?: readonly string[];
   image: { src: string; alt: string; width: number; height: number };
   href: string;
+  extra?: { label: string; href: string }[];
 };
 
 // Projects on Home. Each of the first five is drawn from its repository README, with one
@@ -150,22 +151,26 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "spde-gmrf",
-    name: "Split SPDE-GMRF inference for lane perception",
-    tag: "HPC",
+    name: "Driver-state detection from lane keeping on a microcontroller",
+    tag: "Embedded",
     summary:
-      "Estimates a sparse SPDE Gaussian field on the host and runs an int8 forward filter over four driver behaviour regimes on a `Cortex-M4F`.",
+      "Classifies driver state (calm, alert, stressed, panic) from lane-position data on a `Cortex-M4F`, with route correction computed off-device.",
     points: [
-      "Python reference for FEM assembly, sparse Cholesky and the projector, with 20 pytest tests; reverse Cuthill-McKee cuts factor nonzeros from 45,258 to 11,378.",
-      "Int8 filter at 40 MACs per sample in 1,802 bytes of flash; the CMSIS-NN backend is bit-exact against the Python reference under QEMU.",
-      "A CUDA path with cuSPARSE and cuDSS compiles with nvcc 12.9 and has not yet been run.",
-      "Lean 4 proof sketch of the structural claims, with CARLA dashcam clips bundled as sample input.",
+      "Int8 classifier at 40 multiply-accumulates per sample in 1,802 bytes of flash; matches the full-precision version on 99.66% of 5,000 simulated samples.",
+      "Holds up under noise: at twice the sensor noise both versions fall to about 80% accuracy and stay within 0.04 points of each other.",
+      "Catches 151 of 157 simulated panic episodes, typically on the first sample, with a 0.64% false-alarm rate.",
+      "Route model fitted on the host from 200 sensors; reordering the sparse solve cuts stored values from 45,258 to 11,378. CUDA path compiles and has not been run on a GPU.",
     ],
     image: {
       src: "/projects/spde-gmrf.png",
-      alt: "Forward filter plot over 600 simulated samples: lateral offset and SDLP observations, the simulated regime against the int8 mode, and the float and int8 beliefs over calm, alert, high-stress and panic",
+      alt: "Classifier plot over 600 simulated samples: lane-position inputs, the simulated driver state against the int8 call, and float and int8 confidence for calm, alert, stressed and panic",
       width: 1200,
       height: 675,
     },
-    href: "https://github.com/dhruv-setty/split-spde-gmrf-inference-for-lane-perception",
+    href: "/blog/lifting-spde-gmrf-gpu-edge/",
+    extra: [
+      { label: "Live demo", href: "https://huggingface.co/spaces/itsdhruvsetty/split-spde-gmrf-lane-perception" },
+      { label: "Code", href: "https://github.com/dhruv-setty/split-spde-gmrf-inference-for-lane-perception" },
+    ],
   },
 ];

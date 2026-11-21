@@ -1534,7 +1534,7 @@ code.ic,
 .project__points li + li { margin-top: 0.35rem; }
 .project__summary code.ic, .project__points code.ic { white-space: normal; overflow-wrap: anywhere; }
 .project .card__chips { margin-top: 0.9rem; }
-.project__links { margin-top: auto; padding-top: 1rem; }
+.project__links { margin-top: auto; padding-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .project__links .button { display: inline-block; }
 @media (min-width: 900px) {
   .project { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: clamp(1.25rem, 2.5vw, 2rem); align-items: start; }

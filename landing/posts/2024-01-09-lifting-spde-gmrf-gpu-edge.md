@@ -1,41 +1,41 @@
 ---
-title: "Lifting SPDE-GMRF Fields: GPU Estimation and On-Device Forward Filtering"
+title: "Driver-State Detection on a Microcontroller: Heavy Fitting on the Host, an Int8 Classifier on the Device"
 date: 2024-01-09
-summary: SPDE precision Q(θ) with sparse Cholesky on the host (cuSPARSE, cuDSS), barycentric projector to sensor sites, C99 int8 forward filter for Cortex-M (portable or CMSIS-NN). RCM reduces factor nnz from 45,258 to 11,378; CUDA compiles, never run on a GPU.
+summary: A Cortex-M4F classifies driver state from lane position in 40 multiply-accumulates per sample, matching full precision on 99.66% of simulated samples. The route model is fitted on the host; reordering its sparse solve cuts stored values by three quarters. The CUDA path compiles but has not been run on a GPU.
 ---
 
-## In plain terms
+## Overview
 
-A car camera watches how steadily a driver holds their lane. From that, a small, low-power chip decides each moment whether the driver is calm, alert, stressed or panicking. Roads differ, so a bigger computer periodically learns how each stretch of road shifts lane position and sends the chip one small correction per stretch. The chip cannot afford full-precision arithmetic, so its decision logic is compressed to 8-bit integers. The question the project answers is whether the compressed version makes the same calls as the full one. On simulated drives it does: the two agree on 99.66% of moments, the agreement holds as sensors get twice as noisy, and the chip catches 151 of 157 panic episodes. An interactive version runs on [Hugging Face](https://huggingface.co/spaces/itsdhruvsetty/split-spde-gmrf-lane-perception).
+The system watches lane position from a forward camera and classifies the driver as calm, alert, stressed or in panic, sample by sample, on an Arm `Cortex-M4F`. Lane position also depends on the road, so a host machine fits a model of how each stretch of the route shifts the car's position and sends the device one int16 correction per site. The device never sees the route model, only those corrections.
 
-## Context
+The work splits by cost. Fitting the route model means repeatedly solving a large sparse linear system, which belongs on a host or GPU and runs every few seconds to minutes. Classification is one small update per sample, sized for a microcontroller: 40 multiply-accumulates and 1,802 bytes of flash, in int8.
 
-The workload partitions into a heavy path and a light path. Field and hyperparameter estimation requires repeated factorisation of a large sparse precision matrix and shall execute on a GPU at an interval of seconds to minutes. Regime decoding requires one small recursion per sample and shall execute on the device.
+The question that decides whether the design holds is whether the int8 classifier makes the same calls as a full-precision one. On simulated drives it does: they agree on 99.66% of 5,000 samples, the gap stays under 0.04 points when sensor noise doubles, and the device catches 151 of 157 panic episodes. A [live demo](https://huggingface.co/spaces/itsdhruvsetty/split-spde-gmrf-lane-perception) steps through a drive.
 
-The SPDE-GMRF repository implements the partition as a tested reference: a Python model, a CUDA estimation path and a C99 int8 filter for Arm Cortex-M. It is a system design with a reference implementation, not a benchmark. Figures 2 to 9 were produced by the captures workflow on an `ubuntu-24.04` runner from the committed code. All data are simulated with fixed seeds.
-
-| Claim | Status in the repository |
+| Component | Status |
 |---|---|
-| Python reference: mesh, FEM assembly, `Q(θ)`, sparse Cholesky, projector, estimation, float and int8 filters | Tested: 20 pytest tests pass |
-| CUDA estimation with cuSPARSE and cuDSS | Compiles with nvcc 12.9 against cuDSS 0.7.1.6; not linked and not run, because CI has no GPU |
-| int8 filter on Cortex-M4F | Bit-exact with the Python mirror under QEMU, with the portable kernel and with CMSIS-NN v8.0.0; not run on a physical target |
-| GPU timings, cycles or latency per sample, accuracy on recorded drives | Not measured. A MAC count is not a latency |
+| Python reference: route model, sparse solve, per-site corrections, float and int8 classifiers | 20 pytest tests pass |
+| CUDA route-model fit with cuSPARSE and cuDSS | Compiles with nvcc 12.9 against cuDSS 0.7.1.6; not linked or run, as CI has no GPU |
+| Int8 classifier on Cortex-M4F | Bit-exact with the Python reference under QEMU, portable C and CMSIS-NN v8.0.0; not run on hardware |
+| GPU timings, on-device latency, accuracy on recorded drives | Not measured. An operation count is not a latency |
+
+All data are simulated with fixed seeds. Figures 2 to 9 come from the captures workflow on an `ubuntu-24.04` runner.
 
 ## Design rationale
 
 ### Partition
 
-<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/spde-pipeline.png" alt="Pipeline: FEM mesh feeds GPU estimation, which feeds a lift to sensor locations, which feeds an on-device forward filter on Arm Cortex-M, with a dashed loop back for periodic re-estimation" width="1043" height="524" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 1 · Heavy path and light path</span> Case study figure, published by the repository as its Figure 1. <code class="ic">C</code> and <code class="ic">G</code> are assembled once; the GPU rebuilds and factorises <code class="ic">Q(θ)</code> and returns <code class="ic">θ̂</code> and <code class="ic">x̂</code> for lifting and quantisation. The figure names cuSOLVER for the factorisation; the repository uses cuDSS.</figcaption></figure>
+<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/spde-pipeline.png" alt="Pipeline: FEM grid feeds GPU estimation, which feeds a lift to sensor locations, which feeds an on-device forward filter on Arm Cortex-M, with a dashed loop back for periodic re-estimation" width="1043" height="524" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 1 · Heavy path and light path</span> Case study figure, published by the repository as its Figure 1. <code class="ic">C</code> and <code class="ic">G</code> are assembled once; the GPU rebuilds and factorises <code class="ic">Q(θ)</code> and returns <code class="ic">θ̂</code> and <code class="ic">x̂</code> for lifting and quantisation. The figure names cuSOLVER for the factorisation; the repository uses cuDSS.</figcaption></figure>
 
 cuSPARSE holds `Q` in CSR and performs the sparse products; cuDSS performs the SPD Cholesky factorisation, with the analysis phase executed once and the refactorisation and solve phases executed per `θ`. The cuSOLVER sparse Cholesky module is deprecated by NVIDIA and is not used. `θ = (κ, τ)` has two components and is optimised on the host.
 
 ### Precision structure and ordering
 
-The SPDE precision for `α = 2` is `Q = τ² (κ⁴ C + 2κ² G + G C⁻¹ G)`; its per-row nonzero count is invariant in mesh size, whereas Cholesky fill-in is ordering dependent. The factorisation shall use a fill-reducing ordering (reverse Cuthill-McKee, AMD or METIS nested dissection) before any port to the GPU. The symbolic phase shall be hoisted out of the likelihood loop.
+The SPDE precision for `α = 2` is `Q = τ² (κ⁴ C + 2κ² G + G C⁻¹ G)`; its per-row nonzero count is invariant in grid size, whereas Cholesky fill-in is ordering dependent. The factorisation shall use a fill-reducing ordering (reverse Cuthill-McKee, AMD or METIS nested dissection) before any port to the GPU. The symbolic phase shall be hoisted out of the likelihood loop.
 
 ### Lifting
 
-The projector `P` is sparse: each sensor row holds the three barycentric weights of its enclosing triangle, summing to one. `nnz(P)` is 600 for 200 sensors; `nnz(P_dev)` is 192 for 64 sites. The device receives one int16 offset per site and never the mesh.
+The projector `P` is sparse: each sensor row holds the three barycentric weights of its enclosing triangle, summing to one. `nnz(P)` is 600 for 200 sensors; `nnz(P_dev)` is 192 for 64 sites. The device receives one int16 offset per site and never the grid.
 
 ### Device recursion
 
@@ -55,20 +55,20 @@ The suite asserts the structural invariants: three projector weights per row sum
 
 ### Operation counts
 
-<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/terminal_mac_table.png" alt="Terminal output of mac_table.py listing MACs per stage on the host and on the device" width="834" height="375" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 3 · Operation counts</span> <code class="ic">python/tools/mac_table.py</code>, computed from each sparsity pattern: host stages per evaluation of <code class="ic">θ</code> on the 16 by 16 mesh and the 20 by 20 lattice; device stages per sample.</figcaption></figure>
+<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/terminal_mac_table.png" alt="Terminal output of mac_table.py listing MACs per stage on the host and on the device" width="834" height="375" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 3 · Operation counts</span> <code class="ic">python/tools/mac_table.py</code>, computed from each sparsity pattern: host stages per evaluation of <code class="ic">θ</code> on the 16 by 16 grid and the 20 by 20 lattice; device stages per sample.</figcaption></figure>
 
 | Stage | Matrix | nnz | MACs | Per |
 |---|---|---|---|---|
-| Cholesky of `Q`, RCM | `L` of `Q`, 16 by 16 mesh | 5,896 | 72,538 | `θ` |
+| Cholesky of `Q`, RCM | `L` of `Q`, 16 by 16 grid | 5,896 | 72,538 | `θ` |
 | Cholesky, 20 by 20 lattice, RCM | `L` of `Q` | 11,378 | 174,362 | `θ` |
 | Cholesky, 20 by 20 lattice, scrambled (seed 0) | `L` of `Q` | 45,258 | 3,877,939 | `θ` |
 | Device, total per sample | `Aᵀ` (4 by 4, int8), emission, update | | 40 | sample |
 
-Device cost is 40 MACs per sample independent of mesh size; a test asserts this for 8 by 8 and 16 by 16 meshes.
+Device cost is 40 MACs per sample independent of grid size; a test asserts this for 8 by 8 and 16 by 16 grides.
 
 ### Field estimate
 
-<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/plot_field_estimate.png" alt="Three panels: sensor observations over the mesh, the simulated field, and the posterior mean with 64 route sites" width="2320" height="819" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 4 · Field, observations and posterior mean</span> <code class="ic">spdegmrf.export.run_pipeline</code> (seed 2026), 16 by 16 mesh over 1.5 km, n = 256. Left: 200 sensor observations of the eighth replicate, <code class="ic">σ</code> = 15 mm. Centre: simulated field, <code class="ic">κ</code> = 4.714, <code class="ic">τ</code> = 0.00150. Right: posterior mean at <code class="ic">κ̂</code> = 4.574, <code class="ic">τ̂</code> = 0.00145, with 64 route sites coloured by <code class="ic">P_dev x̂</code>, from -88.6 to 9.6 mm.</figcaption></figure>
+<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/plot_field_estimate.png" alt="Three panels: sensor observations over the grid, the simulated field, and the posterior mean with 64 route sites" width="2320" height="819" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 4 · Field, observations and posterior mean</span> <code class="ic">spdegmrf.export.run_pipeline</code> (seed 2026), 16 by 16 grid over 1.5 km, n = 256. Left: 200 sensor observations of the eighth replicate, <code class="ic">σ</code> = 15 mm. Centre: simulated field, <code class="ic">κ</code> = 4.714, <code class="ic">τ</code> = 0.00150. Right: posterior mean at <code class="ic">κ̂</code> = 4.574, <code class="ic">τ̂</code> = 0.00145, with 64 route sites coloured by <code class="ic">P_dev x̂</code>, from -88.6 to 9.6 mm.</figcaption></figure>
 
 ### Marginal likelihood
 
@@ -102,9 +102,9 @@ Each evaluation rebuilds the values of `Q(θ)` on a fixed sparsity pattern, fact
 
 ### Stress tests
 
-<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/study_noise.png" alt="Two line charts: accuracy and share of panic episodes caught both fall as sensor noise rises, with the 8-bit chip version overlapping the full-precision version" width="1760" height="704" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 10 · Noisier sensors</span> Emission noise scaled from 0.5 to 2 times the default; 5 seeds of 2,000 samples per level, 157 panic episodes. Accuracy falls from 99.5% to 79.7% for both filters; int8 stays within 0.04 points of float and agrees with it on at least 99.25% of samples. At default noise int8 catches 151 of 157 panic episodes, median delay 0 samples, false-panic rate 0.64%.</figcaption></figure>
+<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/study_noise.png" alt="Two line charts: accuracy and share of panic episodes caught both fall as sensor noise rises, with the 8-bit chip version overlapping the full-precision version" width="1760" height="704" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 10 · Noisier sensors</span> Sensor noise scaled from 0.5 to 2 times the default; 5 seeds of 2,000 samples per level, 157 panic episodes. Accuracy falls from 99.5% to 79.7% for both filters; int8 stays within 0.04 points of float and agrees with it on at least 99.25% of samples. At default noise int8 catches 151 of 157 panic episodes, median delay 0 samples, false-panic rate 0.64%.</figcaption></figure>
 
-<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/study_recovery.png" alt="Scatter of 40 estimated range and strength settings as a percentage of their true values, clustered around 100 percent" width="960" height="848" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 11 · Parameter recovery</span> 40 simulated fields (seeds 0 to 39), 200 sensors by 8 replicates, marginal-likelihood fit on CPU. Median absolute error 6.1% for <code class="ic">κ</code> and 3.8% for <code class="ic">τ</code>; every estimate within 20% of truth. The two errors are negatively correlated (r = -0.73). Data: <a href="https://huggingface.co/datasets/itsdhruvsetty/spde-gmrf-lane-perception-vectors">Hugging Face dataset</a>.</figcaption></figure>
+<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/study_recovery.png" alt="Scatter of 40 estimated range and strength settings as a percentage of their true values, clustered around 100 percent" width="960" height="848" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 11 · Route-model fit</span> 40 simulated routes (seeds 0 to 39), 200 sensors by 8 replicates, fitted on CPU. Median absolute error 6.1% for the correlation range (<code class="ic">κ</code>) and 3.8% for the variance scale (<code class="ic">τ</code>); every estimate within 20% of truth. The two errors are negatively correlated (r = -0.73). Data: <a href="https://huggingface.co/datasets/itsdhruvsetty/spde-gmrf-lane-perception-vectors">Hugging Face dataset</a>.</figcaption></figure>
 
 ## Observations
 
