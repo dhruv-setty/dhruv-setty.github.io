@@ -4,6 +4,10 @@ date: 2024-01-09
 summary: SPDE precision Q(θ) with sparse Cholesky on the host (cuSPARSE, cuDSS), barycentric projector to sensor sites, C99 int8 forward filter for Cortex-M (portable or CMSIS-NN). RCM reduces factor nnz from 45,258 to 11,378; CUDA compiles, never run on a GPU.
 ---
 
+## In plain terms
+
+A car camera watches how steadily a driver holds their lane. From that, a small, low-power chip decides each moment whether the driver is calm, alert, stressed or panicking. Roads differ, so a bigger computer periodically learns how each stretch of road shifts lane position and sends the chip one small correction per stretch. The chip cannot afford full-precision arithmetic, so its decision logic is compressed to 8-bit integers. The question the project answers is whether the compressed version makes the same calls as the full one. On simulated drives it does: the two agree on 99.66% of moments, the agreement holds as sensors get twice as noisy, and the chip catches 151 of 157 panic episodes. An interactive version runs on [Hugging Face](https://huggingface.co/spaces/itsdhruvsetty/split-spde-gmrf-lane-perception).
+
 ## Context
 
 The workload partitions into a heavy path and a light path. Field and hyperparameter estimation requires repeated factorisation of a large sparse precision matrix and shall execute on a GPU at an interval of seconds to minutes. Regime decoding requires one small recursion per sample and shall execute on the device.
@@ -95,6 +99,12 @@ Each evaluation rebuilds the values of `Q(θ)` on a fixed sparsity pattern, fact
 ### CUDA compilation
 
 <figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/terminal_nvcc.png" alt="Terminal compiling spde_gpu.cu with nvcc against cuDSS 0.7.1.6 successfully and against cuDSS 1.0.0.35 with eight errors" width="1172" height="392" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 9 · CUDA compile against two cuDSS releases</span> nvcc 12.9.86 compiles <code class="ic">gpu/src/spde_gpu.cu</code> against the cuDSS 0.7.1.6 headers. Against cuDSS 1.0.0.35 it fails with eight errors at lines 179 and 181, where <code class="ic">cudssMatrixCreateCsr</code> takes an additional <code class="ic">offsetType</code> argument.</figcaption></figure>
+
+### Stress tests
+
+<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/study_noise.png" alt="Two line charts: accuracy and share of panic episodes caught both fall as sensor noise rises, with the 8-bit chip version overlapping the full-precision version" width="1760" height="704" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 10 · Noisier sensors</span> Emission noise scaled from 0.5 to 2 times the default; 5 seeds of 2,000 samples per level, 157 panic episodes. Accuracy falls from 99.5% to 79.7% for both filters; int8 stays within 0.04 points of float and agrees with it on at least 99.25% of samples. At default noise int8 catches 151 of 157 panic episodes, median delay 0 samples, false-panic rate 0.64%.</figcaption></figure>
+
+<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/study_recovery.png" alt="Scatter of 40 estimated range and strength settings as a percentage of their true values, clustered around 100 percent" width="960" height="848" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 11 · Parameter recovery</span> 40 simulated fields (seeds 0 to 39), 200 sensors by 8 replicates, marginal-likelihood fit on CPU. Median absolute error 6.1% for <code class="ic">κ</code> and 3.8% for <code class="ic">τ</code>; every estimate within 20% of truth. The two errors are negatively correlated (r = -0.73). Data: <a href="https://huggingface.co/datasets/itsdhruvsetty/spde-gmrf-lane-perception-vectors">Hugging Face dataset</a>.</figcaption></figure>
 
 ## Observations
 
