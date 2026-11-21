@@ -12,6 +12,13 @@ const { render, routes, feedItems } = await import(pathToFileURL(path.join(root,
 const esc = (s) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
+// Per-post cover from front matter (cover: /path.png); everything else uses the site card, never the portrait.
+const covers = {};
+for (const f of fs.readdirSync(path.join(root, "posts"))) {
+  const m = fs.readFileSync(path.join(root, "posts", f), "utf8").match(/^cover:\s*(\S+)/m);
+  if (m) covers["/blog/" + f.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/\.md$/, "") + "/"] = m[1];
+}
+
 for (const url of routes()) {
   const { html, meta, siteUrl } = render(url);
   const canonical = siteUrl + meta.path;
@@ -25,9 +32,11 @@ for (const url of routes()) {
     `<meta property="og:url" content="${canonical}" />`,
     `<meta property="og:site_name" content="Dhruv Setty" />`,
     `<link rel="alternate" type="application/rss+xml" title="Dhruv Setty: Blog" href="${siteUrl}/feed.xml" />`,
-    `<meta name="twitter:card" content="summary" />`,
-    `<meta property="og:image" content="${siteUrl}/dhruv.webp" />`,
-    `<meta property="og:image:alt" content="Portrait of Dhruv Setty" />`,
+    `<meta name="twitter:card" content="summary_large_image" />`,
+    `<meta property="og:image" content="${siteUrl}${covers[meta.path] || "/og-card.png"}" />`,
+    `<meta property="og:image:width" content="1280" />`,
+    `<meta property="og:image:height" content="640" />`,
+    `<meta property="og:image:alt" content="${esc(covers[meta.path] ? meta.title : "Dhruv Setty, IT Support & Identity Administration")}" />`,
     meta.path === "/"
       ? `<script type="application/ld+json">${JSON.stringify({
           "@context": "https://schema.org",
