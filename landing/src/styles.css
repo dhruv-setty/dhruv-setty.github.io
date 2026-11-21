@@ -1687,3 +1687,9 @@ code.ic,
 
 /* Contact (Dhruv, 2026-11-21): dek in the panel header like Projects; form in one aligned column. */
 .contact__body { max-width: 40rem; }
+
+.journal-more { margin-top: 1.5rem; }
+.journal-more > summary { list-style: none; cursor: pointer; display: inline-block; }
+.journal-more > summary::-webkit-details-marker { display: none; }
+.journal-more[open] > summary { display: none; }
+.journal-more .preview-feed { margin-top: 0; border-top: 1px solid var(--rule); }

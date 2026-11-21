@@ -17,11 +17,23 @@ export default function BlogIndex() {
             {POSTS.length === 0 ? (
               <p>No posts yet.</p>
             ) : (
-              <div className="preview-feed">
-                {POSTS.map((p) => (
-                  <PostPreview key={p.slug} post={p} listen />
-                ))}
-              </div>
+              <>
+                <div className="preview-feed">
+                  {POSTS.slice(0, 4).map((p) => (
+                    <PostPreview key={p.slug} post={p} listen />
+                  ))}
+                </div>
+                {POSTS.length > 4 && (
+                  <details className="journal-more">
+                    <summary className="button button--ghost">View more</summary>
+                    <div className="preview-feed">
+                      {POSTS.slice(4).map((p) => (
+                        <PostPreview key={p.slug} post={p} listen />
+                      ))}
+                    </div>
+                  </details>
+                )}
+              </>
             )}
           </section>
         </main>
