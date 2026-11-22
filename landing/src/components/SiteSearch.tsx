@@ -9,9 +9,11 @@ const strip = (h: string) => h.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
 
 // Words of a text, lower case, split on anything that is not a letter or digit.
 const toks = (t: string) => Array.from(new Set(t.toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(Boolean)));
-const MIN = 2;
-// A query word matches a whole word, or the start or end of a word, never the middle.
-const hit = (hay: string[], w: string) => hay.some((t) => t === w || t.startsWith(w) || t.endsWith(w));
+const MIN = 3;
+// Strict (Dhruv, 2026-11-23): a query word matches a whole word, the start of a word, or the end of a
+// word only when it is 4+ letters and at least half that word. Never the middle; random letters return nothing.
+const hit = (hay: string[], w: string) =>
+  hay.some((t) => t === w || t.startsWith(w) || (w.length >= 4 && w.length * 2 >= t.length && t.endsWith(w)));
 
 const INDEX: (Hit & { hay: string[] })[] = [
   ...POSTS.map((p) => ({
@@ -25,7 +27,7 @@ const INDEX: (Hit & { hay: string[] })[] = [
   })),
 ];
 
-// Keyword search across journal posts and projects (Dhruv, 2026-11-23): starts after 2 letters; each word
+// Keyword search across journal posts and projects (Dhruv, 2026-11-23): starts after 3 letters; each word
 // must match a whole word or the start or end of one.
 export default function SiteSearch({ onPick, tabIndex }: { onPick?: () => void; tabIndex?: number }) {
   const [q, setQ] = useState("");
