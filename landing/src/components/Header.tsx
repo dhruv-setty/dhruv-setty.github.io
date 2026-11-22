@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { SITE } from "../content/site";
+import SiteSearch from "./SiteSearch";
 
-// Drawer nav (Dhruv, 2026-11-23): one floating button opens a slide-in panel with Home, Journal and Resume.
+// Drawer nav (Dhruv, 2026-11-23): one floating button opens a slide-in panel with Home, Journal and Resume, plus keyword search.
 export default function Header() {
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
@@ -29,6 +30,7 @@ export default function Header() {
       </button>
       <div className={"drawer-scrim" + (open ? " is-open" : "")} onClick={() => setOpen(false)} aria-hidden="true" />
       <nav id="site-drawer-panel" className={"drawer-panel" + (open ? " is-open" : "")} aria-label="Site" aria-hidden={!open}>
+        <SiteSearch onPick={() => setOpen(false)} tabIndex={open ? 0 : -1} />
         <Link to="/" tabIndex={open ? 0 : -1} aria-current={pathname === "/" ? "page" : undefined} onClick={close}>Home</Link>
         <Link to="/blog/" tabIndex={open ? 0 : -1} aria-current={pathname.startsWith("/blog") ? "page" : undefined} onClick={close}>Journal</Link>
         {SITE.resume ? <a href={SITE.resume} target="_blank" rel="noopener" tabIndex={open ? 0 : -1}>Resume</a> : null}
