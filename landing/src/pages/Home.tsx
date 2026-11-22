@@ -4,6 +4,8 @@ import ContactForm from "../components/ContactForm";
 import { PROJECTS, SITE } from "../content/site";
 import { GREETING, STORY } from "../content/story";
 import ProjectPreview from "../components/ProjectPreview";
+
+const IDENTITY_TAGS = ["IAM", "IGA"];
 import BlogSidebar from "../components/BlogSidebar";
 import HopGreeting from "../components/HopGreeting";
 import Reveal from "../components/Reveal";
@@ -48,7 +50,11 @@ export default function Home() {
               <div id="work" className="home-projects" role="region" aria-labelledby="work-h">
                 <header className="panel__head"><h2 id="work-h" className="section__title">Projects</h2></header>
                 <div className="preview-feed">
-                  {PROJECTS.map((p) => <ProjectPreview key={p.slug} project={p} />)}
+                  {PROJECTS.filter((p) => IDENTITY_TAGS.includes(p.tag)).map((p) => <ProjectPreview key={p.slug} project={p} />)}
+                </div>
+                <h3 className="home-projects__sub">Other work</h3>
+                <div className="preview-feed">
+                  {PROJECTS.filter((p) => !IDENTITY_TAGS.includes(p.tag)).map((p) => <ProjectPreview key={p.slug} project={p} />)}
                 </div>
               </div>
             </section>

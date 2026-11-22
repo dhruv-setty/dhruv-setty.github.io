@@ -91,7 +91,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Identity governance for legacy Linux file shares",
     tag: "IGA",
     summary:
-      "A SailPoint IdentityIQ project that brings POSIX permissions, ACLs and NFSv3 exports on legacy file servers under request, approval and certification. The configuration has not yet been imported into a running IdentityIQ instance.",
+      "A SailPoint IdentityIQ project that brings POSIX permissions, ACLs and NFSv3 exports on legacy file servers under request, approval and certification.",
     points: [
       "Ordered, idempotent change plan with revocations first; planning again against the result yields an empty plan.",
       "Effective access computed from POSIX modes, POSIX.1e ACLs, group nesting and NFSv3 export options.",
