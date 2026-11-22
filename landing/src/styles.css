@@ -1787,3 +1787,8 @@ code.ic,
 @media (max-width: 560px) {
   .blog-shell .post-body pre { padding: 0.9rem 1rem; font-size: 0.72rem; }
 }
+.blog-shell .journal-dek { text-wrap: wrap; max-width: none; }
+@media (max-width: 560px) {
+  .blog-shell .prose-article .post-header h1 { font-size: 1.6rem; line-height: 1.18; letter-spacing: -0.02em; }
+  .blog-shell .post-standfirst { font-size: 1rem; }
+}
