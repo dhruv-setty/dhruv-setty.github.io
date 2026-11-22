@@ -64,6 +64,8 @@ export type Project = {
   cover: string;
   href: string;
   extra?: { label: string; href: string }[];
+  // Shown in place of the destination line on Home: each label links to its own page.
+  meta?: { label: string; href: string }[];
 };
 
 // Projects on Home, each shown as a Journal-style preview that opens its href. Copy is drawn
@@ -143,6 +145,10 @@ export const PROJECTS: readonly Project[] = [
     ],
     cover: "/journal/covers/project-driver-state.webp",
     href: "/blog/lifting-spde-gmrf-gpu-edge/",
+    meta: [
+      { label: "Dataset", href: "https://huggingface.co/datasets/itsdhruvsetty/spde-gmrf-lane-perception-vectors" },
+      { label: "Model", href: "https://huggingface.co/itsdhruvsetty/spde-gmrf-lane-perception" },
+    ],
     extra: [
       { label: "Live demo", href: "https://huggingface.co/spaces/itsdhruvsetty/split-spde-gmrf-lane-perception" },
       { label: "Code", href: "https://github.com/dhruv-setty/split-spde-gmrf-inference-for-lane-perception" },

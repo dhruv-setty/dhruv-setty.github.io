@@ -24,10 +24,22 @@ export default function ProjectPreview({ project: p }: { project: Project }) {
           )}
         </h3>
         <p className="preview__summary">{rich(p.summary)}</p>
-        <p className="preview__meta">
-          <span>{where}</span>
-          {external ? <span aria-hidden="true">↗</span> : null}
-        </p>
+        {p.meta?.length ? (
+          <p className="preview__meta preview__meta--links">
+            {p.meta.map((m) => (
+              <a key={m.href} href={m.href} target="_blank" rel="noopener" className="preview__meta-link">
+                {m.label}
+                <span aria-hidden="true"> ↗</span>
+                <span className="visually-hidden"> on Hugging Face (opens in a new tab)</span>
+              </a>
+            ))}
+          </p>
+        ) : (
+          <p className="preview__meta">
+            <span>{where}</span>
+            {external ? <span aria-hidden="true">↗</span> : null}
+          </p>
+        )}
       </div>
       <span className="preview__thumb" aria-hidden="true">
         <img src={p.cover} alt="" loading="lazy" decoding="async" width="800" height="450" />

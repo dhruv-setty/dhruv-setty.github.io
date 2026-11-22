@@ -1891,3 +1891,16 @@ body { padding-top: 0 !important; }
 
 /* Hero name (Dhruv, 2026-11-23): solid, no hover hollow-out. */
 .hero__word, .hero__name:hover .hero__word { color: var(--text); -webkit-text-stroke: 0; transition: none; }
+
+/* Project meta links (Dataset, Model) sit above the card-wide title link so each opens its own page. */
+.page--home .preview--project .preview__meta--links { gap: 1.1rem; }
+.page--home .preview--project .preview__meta-link {
+  position: relative;
+  z-index: 1;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(0, 0, 0, 0.35);
+}
+.page--home .preview--project .preview__meta-link:hover { color: var(--accent); text-decoration-color: currentColor; }
