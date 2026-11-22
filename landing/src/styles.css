@@ -379,7 +379,6 @@ html {
 .site-footer__links a { color: var(--muted); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
 
-.card__tag { margin: 0; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 
 .contact-form__hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 .contact-form__status { min-height: 1.25rem; font-size: 0.9rem; margin-top: 0.5rem; }
@@ -800,10 +799,6 @@ code.ic,
 .sa-form input { flex: 1; min-width: 0; font: inherit; padding: 0.4rem 0.6rem; border: 1px solid var(--rule); border-radius: 8px; }
 .sa-form button { font: inherit; font-weight: 600; border: 0; border-radius: 8px; padding: 0.4rem 0.8rem; background: #111; color: #fff; cursor: pointer; }
 
-/* Home: scannable card grids (replace swipe decks) */
-
-.card__chips { list-style: none; display: flex; flex-wrap: wrap; gap: .4rem; margin: .9rem 0 0; padding: 0; }
-.card__chips li { font-size: .78rem; line-height: 1; padding: .35rem .55rem; border: 1px solid currentColor; border-radius: 999px; opacity: .75; }
 .section { scroll-margin-top: 5rem; }
 .button:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
@@ -907,49 +902,6 @@ code.ic,
 }
 .hero__lede .hero__positioning::before { content: ""; flex: 0 0 clamp(2rem, 4vw, 3.5rem); height: 2px; background: currentColor; }
 
-/* Projects (2026-11-19): one row per repository, figure beside the copy on wide screens and
-   above it on narrow ones. Justified text, square edges, no hover effects on the row. */
-.project-list { display: grid; gap: clamp(1.25rem, 2.5vw, 1.75rem); }
-.project {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1.1rem;
-  padding: clamp(1rem, 2vw, 1.5rem);
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 10px;
-}
-.project + .project { border-top: 1px solid var(--rule); }
-.project__figure {
-  margin: 0;
-  aspect-ratio: 16 / 9;
-  border: 1px solid var(--rule);
-  border-radius: 6px;
-  overflow: hidden;
-  background: #f3f3f0;
-}
-.project__figure img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.project__body { display: flex; flex-direction: column; min-width: 0; }
-.project__body .card__tag { margin: 0 0 0.4rem; }
-.project__title { margin: 0 0 0.6rem; font-size: var(--step-1); line-height: 1.25; letter-spacing: -0.01em; }
-.project__summary,
-.project__points li { text-align: justify; text-justify: inter-word; hyphens: manual; }
-.project .project__summary { margin: 0; color: var(--text); line-height: 1.55; }
-.project__points { margin: 0.75rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
-.project__points li + li { margin-top: 0.35rem; }
-.project__summary code.ic, .project__points code.ic { white-space: normal; overflow-wrap: anywhere; }
-.project .card__chips { margin-top: 0.9rem; }
-.project__links { margin-top: auto; padding-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.project__links .button { display: inline-block; }
-@media (min-width: 900px) {
-  .project { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: clamp(1.25rem, 2.5vw, 2rem); align-items: start; }
-}
-@media (max-width: 520px) {
-  #work.section.panel { padding: 1.1rem 0.85rem; }
-  .project { padding: 0.85rem; gap: 0.9rem; }
-  .project__points { padding-left: 1rem; font-size: 0.92rem; }
-  .project__points code.ic, .project__summary code.ic { font-size: 0.8em; padding: 0 0.2em; }
-}
 
 /* Journal (Dhruv, 2026-11-19): same build as Home. White paper panels over the graticule,
    the post list sits at the side in full with no inner scroll bar. */
@@ -1029,7 +981,7 @@ body {
 }
 h1, h2, h3 { letter-spacing: -0.015em; text-wrap: balance; }
 p, li, figcaption, blockquote { text-wrap: pretty; }
-.section__title, .card__tag, .blog-side__title, .post-nav__label { font-feature-settings: "kern" 1, "case" 1; }
+.section__title, .blog-side__title, .post-nav__label { font-feature-settings: "kern" 1, "case" 1; }
 time, .preview__meta, .blog-side__meta, .byline__meta { font-variant-numeric: tabular-nums; }
 ::selection { background: rgba(17, 17, 17, 0.12); }
 
@@ -1059,20 +1011,6 @@ time, .preview__meta, .blog-side__meta, .byline__meta { font-variant-numeric: ta
 .section.panel { border-color: var(--rule); box-shadow: var(--shadow-2); }
 .panel__head .section__title { letter-spacing: 0.1em; }
 
-/* Project cards: same grid and proportions; hairline edge, nested radii, framed figure. */
-.project { border-radius: 12px; border-color: var(--rule); box-shadow: var(--shadow-1); }
-.project + .project { border-top-color: var(--rule); }
-.project__figure {
-  border-radius: 8px;
-  border-color: var(--rule);
-  background: var(--surface-2);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6), var(--shadow-1);
-}
-.project__body .card__tag { font-size: var(--step--2); letter-spacing: 0.1em; }
-.project__title { letter-spacing: -0.015em; }
-.project .project__summary { color: var(--text); }
-.project__points { color: var(--text-2); }
-.project__points li::marker { color: var(--muted); }
 
 /* Inline code chips: quieter fill, hairline edge. */
 code.ic,
@@ -1188,24 +1126,6 @@ a { color: inherit; }
 .hop__ch--name { color: var(--press); }
 .about__why { color: var(--press); }
 
-/* Project cards: one step lighter than the panel, same grid. */
-.project {
-  background: var(--surface-2);
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-panel);
-  box-shadow: var(--shadow-1);
-}
-.project + .project { border-top-color: var(--rule); }
-.project__figure {
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-  background: #0d0d0d;
-  box-shadow: none;
-}
-.project .project__summary { color: var(--text-2); }
-.project__points { color: #b8b8b8; }
-.project__points li::marker { color: var(--muted); }
-.card__tag { color: var(--muted); }
 
 /* Inline code chips. */
 code.ic,
@@ -1798,13 +1718,13 @@ code.ic,
    cards"). The About, Projects and Get in touch panels take the
    Journal's white paper on the same dark grid. Scoped to .page--home,
    which only the homepage renders. The hero, ground, grid, header and
-   footer are untouched. Panel padding is unchanged so the cards keep
-   their width. Project cards are light (see below).
+   footer are untouched. Since the Journal-index rebuild these panels
+   also carry .journal-panel inside .blog-shell (see the end of file).
    Contrast on #ffffff: --text #111 18.9:1, --text-2 #2e2e2e 13.6:1,
    --muted #666 5.7:1, --press #b8420a 5.6:1 (all WCAG AA). #f2803f is
    kept for non-text accents only: as text it is 2.6:1 on white.
    ------------------------------------------------------------------ */
-.page--home > .section.panel {
+.page--home .home-panel {
   color-scheme: light;
   --text: #111111;
   --text-2: #2e2e2e;
@@ -1825,8 +1745,8 @@ code.ic,
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06), 0 2px 6px rgba(0, 0, 0, 0.45), 0 28px 56px -30px rgba(0, 0, 0, 0.95);
   margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
 }
-.page--home > .section.panel :focus-visible { outline-color: #111111; }
-.page--home > .section.panel ::selection { background: rgba(184, 66, 10, 0.18); color: #111111; }
+.page--home .home-panel :focus-visible { outline-color: #111111; }
+.page--home .home-panel ::selection { background: rgba(184, 66, 10, 0.18); color: #111111; }
 
 /* Section kickers: the Journal's uppercase label with a hairline rule. */
 .page--home .panel__head { margin-bottom: clamp(1.5rem, 2.75vw, 2.25rem); }
@@ -1844,36 +1764,8 @@ code.ic,
 .page--home .hop__ch--name,
 .page--home .about__why { color: #b8420a; }
 
-/* Projects (2026-11-22, Dhruv: "get rid of black then"): light cards in the
-   Journal's style, set on the white panel. Same markup, grid, padding, sizes
-   and image; only colours and the light frame change. No hover on the card.
-   Contrast on the #fafafa card: #111 18.1:1, #2e2e2e 13.0:1, #666 5.5:1,
-   #b8420a 5.4:1; chip text #1f1f1f on #f4f4f4 15.1:1. */
-.page--home #work .project-list { gap: clamp(1.25rem, 2.5vw, 1.75rem); }
-.page--home > .section.panel .project {
-  color-scheme: light;
-  color: #2e2e2e;
-  background: #fafafa;
-  border: 1px solid #e6e6e6;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-}
-.page--home > .section.panel .project + .project { border-top-color: #e6e6e6; }
-.page--home > .section.panel .project__figure {
-  background: #f4f4f4;
-  border: 1px solid #e6e6e6;
-  border-radius: 8px;
-  box-shadow: none;
-}
-.page--home > .section.panel .project .card__tag { color: #666666; }
-.page--home > .section.panel .project__title { color: #111111; }
-.page--home > .section.panel .project .project__summary,
-.page--home > .section.panel .project__points { color: #2e2e2e; }
-.page--home > .section.panel .project__points li::marker { color: #666666; }
-.page--home > .section.panel .card__chips li { color: #2e2e2e; border-color: #d0d0d0; opacity: 1; }
-
 /* Inline code chips anywhere in the home panels: light grey with dark text. */
-.page--home > .section.panel code.ic {
+.page--home .home-panel code.ic {
   background: #f4f4f4;
   border: 1px solid #e6e6e6;
   color: #1f1f1f;
@@ -1881,30 +1773,30 @@ code.ic,
 
 /* Buttons in the home panels: light outline, dark text; hover darkens the
    border and turns the text orange. No fill, no glow. */
-.page--home > .section.panel .button,
-.page--home > .section.panel .button--ghost,
+.page--home .home-panel .button,
+.page--home .home-panel .button--ghost,
 .page--home .contact-form button {
   background: #ffffff;
   color: #111111;
   border: 1px solid #d0d0d0;
   box-shadow: none;
 }
-.page--home > .section.panel .button:hover,
-.page--home > .section.panel .button--ghost:hover,
+.page--home .home-panel .button:hover,
+.page--home .home-panel .button--ghost:hover,
 .page--home .contact-form button:hover:not([disabled]) {
   background: #ffffff;
   color: #b8420a;
   border-color: #8a8a8a;
   box-shadow: none;
 }
-.page--home > .section.panel .button:active,
-.page--home > .section.panel .button--ghost:active,
+.page--home .home-panel .button:active,
+.page--home .home-panel .button--ghost:active,
 .page--home .contact-form button:active:not([disabled]) {
   background: #f4f4f4;
   color: #93340a;
   border-color: #666666;
 }
-.page--home > .section.panel .button:focus-visible,
+.page--home .home-panel .button:focus-visible,
 .page--home .contact-form button:focus-visible { outline: 2px solid #111111; outline-offset: 2px; }
 
 /* Get in touch: light fields; the send button uses the light outline above. Lede stays left. */
@@ -1919,7 +1811,49 @@ code.ic,
 .page--home .contact-form__status { color: #2e2e2e; }
 
 @media (max-width: 520px) {
-  .page--home > .section.panel { border-radius: 10px; margin-bottom: 1.25rem; }
+  .page--home .home-panel { border-radius: 10px; margin-bottom: 1.25rem; }
 }
 /* Empty status line takes no room, so the panel's bottom matches its top. */
 .page--home .contact-form__status:empty { min-height: 0; margin: 0; }
+
+/* ------------------------------------------------------------------
+   Home as a Journal index (2026-11-22, Dhruv: "journel page style where
+   the portfolio is just single page but opens links to others"). Below
+   the hero, Home reuses the Journal shell: one white panel with About
+   and the project previews, the sticky "Recent writing" side panel, and
+   a compact Get in touch panel at the end. Scoped to .home-shell, which
+   only Home renders, so the Journal pages are untouched.
+   ------------------------------------------------------------------ */
+.page--home .home-shell {
+  max-width: none;
+  padding: 0 0 clamp(2rem, 6vh, 4rem);
+  grid-template-areas: "main side" "contact side";
+  row-gap: 0;
+}
+.page--home .home-shell > .blog-main { grid-area: main; }
+.page--home .home-shell > .blog-side { grid-area: side; }
+.page--home .home-shell > .contact { grid-area: contact; max-width: 52rem; }
+.page--home .home-shell .journal-panel { margin: 0 0 clamp(1.5rem, 3vw, 2.25rem); border-top: 1px solid rgba(255, 255, 255, 0.14); }
+.page--home .home-shell .blog-side__box { padding: 1.1rem 1.1rem 1rem; }
+
+/* Projects: a kicker with a hairline rule, then Journal previews. */
+.page--home .home-projects { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+.page--home .home-projects .panel__head { margin-bottom: 0.25rem; }
+.page--home .home-shell .journal-panel .home-projects .preview-feed .preview:first-child { border-top: 0; }
+.page--home .preview--project { position: relative; }
+.page--home .preview--project .preview__title { margin: 0 0 0.45rem; }
+.page--home .preview--project .preview__link { color: var(--ink); text-decoration: none; transition: color 0.15s ease; }
+.page--home .preview--project .preview__link::after { content: ""; position: absolute; inset: 0; }
+.page--home .preview--project .preview__link:focus-visible { outline: none; }
+.page--home .preview--project:has(.preview__link:focus-visible) { outline: 2px solid #111111; outline-offset: 6px; border-radius: 4px; }
+.page--home .preview--project:hover .preview__link { color: var(--accent); }
+.page--home .preview--project .preview__summary { text-align: justify; text-justify: inter-word; hyphens: manual; }
+.page--home .preview--project .preview__summary code.ic { font-size: 0.85em; white-space: normal; overflow-wrap: anywhere; }
+
+/* Get in touch: compact. */
+.page--home .home-shell .contact.journal-panel { padding: clamp(1.25rem, 3.5vw, 2.5rem) clamp(1.25rem, 5vw, 4rem); }
+
+@media (max-width: 52rem) {
+  .page--home .home-shell { grid-template-areas: "main" "side" "contact"; }
+  .page--home .home-shell > .blog-side { margin-bottom: clamp(1.5rem, 3vw, 2.25rem); }
+}

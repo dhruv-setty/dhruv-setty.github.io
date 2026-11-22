@@ -1,0 +1,37 @@
+import { Link } from "react-router-dom";
+import type { Project } from "../content/site";
+import { rich } from "../lib/rich";
+
+// A project as a Journal-style preview: tag kicker, title, two-line summary, where the link goes,
+// and the project's designed 16:9 cover. The whole entry opens the project's href; links off the
+// site open in a new tab.
+export default function ProjectPreview({ project: p }: { project: Project }) {
+  const external = /^https?:\/\//.test(p.href);
+  const where = external ? new URL(p.href).hostname.replace(/^www\./, "") : "Journal";
+  const titleId = `project-${p.slug}`;
+  return (
+    <article className="preview preview--post preview--project" aria-labelledby={titleId}>
+      <div className="preview__text">
+        <p className="preview__kicker">{p.tag}</p>
+        <h3 id={titleId} className="preview__title">
+          {external ? (
+            <a href={p.href} target="_blank" rel="noopener" className="preview__link">
+              {p.name}
+              <span className="visually-hidden"> (opens in a new tab)</span>
+            </a>
+          ) : (
+            <Link to={p.href} className="preview__link">{p.name}</Link>
+          )}
+        </h3>
+        <p className="preview__summary">{rich(p.summary)}</p>
+        <p className="preview__meta">
+          <span>{where}</span>
+          {external ? <span aria-hidden="true">↗</span> : null}
+        </p>
+      </div>
+      <span className="preview__thumb" aria-hidden="true">
+        <img src={p.cover} alt="" loading="lazy" decoding="async" width="800" height="450" />
+      </span>
+    </article>
+  );
+}

@@ -3,13 +3,13 @@ import { formatShortDate, recentPosts } from "../content/posts";
 
 // Side panel for the Journal: the three most recent posts, newest first, leaving out the one
 // being read, each with a small cover thumbnail. Sticky on desktop; a disclosure on small screens.
-export default function BlogSidebar({ current }: { current?: string }) {
+export default function BlogSidebar({ current, title = "Recent" }: { current?: string; title?: string }) {
   const recent = recentPosts(3, current);
   if (recent.length === 0) return null;
   return (
     <aside className="blog-side" aria-label="Recent posts">
       <details className="blog-side__box" open>
-        <summary className="blog-side__title">Recent</summary>
+        <summary className="blog-side__title">{title}</summary>
         <ol className="blog-side__list">
           {recent.map((p) => (
             <li key={p.slug} className="blog-side__item blog-side__item--thumb">

@@ -61,32 +61,28 @@ export type Project = {
   summary: string;
   points?: readonly string[];
   stack?: readonly string[];
-  image: { src: string; alt: string; width: number; height: number };
+  // Designed 16:9 tile (make_covers.py), shown as the preview thumbnail on Home.
+  cover: string;
   href: string;
   extra?: { label: string; href: string }[];
 };
 
-// Projects on Home. Each of the first five is drawn from its repository README, with one
-// figure taken from that README (padded to 16:9, otherwise unedited).
+// Projects on Home, each shown as a Journal-style preview that opens its href. Copy is drawn
+// from each repository README; `points` and `extra` are kept as source copy, not shown on Home.
 export const PROJECTS: readonly Project[] = [
   {
     slug: "entra-sssd",
     name: "Entra ID sign in for Debian with SSSD",
     tag: "IAM",
     summary:
-      "A C# (.NET 8) command line tool, `iato`, that configures Debian hosts to authenticate Microsoft Entra ID users through the SSSD `idp` provider.",
+      "A C# (.NET 8) command line tool that configures Debian hosts to authenticate Microsoft Entra ID users through the SSSD `idp` provider.",
     points: [
       "Creates the Entra ID app registration through Microsoft Graph with application `User.Read.All` and `GroupMember.Read.All`, and grants admin consent.",
       "Renders `sssd.conf` for the `idp` domain; users sign in with the OAuth 2.0 Device Authorization Grant, so MFA and Conditional Access apply.",
       "Checks the configuration and the host before SSSD starts: SSSD 2.11.0 or later, `libsss_idp.so` present and file mode 0600.",
       "10 of 10 xUnit tests pass in CI, and the host check passes against SSSD 2.13.1 in Debian forky.",
     ],
-    image: {
-      src: "/projects/entra-sssd.png",
-      alt: "Terminal output of dotnet test listing the SssdConfigTests cases as passed, ending with Total tests: 10 and Passed: 10",
-      width: 1200,
-      height: 675,
-    },
+    cover: "/journal/covers/project-entra-sssd.webp",
     href: "https://github.com/dhruv-setty/entra-id-sign-in-for-debian-with-sssd",
   },
   {
@@ -101,16 +97,11 @@ export const PROJECTS: readonly Project[] = [
       "Certification evidence classifies each account and path as match, excess, missing or divergent, with hygiene findings such as dangling ACL entries.",
       "115 tests pass under Maven verify, including build checks over the IdentityIQ XML and the JBoss EAP 7.4 material.",
     ],
-    image: {
-      src: "/projects/iiq-legacy-fs.png",
-      alt: "Terminal summary of mvn verify: Surefire test counts for fsgov-core and fsgov-config-validation with no failures, errors or skips, and BUILD SUCCESS",
-      width: 956,
-      height: 538,
-    },
+    cover: "/journal/covers/project-legacy-fs.webp",
     href: "https://github.com/dhruv-setty/identity-governance-for-legacy-linux-file-shares",
   },
   {
-    slug: "iato-pcie-dma-tlb",
+    slug: "pcie-dma-tlb",
     name: "PCIe, DMA and TLB hardware with formal checks",
     tag: "Hardware",
     summary:
@@ -121,12 +112,7 @@ export const PROJECTS: readonly Project[] = [
       "Fully associative TLB with fill and invalidate, and a TLA+ shootdown model in which no core keeps a translation to a freed frame.",
       "Yosys schematics, Icarus Verilog testbenches with GTKWave waveforms, Verilator lint and nextpnr on a Lattice ECP5.",
     ],
-    image: {
-      src: "/projects/iato-pcie-dma-tlb.png",
-      alt: "GTKWave view of the tb_tlp_hdr_decode testbench: one PCIe TLP header per step with the decoded type flags, length, attributes, requester ID, tag and address, and the errors signal at 0",
-      width: 1200,
-      height: 675,
-    },
+    cover: "/journal/covers/project-pcie-dma-tlb.webp",
     href: "https://github.com/dhruv-setty/pcie-dma-and-tlb-hardware-with-formal-checks",
   },
   {
@@ -141,12 +127,7 @@ export const PROJECTS: readonly Project[] = [
       "TLB tagged by VMID and ASID with four broadcast TLBI scopes, checked by 8 Sail assertions and 13 directed RTL checks.",
       "Yosys and nextpnr synthesis on a Lattice ECP5, with both modules clean under Verilator lint.",
     ],
-    image: {
-      src: "/projects/stage2-tlb.png",
-      alt: "Terminal output of TLC on S2Unmap.cfg: model checking completed with no error, 435 states generated, 74 distinct states found, depth 8",
-      width: 950,
-      height: 534,
-    },
+    cover: "/journal/covers/project-stage2-tlb.webp",
     href: "https://github.com/dhruv-setty/stage-2-translation-and-tlb-maintenance",
   },
   {
@@ -161,12 +142,7 @@ export const PROJECTS: readonly Project[] = [
       "Catches 151 of 157 simulated panic episodes, typically on the first sample, with a 0.64% false-alarm rate.",
       "Route model fitted on the host from 200 sensors; reordering the sparse solve cuts stored values from 45,258 to 11,378. CUDA path compiles and has not been run on a GPU.",
     ],
-    image: {
-      src: "/projects/spde-gmrf.png",
-      alt: "Classifier plot over 600 simulated samples: lane-position inputs, the simulated driver state against the int8 call, and float and int8 confidence for calm, alert, stressed and panic",
-      width: 1200,
-      height: 675,
-    },
+    cover: "/journal/covers/project-driver-state.webp",
     href: "/blog/lifting-spde-gmrf-gpu-edge/",
     extra: [
       { label: "Live demo", href: "https://huggingface.co/spaces/itsdhruvsetty/split-spde-gmrf-lane-perception" },
