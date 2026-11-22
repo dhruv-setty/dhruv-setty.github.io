@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { SITE } from "../content/site";
 
-// Minimal fixed nav: Home, About, Resume (Dropbox PDF, shown when SITE.resume is set), Journal, Contact. About and Contact are sections on the landing page.
+// Minimal fixed nav: Home, About, Resume (Dropbox PDF, shown when SITE.resume is set), Contact. About and Contact are sections on the landing page.
 export default function Header() {
   const { pathname, hash } = useLocation();
   const onHome = pathname === "/";
@@ -14,7 +14,6 @@ export default function Header() {
         <span className="site-header__spacer" />
         <Link to="/" aria-current={onHome && !hash ? "page" : undefined}>Home</Link>
         {SITE.resume ? <a href={SITE.resume}>Resume</a> : null}
-        <Link to="/blog/" aria-current={pathname.startsWith("/blog/") ? "page" : undefined}>Journal</Link>
         <a href="/#contact" aria-current={current("#contact")}>Contact</a>
       </nav>
     </header>
