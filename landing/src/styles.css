@@ -977,94 +977,11 @@ code.ic,
   .post-body .cs-figure figcaption code.ic { white-space: normal; }
 }
 
-/* Journal Listen player (Dhruv, 2026-11-20): browser voices read the live post. Sits inside the byline band,
-   on its own line under the name and date, aligned with the text. Buttons follow the Journal panel look: white, hairline rule, orange on hover. */
+/* Post byline: name and date on one line beside the avatar. */
 .byline--post { flex-wrap: wrap; row-gap: 0.75rem; }
 .byline--post > span { flex: 1 1 auto; min-width: 0; }
-.listen {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem;
-  flex: 1 0 100%;
-  margin-left: calc(40px + 0.55rem);
-  font-size: 0.8rem;
-  line-height: 1;
-  max-width: 100%;
-}
-.listen__btn,
-.listen__select {
-  font: inherit;
-  font-size: 0.8rem;
-  color: var(--text);
-  background: #ffffff;
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  height: 2rem;
-  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
-}
-.listen__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0 0.8rem;
-  cursor: pointer;
-  font-weight: var(--w-link);
-}
-.listen__btn:hover:not([disabled]) { background: var(--press); border-color: var(--press); color: #fffaf5; }
-.listen__btn:active:not([disabled]) { background: var(--press-deep); border-color: var(--press-deep); color: #fffaf5; transition-duration: 0s; }
-.listen__btn[aria-pressed="true"] { border-color: var(--text); }
-.listen__btn[disabled] { opacity: 0.5; cursor: default; }
-.listen__select {
-  padding: 0 0.6rem;
-  cursor: pointer;
-  max-width: 100%;
-}
-.listen__select:hover:not([disabled]) { border-color: var(--press); }
-.listen__select--voice { width: 11rem; text-overflow: ellipsis; }
-.listen__field { display: inline-flex; min-width: 0; max-width: 100%; }
-.listen__btn:focus-visible,
-.listen__select:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; border-radius: 999px; }
-.post-body .is-reading,
-.post-header .is-reading {
-  background: rgba(232, 89, 12, 0.07);
-  box-shadow: 0 0 0 0.35rem rgba(232, 89, 12, 0.07);
-  border-radius: 3px;
-  transition: background-color 200ms ease, box-shadow 200ms ease;
-}
-.post-body tr.is-reading { box-shadow: none; }
-@media (max-width: 600px) {
-  .listen { margin-left: 0; }
-  .listen__field--voice { flex: 1 1 8rem; }
-  .listen__select--voice { width: 100%; }
-}
-@media print { .listen { display: none; } }
 
-/* Journal open-and-listen icon (Dhruv, 2026-11-20): one more item in a post's meta line, after the reading time.
-   It reads as the meta text does: same colour, size, weight and baseline, the same separator before it, no chrome.
-   Hover is the orange of the site's text links; focus is the site's focus ring. It opens the post and reads it there. */
-.listen-item { display: inline-flex; align-items: baseline; gap: 0.45rem; }
-.listen-item--side { display: inline; }
-.listen-item[data-hidden] { visibility: hidden; } /* no speech: keep the width so nothing moves */
-.listen-icon {
-  position: relative;
-  display: inline-block;
-  color: inherit;
-  font: inherit;
-  line-height: inherit;
-  font-weight: inherit;
-  text-decoration: none;
-  transition: color 220ms ease;
-}
-.listen-icon svg { display: inline-block; width: 1.1em; height: 1.1em; vertical-align: -0.2em; }
-/* A larger tap area than the glyph, without changing the line. */
-.listen-icon::before { content: ""; position: absolute; inset: -0.6rem -0.5rem; }
-.listen-icon:hover { color: var(--press); }
-.listen-icon:active { color: var(--press-deep); }
-.listen-item--side .listen-icon { z-index: 1; }
-@media print { .listen-item { display: none; } }
-
-/* Side list entries: the entry is the card, the title link is stretched over it, so the icon can sit beside the reading time. */
+/* Side list entries: the entry is the card, the title link is stretched over it. */
 .blog-side__item {
   position: relative;
   padding: 0.6rem 0.65rem;
@@ -1223,9 +1140,7 @@ a { color: inherit; }
 :focus-visible,
 .button:focus-visible,
 .contact-form button:focus-visible,
-.journal-more > summary:focus-visible,
-.listen__btn:focus-visible,
-.listen__select:focus-visible { outline-color: var(--text); }
+.journal-more > summary:focus-visible { outline-color: var(--text); }
 .contact-form input:focus-visible,
 .contact-form textarea:focus-visible { outline: 2px solid var(--text); border-color: var(--text); }
 .blog-side__item:has(.blog-side__link:focus-visible) { outline-color: var(--text); }
@@ -1408,15 +1323,6 @@ code.ic,
 .cs-figure figcaption { color: var(--text-2); }
 .cs-figure__label { color: var(--muted); }
 
-/* Listen player. */
-.listen__btn,
-.listen__select { background: var(--surface-2); color: var(--text); border-color: rgba(255, 255, 255, 0.16); }
-.listen__btn:hover:not([disabled]) { background: var(--press); border-color: var(--press); color: var(--on-ink); }
-.listen__btn:active:not([disabled]) { background: var(--press-deep); border-color: var(--press-deep); color: var(--on-ink); }
-.listen__btn[aria-pressed="true"] { border-color: var(--text); }
-.post-body .is-reading,
-.post-header .is-reading { background: rgba(242, 128, 63, 0.12); box-shadow: 0 0 0 0.35rem rgba(242, 128, 63, 0.12); }
-
 /* Site avatar panel. */
 .sa-panel { background: var(--surface-2); border-color: rgba(255, 255, 255, 0.1); box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.9); }
 .sa-dhruv { background: var(--surface-2); box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.9); }
@@ -1427,3 +1333,91 @@ code.ic,
 .sa-chips button:hover { border-color: var(--press); color: var(--press); }
 .sa-form input { background: var(--surface-3); color: var(--text); border-color: var(--field); }
 .sa-form button { background: var(--text); color: var(--on-ink); }
+
+/* ------------------------------------------------------------------
+   Journal paper (2026-11-22, Dhruv): white panels on the dark grid.
+   Scoped to .blog-shell, which only the Journal index and post pages
+   render, so homepage panels stay black. The ground, grid, header and
+   footer are untouched. Panels re-declare the colour tokens for light,
+   so every rule that reads them turns light without new selectors.
+   Contrast on #ffffff: --text #111 18.9:1, --text-2 #2e2e2e 13.6:1,
+   --muted #666 5.7:1, --press #b8420a 5.6:1 (all WCAG AA).
+   ------------------------------------------------------------------ */
+.blog-shell .journal-panel,
+.blog-shell .blog-side__box,
+.blog-shell .post-nav__item {
+  color-scheme: light;
+  --text: #111111;
+  --text-2: #2e2e2e;
+  --muted: #666666;
+  --surface: #ffffff;
+  --surface-2: #fafafa;
+  --surface-3: #f4f4f4;
+  --rule: rgba(0, 0, 0, 0.1);
+  --rule-strong: rgba(0, 0, 0, 0.22);
+  --field: #8a8a8a;
+  --press: #b8420a;
+  --press-deep: #93340a;
+  --on-ink: #ffffff;
+  color: var(--text-2);
+}
+.blog-shell .journal-panel,
+.blog-shell .blog-side__box {
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06), 0 2px 6px rgba(0, 0, 0, 0.45), 0 28px 56px -30px rgba(0, 0, 0, 0.95);
+}
+.blog-shell .post-nav__item {
+  background: #fafafa;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  color: var(--text);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 18px 36px -24px rgba(0, 0, 0, 0.9);
+}
+.blog-shell .post-nav__item:hover { color: var(--press); border-color: var(--press); }
+.blog-shell .post-nav__item:active { color: var(--press-deep); border-color: var(--press-deep); }
+.blog-shell :focus-visible { outline-color: #111111; }
+
+/* List panel and side list. */
+.blog-shell .preview__summary,
+.blog-shell .prose-article .post-body > p:first-child em:only-child { color: #555555; }
+.blog-shell .blog-side__item:hover,
+.blog-shell .blog-side__link:hover { background: rgba(0, 0, 0, 0.035); }
+.blog-shell .blog-side__item[data-current],
+.blog-shell .blog-side__link[aria-current] { border-left-color: #111111; background: rgba(0, 0, 0, 0.05); }
+.blog-shell .blog-side__item .blog-side__link:hover,
+.blog-shell .blog-side__item .blog-side__link[aria-current] { background: none; }
+.blog-shell .byline img { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08); }
+
+/* Links inside paper: dark ink, orange on hover. */
+.blog-shell .post-body a,
+.blog-shell .byline__meta a,
+.blog-shell .preview__meta a { color: #111111; text-decoration-color: rgba(0, 0, 0, 0.35); }
+.blog-shell .post-body a:hover,
+.blog-shell .byline__meta a:hover,
+.blog-shell .preview__meta a:hover { color: var(--press); text-decoration-color: currentColor; }
+.blog-shell .preview__title a:hover { color: var(--press); }
+
+/* Code, quotes, tables and figures for light. */
+.blog-shell .post-body pre {
+  background: #f4f4f4;
+  border: 1px solid #e2e2e2;
+  color: #1d1d1d;
+}
+.blog-shell .post-body pre code { color: inherit; background: none; border: 0; }
+.blog-shell code.ic,
+.blog-shell .post-body :not(pre) > code {
+  background: #f1f1f1;
+  border: 1px solid #e0e0e0;
+  color: #1d1d1d;
+}
+.blog-shell .post-body blockquote { border-left-color: #cfcfcf; color: #4a4a4a; }
+.blog-shell .post-body hr { border-top-color: rgba(0, 0, 0, 0.12); }
+.blog-shell .post-body th,
+.blog-shell .post-body td { border-color: #e2e2e2; }
+.blog-shell .post-body th { background: #f4f4f4; color: #111111; }
+.blog-shell .cs-figure img { border-color: #e2e2e2; background: #ffffff; }
+.blog-shell .cs-figure figcaption { color: #333333; }
+.blog-shell .cs-figure__label { color: #666666; }
+.blog-shell ::selection { background: rgba(184, 66, 10, 0.18); color: #111111; }

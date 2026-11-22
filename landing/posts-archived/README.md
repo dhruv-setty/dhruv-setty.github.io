@@ -1,0 +1,1 @@
+Posts withdrawn from the Journal. Kept for reference only: the build reads `posts/*.md`, so nothing here is compiled, prerendered or listed. Their old URLs redirect to /blog/ via `public/blog/<slug>/index.html`.

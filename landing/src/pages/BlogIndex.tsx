@@ -20,7 +20,7 @@ export default function BlogIndex() {
               <>
                 <div className="preview-feed">
                   {POSTS.slice(0, 4).map((p) => (
-                    <PostPreview key={p.slug} post={p} listen />
+                    <PostPreview key={p.slug} post={p} />
                   ))}
                 </div>
                 {POSTS.length > 4 && (
@@ -28,7 +28,7 @@ export default function BlogIndex() {
                     <summary className="button button--ghost">View more</summary>
                     <div className="preview-feed">
                       {POSTS.slice(4).map((p) => (
-                        <PostPreview key={p.slug} post={p} listen />
+                        <PostPreview key={p.slug} post={p} />
                       ))}
                     </div>
                   </details>
@@ -37,7 +37,7 @@ export default function BlogIndex() {
             )}
           </section>
         </main>
-        <BlogSidebar listen />
+        <BlogSidebar />
       </div>
       <Footer />
     </>
