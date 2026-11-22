@@ -1918,3 +1918,7 @@ body { padding-top: 0 !important; }
 .page--home .preview--project .preview__summary {
   display: block; -webkit-line-clamp: unset; line-clamp: none; overflow: visible;
 }
+
+/* Dataset and Model links match the grey github.com meta text on other entries. */
+.page--home .preview--project .preview__meta-link { color: inherit; font-weight: inherit; text-decoration: none; }
+.page--home .preview--project .preview__meta-link:hover { color: var(--accent); }
