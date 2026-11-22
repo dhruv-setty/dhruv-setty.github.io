@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { formatShortDate, recentPosts } from "../content/posts";
 
 // Side panel for the Journal: the three most recent posts, newest first, leaving out the one
-// being read. Collapses to a disclosure on small screens.
+// being read, each with a small cover thumbnail. Sticky on desktop; a disclosure on small screens.
 export default function BlogSidebar({ current }: { current?: string }) {
   const recent = recentPosts(3, current);
   if (recent.length === 0) return null;
@@ -12,16 +12,24 @@ export default function BlogSidebar({ current }: { current?: string }) {
         <summary className="blog-side__title">Recent</summary>
         <ol className="blog-side__list">
           {recent.map((p) => (
-            <li key={p.slug} className="blog-side__item">
-              <Link to={`/blog/${p.slug}/`} className="blog-side__link">
-                <span className="blog-side__name">{p.title}</span>
-              </Link>
-              <span className="blog-side__meta">
-                {formatShortDate(p.date)} · {p.minutes} min read
+            <li key={p.slug} className="blog-side__item blog-side__item--thumb">
+              {p.thumb ? (
+                <span className="blog-side__thumb" aria-hidden="true">
+                  <img src={p.thumb} alt="" loading="lazy" decoding="async" width="800" height="450" />
+                </span>
+              ) : null}
+              <span className="blog-side__text">
+                <Link to={`/blog/${p.slug}/`} className="blog-side__link">
+                  <span className="blog-side__name">{p.title}</span>
+                </Link>
+                <span className="blog-side__meta">
+                  {formatShortDate(p.date)} · {p.minutes} min read
+                </span>
               </span>
             </li>
           ))}
         </ol>
+        <Link to="/blog/" className="blog-side__all">All posts →</Link>
       </details>
     </aside>
   );

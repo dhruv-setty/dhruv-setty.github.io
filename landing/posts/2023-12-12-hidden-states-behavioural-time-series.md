@@ -2,6 +2,8 @@
 title: "Hidden States: Modelling Driver Behaviour with Regimes, Drift and a Forward Filter"
 date: 2023-12-12
 summary: Switching HMM over four behavioural regimes coupled to a GMRF drift field with sparse precision Q(θ); simulated int8 forward filter, 99.66% argmax agreement with the float filter over 5,000 samples, 40 MACs per sample.
+kicker: TIME SERIES
+cover: /journal/covers/hidden-states-behavioural-time-series.png
 ---
 
 ## Context

@@ -5,8 +5,28 @@ import BlogSidebar from "../components/BlogSidebar";
 import LinkCard from "../components/LinkCard";
 import { domainOf } from "../content/links";
 import NotFound from "./NotFound";
-import { POSTS, findPost, formatDate } from "../content/posts";
+import { POSTS, findPost, formatDate, formatShortDate, type Post } from "../content/posts";
 import { SITE } from "../content/site";
+
+// End-of-post Prev/Next: a small preview card with the post's cover thumbnail.
+function NavCard({ post, label, next }: { post: Post; label: string; next?: boolean }) {
+  return (
+    <Link to={`/blog/${post.slug}/`} className={next ? "post-next post-next--next" : "post-next"}>
+      {post.thumb ? (
+        <span className="post-next__thumb">
+          <img src={post.thumb} alt="" loading="lazy" decoding="async" width="800" height="450" />
+        </span>
+      ) : null}
+      <span className="post-next__body">
+        <span className="post-next__label">{label}</span>
+        <span className="post-next__title">{post.title}</span>
+        <span className="post-next__meta">
+          {formatShortDate(post.date)} · {post.minutes} min read
+        </span>
+      </span>
+    </Link>
+  );
+}
 
 export default function PostPage() {
   const { slug } = useParams();
@@ -18,27 +38,37 @@ export default function PostPage() {
   return (
     <>
       <Header />
-      <div className="blog-shell fade-in" id="main">
+      <div className="blog-shell blog-shell--post fade-in" id="main">
         <main className="blog-main">
           <article className="prose-article section panel journal-panel">
             <header className="post-header">
+              <Link to="/blog/" className="post-back">
+                <span aria-hidden="true">←</span> Journal
+              </Link>
+              {post.kicker ? <p className="post-kicker">{post.kicker}</p> : null}
               <h1>{post.title}</h1>
-              <div className="byline byline--post">
-                <img src="/dhruv.webp" alt="" width="40" height="40" />
-                <span>
-                  <strong>{SITE.name}</strong>
-                  <span className="byline__meta">
-                    <time dateTime={post.date}>{formatDate(post.date)}</time> · {post.minutes} min read
-                    {post.medium ? (
-                      <>
-                        {" · "}
-                        <a href={post.medium}>Read on Medium</a>
-                      </>
-                    ) : null}
-                  </span>
+              <p className="post-standfirst">{post.summary}</p>
+              <div className="post-meta">
+                <span className="post-meta__name">{SITE.name}</span>
+                <span className="post-meta__sep post-meta__sep--lead" aria-hidden="true">·</span>
+                <span className="post-meta__info">
+                  <time dateTime={post.date}>{formatDate(post.date)}</time>
+                  <span className="post-meta__sep" aria-hidden="true">·</span>
+                  <span>{post.minutes} min read</span>
                 </span>
+                {post.medium ? (
+                  <>
+                    <span className="post-meta__sep" aria-hidden="true">·</span>
+                    <a href={post.medium}>Read on Medium</a>
+                  </>
+                ) : null}
               </div>
             </header>
+            {post.cover ? (
+              <figure className="post-cover">
+                <img src={post.cover} alt={post.coverAlt ?? ""} width="1200" height="675" decoding="async" />
+              </figure>
+            ) : null}
             <div className="post-body" dangerouslySetInnerHTML={{ __html: post.html }} />
             {post.substack ? (
               <div className="link-cards link-cards--substack">
@@ -53,21 +83,19 @@ export default function PostPage() {
                 />
               </div>
             ) : null}
+            {older || newer ? (
+              <footer className="post-end">
+                <p className="post-end__title">Keep reading</p>
+                <nav className="post-end__grid" aria-label="More posts">
+                  {older ? <NavCard post={older} label="← Previous" /> : <span className="post-next--empty" />}
+                  {newer ? <NavCard post={newer} label="Next →" next /> : <span className="post-next--empty" />}
+                </nav>
+                <Link to="/blog/" className="post-back post-back--end">
+                  <span aria-hidden="true">←</span> All posts
+                </Link>
+              </footer>
+            ) : null}
           </article>
-          <nav className="post-nav" aria-label="More posts">
-            {older ? (
-              <Link to={`/blog/${older.slug}/`} className="post-nav__item">
-                <span className="post-nav__label">Previous</span>
-                <span>{older.title}</span>
-              </Link>
-            ) : <span />}
-            {newer ? (
-              <Link to={`/blog/${newer.slug}/`} className="post-nav__item post-nav__item--next">
-                <span className="post-nav__label">Next</span>
-                <span>{newer.title}</span>
-              </Link>
-            ) : <span />}
-          </nav>
         </main>
         <BlogSidebar current={post.slug} />
       </div>

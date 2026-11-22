@@ -1,8 +1,9 @@
 ---
 title: "From Intent to Evidence: Identity Controls That Leave Proof"
-thumb: /projects/iiq-legacy-fs.png
 date: 2026-11-10
 summary: CI captures for two components: a .NET 8 CLI rendering and validating SSSD idp-provider configuration for Entra ID sign-in on Debian, and a Java change planner and evidence library for IdentityIQ governance of POSIX ACL file shares.
+kicker: IDENTITY
+cover: /journal/covers/from-intent-to-evidence.png
 ---
 
 ## Context

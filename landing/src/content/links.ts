@@ -2,7 +2,8 @@
 // Substack embed. A Journal paragraph that holds only a link to one of these URLs (or to
 // another Journal post) is rendered as a card instead of a bare link. Descriptions are
 // taken from copy already on the site; thumbnails come from public/ and never use the
-// profile photo. A target with no image of its own gets a neutral domain tile.
+// profile photo. Known work uses a designed tile from public/journal/covers/; any other target
+// gets a neutral domain tile.
 
 export interface LinkPreview {
   href: string;
@@ -16,26 +17,28 @@ export const WORK_LINKS: Record<string, Omit<LinkPreview, "href" | "domain">> = 
   "https://github.com/dhruv-setty/entra-id-sign-in-for-debian-with-sssd": {
     title: "Entra ID sign in for Debian with SSSD",
     description: "Configures Debian hosts to authenticate Microsoft Entra ID users through the SSSD idp provider.",
+    image: "/journal/covers/work-entra-sssd.webp",
   },
   "https://github.com/dhruv-setty/identity-governance-for-legacy-linux-file-shares": {
     title: "Identity governance for legacy Linux file shares",
     description:
       "Brings POSIX permissions, ACLs and NFSv3 exports on legacy file servers under request, approval and certification.",
-    image: "/projects/iiq-legacy-fs.png",
+    image: "/journal/covers/work-legacy-fs.webp",
   },
   "https://github.com/dhruv-setty/split-spde-gmrf-inference-for-lane-perception": {
     title: "Driver-state detection from lane keeping on a microcontroller",
     description: "Classifies driver state from lane-position data on a Cortex-M4F, with route correction computed off-device.",
-    image: "/projects/spde-gmrf.png",
+    image: "/journal/covers/work-split-spde.webp",
   },
   "https://huggingface.co/spaces/itsdhruvsetty/split-spde-gmrf-lane-perception": {
     title: "Driver-state detection: live demo",
     description: "Steps through a simulated drive.",
-    image: "/journal/lifting-spde-gmrf-gpu-edge/cover.png",
+    image: "/journal/covers/work-hf-demo.webp",
   },
   "https://huggingface.co/datasets/itsdhruvsetty/spde-gmrf-lane-perception-vectors": {
     title: "spde-gmrf-lane-perception-vectors",
     description: "Hugging Face dataset with the data for the route-model fit.",
+    image: "/journal/covers/work-hf-dataset.webp",
   },
 };
 

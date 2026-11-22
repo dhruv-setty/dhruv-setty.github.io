@@ -9,7 +9,10 @@ export interface Post {
   minutes: number; // estimated reading time
   medium?: string; // optional Medium URL (front matter `medium:`)
   substack?: string; // optional Substack URL (front matter `substack:`), shown as a preview card
-  thumb?: string; // list and card thumbnail: front matter `thumb:`, else `cover:`, else the first figure
+  kicker?: string; // short topic label above the title (front matter `kicker:`)
+  cover?: string; // designed 16:9 cover PNG (front matter `cover:`), shown at the top of the post
+  coverAlt?: string;
+  thumb?: string; // list and card thumbnail: front matter `thumb:`, else the cover's WebP, else the first figure
 }
 
 interface Compiled {
@@ -22,7 +25,7 @@ const files = import.meta.glob<Compiled>("../../posts/*.md", { import: "default"
 
 function toPost(path: string, { data, html }: Compiled): Post {
   const slug = (path.split("/").pop() ?? "").replace(/\.md$/, "").replace(/^\d{4}-\d{2}-\d{2}-/, "");
-  const { title, date, summary, medium, substack, thumb, cover } = data;
+  const { title, date, summary, medium, substack, thumb, cover, kicker } = data;
   if (!title || !date || !summary || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     throw new Error(`${path}: front matter needs title, date (YYYY-MM-DD) and summary`);
   }
@@ -38,7 +41,10 @@ function toPost(path: string, { data, html }: Compiled): Post {
     minutes,
     medium: medium || undefined,
     substack: substack || undefined,
-    thumb: thumb || cover || firstImg || undefined,
+    kicker: kicker || undefined,
+    cover: cover || undefined,
+    coverAlt: cover ? `Cover image: ${kicker ? kicker.toLowerCase() + ", " : ""}${title}` : undefined,
+    thumb: thumb || (cover ? cover.replace(/\.png$/, ".webp") : undefined) || firstImg || undefined,
   };
 }
 
@@ -61,7 +67,10 @@ export function postPreview(href: string): LinkPreview | undefined {
 }
 
 // Newest first. Links to work inside each post render as preview cards.
-export const POSTS: Post[] = sorted.map((p) => ({ ...p, html: cardify(p.html, postPreview) }));
+// Tables are wrapped so they scroll inside the reading column instead of the page.
+const wrapTables = (html: string) =>
+  html.replace(/<table>/g, '<div class="table-wrap"><table>').replace(/<\/table>/g, "</table></div>");
+export const POSTS: Post[] = sorted.map((p) => ({ ...p, html: wrapTables(cardify(p.html, postPreview)) }));
 
 // The n most recent posts, newest first, leaving out `exclude`.
 export function recentPosts(n: number, exclude?: string): Post[] {
