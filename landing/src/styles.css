@@ -1904,3 +1904,6 @@ body { padding-top: 0 !important; }
   text-decoration-color: rgba(0, 0, 0, 0.35);
 }
 .page--home .preview--project .preview__meta-link:hover { color: var(--accent); text-decoration-color: currentColor; }
+
+/* Hero surname in the site orange. */
+.hero__word.hero__last, .hero__name:hover .hero__word.hero__last { color: var(--press, #f2803f); }
