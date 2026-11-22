@@ -1799,8 +1799,7 @@ code.ic,
    Journal's white paper on the same dark grid. Scoped to .page--home,
    which only the homepage renders. The hero, ground, grid, header and
    footer are untouched. Panel padding is unchanged so the cards keep
-   their width, and every project card re-declares the dark tokens, so
-   its markup, colours, sizes and look stay exactly as before.
+   their width. Project cards are light (see below).
    Contrast on #ffffff: --text #111 18.9:1, --text-2 #2e2e2e 13.6:1,
    --muted #666 5.7:1, --press #b8420a 5.6:1 (all WCAG AA). #f2803f is
    kept for non-text accents only: as text it is 2.6:1 on white.
@@ -1845,28 +1844,70 @@ code.ic,
 .page--home .hop__ch--name,
 .page--home .about__why { color: #b8420a; }
 
-/* Projects: dark cards set on white. The list keeps its gap; cards keep their own look. */
+/* Projects (2026-11-22, Dhruv: "get rid of black then"): light cards in the
+   Journal's style, set on the white panel. Same markup, grid, padding, sizes
+   and image; only colours and the light frame change. No hover on the card.
+   Contrast on the #fafafa card: #111 18.1:1, #2e2e2e 13.0:1, #666 5.5:1,
+   #b8420a 5.4:1; chip text #1f1f1f on #f4f4f4 15.1:1. */
 .page--home #work .project-list { gap: clamp(1.25rem, 2.5vw, 1.75rem); }
 .page--home > .section.panel .project {
-  color-scheme: dark;
-  --text: #f2f2f2;
-  --text-2: #d0d0d0;
-  --muted: #8f8f8f;
-  --surface: #0b0b0b;
-  --surface-2: #111111;
-  --surface-3: #1a1a1a;
-  --rule: rgba(255, 255, 255, 0.08);
-  --rule-strong: rgba(255, 255, 255, 0.18);
-  --field: #6b6b6b;
-  --press: #f2803f;
-  --press-deep: #e0662a;
-  --on-ink: #0a0a0a;
-  color: #d0d0d0;
+  color-scheme: light;
+  color: #2e2e2e;
+  background: #fafafa;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
-.page--home > .section.panel .project ::selection { background: rgba(255, 255, 255, 0.2); color: #ffffff; }
-.page--home > .section.panel .project :focus-visible { outline-color: #f2f2f2; }
+.page--home > .section.panel .project + .project { border-top-color: #e6e6e6; }
+.page--home > .section.panel .project__figure {
+  background: #f4f4f4;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  box-shadow: none;
+}
+.page--home > .section.panel .project .card__tag { color: #666666; }
+.page--home > .section.panel .project__title { color: #111111; }
+.page--home > .section.panel .project .project__summary,
+.page--home > .section.panel .project__points { color: #2e2e2e; }
+.page--home > .section.panel .project__points li::marker { color: #666666; }
+.page--home > .section.panel .card__chips li { color: #2e2e2e; border-color: #d0d0d0; opacity: 1; }
 
-/* Get in touch: light fields and a dark ink button, orange on hover. Lede stays left. */
+/* Inline code chips anywhere in the home panels: light grey with dark text. */
+.page--home > .section.panel code.ic {
+  background: #f4f4f4;
+  border: 1px solid #e6e6e6;
+  color: #1f1f1f;
+}
+
+/* Buttons in the home panels: light outline, dark text; hover darkens the
+   border and turns the text orange. No fill, no glow. */
+.page--home > .section.panel .button,
+.page--home > .section.panel .button--ghost,
+.page--home .contact-form button {
+  background: #ffffff;
+  color: #111111;
+  border: 1px solid #d0d0d0;
+  box-shadow: none;
+}
+.page--home > .section.panel .button:hover,
+.page--home > .section.panel .button--ghost:hover,
+.page--home .contact-form button:hover:not([disabled]) {
+  background: #ffffff;
+  color: #b8420a;
+  border-color: #8a8a8a;
+  box-shadow: none;
+}
+.page--home > .section.panel .button:active,
+.page--home > .section.panel .button--ghost:active,
+.page--home .contact-form button:active:not([disabled]) {
+  background: #f4f4f4;
+  color: #93340a;
+  border-color: #666666;
+}
+.page--home > .section.panel .button:focus-visible,
+.page--home .contact-form button:focus-visible { outline: 2px solid #111111; outline-offset: 2px; }
+
+/* Get in touch: light fields; the send button uses the light outline above. Lede stays left. */
 .page--home .contact-form label { color: #2e2e2e; }
 .page--home .contact-form .muted { color: #666666; }
 .page--home .contact-form input,
@@ -1875,9 +1916,6 @@ code.ic,
 .page--home .contact-form textarea:hover { border-color: #555555; }
 .page--home .contact-form input:focus-visible,
 .page--home .contact-form textarea:focus-visible { outline: 2px solid #111111; outline-offset: 1px; border-color: #111111; background: #ffffff; }
-.page--home .contact-form button { background: #111111; border-color: #111111; color: #ffffff; }
-.page--home .contact-form button:hover:not([disabled]) { background: #b8420a; border-color: #b8420a; color: #ffffff; }
-.page--home .contact-form button:active:not([disabled]) { background: #93340a; border-color: #93340a; color: #ffffff; }
 .page--home .contact-form__status { color: #2e2e2e; }
 
 @media (max-width: 520px) {
