@@ -6,7 +6,7 @@ export default function Footer({ icons = true }: { icons?: boolean }) {
   return (
     <footer className="site-footer">
       <div className="site-footer__inner">
-        <p>© {new Date().getFullYear()} {first} <span className="site-footer__accent">{rest.join(" ")}</span></p>
+        <p className="site-footer__copy">© 2027 {first} <span className="site-footer__accent">{rest.join(" ")}</span></p>
         {icons ? (
         <ul className="site-footer__links">
           {SITE.contact.map((c) => (
