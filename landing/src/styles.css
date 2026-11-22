@@ -1934,3 +1934,36 @@ body { padding-top: 0 !important; }
   text-transform: uppercase;
   color: var(--ink-3, #6b6b6b);
 }
+/* Drawer: no nav bar, one floating button opens a slide-in panel. */
+body { padding-top: 0 !important; }
+.site-drawer { position: static; }
+.drawer-btn {
+  position: fixed; top: 1rem; right: 1rem; z-index: 40;
+  width: 2.75rem; height: 2.75rem; border-radius: 999px;
+  display: grid; place-content: center; gap: 5px;
+  background: rgba(7, 7, 7, 0.72); border: 1px solid rgba(255, 255, 255, 0.16);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  cursor: pointer; padding: 0;
+}
+.drawer-btn span { display: block; width: 18px; height: 2px; background: #f5f5f5; border-radius: 2px; transition: transform 220ms ease, opacity 160ms ease; }
+.drawer-btn:hover { border-color: rgba(255, 255, 255, 0.4); }
+.drawer-btn:focus-visible { outline: 2px solid #f5f5f5; outline-offset: 3px; }
+.drawer-btn.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.drawer-btn.is-open span:nth-child(2) { opacity: 0; }
+.drawer-btn.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.drawer-scrim { position: fixed; inset: 0; z-index: 30; background: rgba(0, 0, 0, 0.5); opacity: 0; pointer-events: none; transition: opacity 220ms ease; }
+.drawer-scrim.is-open { opacity: 1; pointer-events: auto; }
+.drawer-panel {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 35;
+  width: min(18rem, 80vw); padding: 5rem 1.75rem 2rem;
+  display: flex; flex-direction: column; gap: 0.25rem;
+  background: #0b0b0b; border-left: 1px solid rgba(255, 255, 255, 0.12);
+  transform: translateX(100%); visibility: hidden;
+  transition: transform 260ms ease, visibility 0s linear 260ms;
+}
+.drawer-panel.is-open { transform: none; visibility: visible; transition: transform 260ms ease; }
+.drawer-panel a { color: #a3a3a3; text-decoration: none; font-size: 1.15rem; padding: 0.7rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.drawer-panel a:hover, .drawer-panel a[aria-current] { color: #f5f5f5; }
+.drawer-panel a:hover, .drawer-panel a[aria-current] { color: #e8590c; }
+.drawer-panel a[aria-current] { font-weight: 600; }
+.post-back { cursor: pointer; background: none; border: 0; padding: 0; font: inherit; }

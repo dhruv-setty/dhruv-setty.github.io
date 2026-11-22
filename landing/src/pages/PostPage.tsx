@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import BlogSidebar from "../components/BlogSidebar";
@@ -30,6 +30,7 @@ function NavCard({ post, label, next }: { post: Post; label: string; next?: bool
 
 export default function PostPage() {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const post = slug ? findPost(slug) : undefined;
   if (!post) return <NotFound />;
   const i = POSTS.indexOf(post);
@@ -42,9 +43,13 @@ export default function PostPage() {
         <main className="blog-main">
           <article className="prose-article section panel journal-panel">
             <header className="post-header">
-              <Link to="/blog/" className="post-back">
-                <span aria-hidden="true">←</span> Journal
-              </Link>
+              <button
+                type="button"
+                className="post-back"
+                onClick={() => (window.history.length > 1 ? navigate(-1) : navigate("/blog/"))}
+              >
+                <span aria-hidden="true">←</span> Back
+              </button>
               {post.kicker ? <p className="post-kicker">{post.kicker}</p> : null}
               <h1>{post.title}</h1>
               <p className="post-standfirst">{post.summary}</p>
