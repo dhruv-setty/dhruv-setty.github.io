@@ -63,6 +63,8 @@ export type Project = {
   // Designed 16:9 tile (make_covers.py), shown as the preview thumbnail on Home.
   cover: string;
   href: string;
+  // Private repository: title is not a link and the meta line says so.
+  private?: boolean;
   extra?: { label: string; href: string }[];
   // Shown in place of the destination line on Home: each label links to its own page.
   meta?: { label: string; href: string }[];
@@ -85,6 +87,16 @@ export const PROJECTS: readonly Project[] = [
     ],
     cover: "/journal/covers/project-entra-sssd.webp",
     href: "https://github.com/dhruv-setty/entra-id-sign-in-for-debian-with-sssd",
+  },
+  {
+    slug: "bau-toolkit",
+    name: "Entra ID BAU toolkit for Linux",
+    tag: "IAM",
+    summary:
+      "Shell and Bash scripts from my daily workflow that set up Entra ID single sign-on on Linux hosts: app registration with admin consent, device code sign in with MFA and Conditional Access, and access limited to one group. Run on local VMs and Docker.",
+    cover: "/journal/covers/project-bau-toolkit.webp",
+    href: "",
+    private: true,
   },
   {
     slug: "iiq-legacy-fs",

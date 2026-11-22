@@ -7,6 +7,7 @@ import { rich } from "../lib/rich";
 // site open in a new tab.
 export default function ProjectPreview({ project: p }: { project: Project }) {
   const external = /^https?:\/\//.test(p.href);
+  const locked = !!p.private || !p.href;
   const where = external ? new URL(p.href).hostname.replace(/^www\./, "") : "Journal";
   const titleId = `project-${p.slug}`;
   return (
@@ -14,7 +15,9 @@ export default function ProjectPreview({ project: p }: { project: Project }) {
       <div className="preview__text">
         <p className="preview__kicker">{p.tag}</p>
         <h3 id={titleId} className="preview__title">
-          {external ? (
+          {locked ? (
+            <span>{p.name}</span>
+          ) : external ? (
             <a href={p.href} target="_blank" rel="noopener" className="preview__link">
               {p.name}
               <span className="visually-hidden"> (opens in a new tab)</span>
@@ -36,8 +39,8 @@ export default function ProjectPreview({ project: p }: { project: Project }) {
           </p>
         ) : (
           <p className="preview__meta">
-            <span>{where}</span>
-            {external ? <span aria-hidden="true">↗</span> : null}
+            <span>{locked ? "Private repository" : where}</span>
+            {external && !locked ? <span aria-hidden="true">↗</span> : null}
           </p>
         )}
       </div>
