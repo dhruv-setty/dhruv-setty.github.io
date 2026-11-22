@@ -103,7 +103,7 @@ export const PROJECTS: readonly Project[] = [
     name: "IT support home lab",
     tag: "BAU",
     summary:
-      "Everyday support work practised on lab machines: Microsoft 365 and Active Directory accounts, Intune devices, tickets and user troubleshooting. Includes a plain-language review of an F5 BIG-IP security flaw, CVE-2022-1388.",
+      "Everyday support work practised on lab machines: Microsoft 365 and Active Directory accounts, Intune devices, tickets and troubleshooting through research. Includes a CVSS table analysis of an F5 BIG-IP flaw, CVE-2022-1388.",
     cover: "/journal/covers/project-bau-lab.webp",
     href: "",
     private: true,
