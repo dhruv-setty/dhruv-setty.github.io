@@ -5,7 +5,7 @@ import { PROJECTS, SITE } from "../content/site";
 import { GREETING, STORY } from "../content/story";
 import ProjectPreview from "../components/ProjectPreview";
 
-const IDENTITY_TAGS = ["IAM", "IGA"];
+const IDENTITY_TAGS = ["IAM", "IGA", "BAU"];
 import BlogSidebar from "../components/BlogSidebar";
 import HopGreeting from "../components/HopGreeting";
 import Reveal from "../components/Reveal";

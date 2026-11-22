@@ -91,7 +91,7 @@ export const PROJECTS: readonly Project[] = [
   {
     slug: "bau-toolkit",
     name: "Single sign-on toolkit for Linux",
-    tag: "IAM",
+    tag: "BAU",
     summary:
       "Shell and Bash scripts I use day to day to configure single sign-on on Linux hosts and check who has access. Every change is tested on local VMs and in Docker before use, and recorded in a changelog.",
     cover: "/journal/covers/project-bau-toolkit.webp",
