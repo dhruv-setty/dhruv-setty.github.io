@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main id="main" className="page fade-in">
+      <main id="main" className="page page--home fade-in">
         <Reveal />
         <section className="hero phase phase--one" aria-labelledby="hero-h">
           {SITE.location ? <p className="eyebrow">{SITE.location}</p> : null}

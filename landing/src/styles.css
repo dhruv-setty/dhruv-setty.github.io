@@ -1792,3 +1792,96 @@ code.ic,
   .blog-shell .prose-article .post-header h1 { font-size: 1.6rem; line-height: 1.18; letter-spacing: -0.02em; }
   .blog-shell .post-standfirst { font-size: 1rem; }
 }
+
+/* ------------------------------------------------------------------
+   Home paper (2026-11-22, Dhruv: "clean styling without changing the
+   cards"). The About, Projects and Get in touch panels take the
+   Journal's white paper on the same dark grid. Scoped to .page--home,
+   which only the homepage renders. The hero, ground, grid, header and
+   footer are untouched. Panel padding is unchanged so the cards keep
+   their width, and every project card re-declares the dark tokens, so
+   its markup, colours, sizes and look stay exactly as before.
+   Contrast on #ffffff: --text #111 18.9:1, --text-2 #2e2e2e 13.6:1,
+   --muted #666 5.7:1, --press #b8420a 5.6:1 (all WCAG AA). #f2803f is
+   kept for non-text accents only: as text it is 2.6:1 on white.
+   ------------------------------------------------------------------ */
+.page--home > .section.panel {
+  color-scheme: light;
+  --text: #111111;
+  --text-2: #2e2e2e;
+  --muted: #666666;
+  --surface: #ffffff;
+  --surface-2: #fafafa;
+  --surface-3: #f4f4f4;
+  --rule: rgba(0, 0, 0, 0.1);
+  --rule-strong: rgba(0, 0, 0, 0.22);
+  --field: #8a8a8a;
+  --press: #b8420a;
+  --press-deep: #93340a;
+  --on-ink: #ffffff;
+  color: var(--text-2);
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06), 0 2px 6px rgba(0, 0, 0, 0.45), 0 28px 56px -30px rgba(0, 0, 0, 0.95);
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+.page--home > .section.panel :focus-visible { outline-color: #111111; }
+.page--home > .section.panel ::selection { background: rgba(184, 66, 10, 0.18); color: #111111; }
+
+/* Section kickers: the Journal's uppercase label with a hairline rule. */
+.page--home .panel__head { margin-bottom: clamp(1.5rem, 2.75vw, 2.25rem); }
+.page--home .panel__head .section__title {
+  font-size: var(--step-0);
+  letter-spacing: 0.1em;
+  color: #111111;
+}
+.page--home .panel__head .section__title::after { background: #e7e7e7; }
+
+/* About: Journal body ink, justified as before; greeting and "why" keep the accent. */
+.page--home .about.panel .about__story p,
+.page--home .about.panel .about__story p:first-of-type { color: #2e2e2e; line-height: 1.7; }
+.page--home .hop__ch--ink { color: #111111; }
+.page--home .hop__ch--name,
+.page--home .about__why { color: #b8420a; }
+
+/* Projects: dark cards set on white. The list keeps its gap; cards keep their own look. */
+.page--home #work .project-list { gap: clamp(1.25rem, 2.5vw, 1.75rem); }
+.page--home > .section.panel .project {
+  color-scheme: dark;
+  --text: #f2f2f2;
+  --text-2: #d0d0d0;
+  --muted: #8f8f8f;
+  --surface: #0b0b0b;
+  --surface-2: #111111;
+  --surface-3: #1a1a1a;
+  --rule: rgba(255, 255, 255, 0.08);
+  --rule-strong: rgba(255, 255, 255, 0.18);
+  --field: #6b6b6b;
+  --press: #f2803f;
+  --press-deep: #e0662a;
+  --on-ink: #0a0a0a;
+  color: #d0d0d0;
+}
+.page--home > .section.panel .project ::selection { background: rgba(255, 255, 255, 0.2); color: #ffffff; }
+.page--home > .section.panel .project :focus-visible { outline-color: #f2f2f2; }
+
+/* Get in touch: light fields and a dark ink button, orange on hover. Lede stays left. */
+.page--home .contact-form label { color: #2e2e2e; }
+.page--home .contact-form .muted { color: #666666; }
+.page--home .contact-form input,
+.page--home .contact-form textarea { background: #fafafa; color: #111111; border: 1px solid #8a8a8a; }
+.page--home .contact-form input:hover,
+.page--home .contact-form textarea:hover { border-color: #555555; }
+.page--home .contact-form input:focus-visible,
+.page--home .contact-form textarea:focus-visible { outline: 2px solid #111111; outline-offset: 1px; border-color: #111111; background: #ffffff; }
+.page--home .contact-form button { background: #111111; border-color: #111111; color: #ffffff; }
+.page--home .contact-form button:hover:not([disabled]) { background: #b8420a; border-color: #b8420a; color: #ffffff; }
+.page--home .contact-form button:active:not([disabled]) { background: #93340a; border-color: #93340a; color: #ffffff; }
+.page--home .contact-form__status { color: #2e2e2e; }
+
+@media (max-width: 520px) {
+  .page--home > .section.panel { border-radius: 10px; margin-bottom: 1.25rem; }
+}
+/* Empty status line takes no room, so the panel's bottom matches its top. */
+.page--home .contact-form__status:empty { min-height: 0; margin: 0; }
