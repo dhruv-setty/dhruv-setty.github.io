@@ -1,7 +1,7 @@
 ---
 title: "Zero Trust Starts in the Silicon: Cobalt 200, Neoverse V3 and GDPR"
 date: 2025-12-09
-summary: Opinion. Cobalt 200 on Neoverse CSS V3: default memory encryption and Arm CCA realm isolation relocate the zero-trust boundary below the hypervisor; under GDPR Articles 25 and 32 they constitute evidence only when read from ID registers, enabled per VM size and attested.
+summary: "Opinion. Cobalt 200 on Neoverse CSS V3: default memory encryption and Arm CCA realm isolation move the zero-trust boundary below the hypervisor; under GDPR Articles 25 and 32 they are evidence only when read from ID registers and attested."
 kicker: SECURITY
 cover: /journal/covers/zero-trust-in-silicon-cobalt-200-neoverse-gdpr.png
 ---

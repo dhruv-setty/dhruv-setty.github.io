@@ -1910,3 +1910,11 @@ body { padding-top: 0 !important; }
 
 /* Hero name fully static: no load animation, no hover or scroll motion. */
 .hero__name, .hero__name .hero__word { animation: none !important; transition: none !important; transform: none !important; }
+
+/* Previews show the full summary (each kept to 250 characters or fewer); no ellipsis clamp. */
+.preview__summary,
+.blog-shell .preview__summary,
+.blog-shell .preview--post .preview__summary,
+.page--home .preview--project .preview__summary {
+  display: block; -webkit-line-clamp: unset; line-clamp: none; overflow: visible;
+}
