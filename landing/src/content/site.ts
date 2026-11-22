@@ -90,10 +90,10 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     slug: "bau-toolkit",
-    name: "Entra ID BAU toolkit for Linux",
+    name: "Single sign-on toolkit for Linux",
     tag: "IAM",
     summary:
-      "Shell and Bash scripts from my daily workflow that set up Entra ID single sign-on on Linux hosts: app registration with admin consent, device code sign in with MFA and Conditional Access, and access limited to one group. Run on local VMs and Docker.",
+      "Shell and Bash scripts I use day to day to configure single sign-on on Linux hosts and check who has access. Every change is tested on local VMs and in Docker before use, and recorded in a changelog.",
     cover: "/journal/covers/project-bau-toolkit.webp",
     href: "",
     private: true,
