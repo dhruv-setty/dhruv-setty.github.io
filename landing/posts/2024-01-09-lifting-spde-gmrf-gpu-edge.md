@@ -11,7 +11,9 @@ The system watches lane position from a forward camera and classifies the driver
 
 The work splits by cost. Fitting the route model means repeatedly solving a large sparse linear system, which belongs on a host or GPU and runs every few seconds to minutes. Classification is one small update per sample, sized for a microcontroller: 40 multiply-accumulates and 1,802 bytes of flash, in int8.
 
-The question that decides whether the design holds is whether the int8 classifier makes the same calls as a full-precision one. On simulated drives it does: they agree on 99.66% of 5,000 samples, the gap stays under 0.04 points when sensor noise doubles, and the device catches 151 of 157 panic episodes. A [live demo](https://huggingface.co/spaces/itsdhruvsetty/split-spde-gmrf-lane-perception) steps through a drive.
+The question that decides whether the design holds is whether the int8 classifier makes the same calls as a full-precision one. On simulated drives it does: they agree on 99.66% of 5,000 samples, the gap stays under 0.04 points when sensor noise doubles, and the device catches 151 of 157 panic episodes. A live demo steps through a drive.
+
+[Live demo on Hugging Face](https://huggingface.co/spaces/itsdhruvsetty/split-spde-gmrf-lane-perception)
 
 | Component | Status |
 |---|---|
@@ -105,7 +107,9 @@ Each evaluation rebuilds the values of `Q(θ)` on a fixed sparsity pattern, fact
 
 <figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/study_noise.png" alt="Two line charts: accuracy and share of panic episodes caught both fall as sensor noise rises, with the 8-bit chip version overlapping the full-precision version" width="1760" height="704" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 10 · Noisier sensors</span> Sensor noise scaled from 0.5 to 2 times the default; 5 seeds of 2,000 samples per level, 157 panic episodes. Accuracy falls from 99.5% to 79.7% for both filters; int8 stays within 0.04 points of float and agrees with it on at least 99.25% of samples. At default noise int8 catches 151 of 157 panic episodes, median delay 0 samples, false-panic rate 0.64%.</figcaption></figure>
 
-<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/study_recovery.png" alt="Scatter of 40 estimated range and strength settings as a percentage of their true values, clustered around 100 percent" width="960" height="848" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 11 · Route-model fit</span> 40 simulated routes (seeds 0 to 39), 200 sensors by 8 replicates, fitted on CPU. Median absolute error 6.1% for the correlation range (<code class="ic">κ</code>) and 3.8% for the variance scale (<code class="ic">τ</code>); every estimate within 20% of truth. The two errors are negatively correlated (r = -0.73). Data: <a href="https://huggingface.co/datasets/itsdhruvsetty/spde-gmrf-lane-perception-vectors">Hugging Face dataset</a>.</figcaption></figure>
+<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/study_recovery.png" alt="Scatter of 40 estimated range and strength settings as a percentage of their true values, clustered around 100 percent" width="960" height="848" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 11 · Route-model fit</span> 40 simulated routes (seeds 0 to 39), 200 sensors by 8 replicates, fitted on CPU. Median absolute error 6.1% for the correlation range (<code class="ic">κ</code>) and 3.8% for the variance scale (<code class="ic">τ</code>); every estimate within 20% of truth. The two errors are negatively correlated (r = -0.73). Data: Hugging Face dataset, linked below.</figcaption></figure>
+
+[Hugging Face dataset](https://huggingface.co/datasets/itsdhruvsetty/spde-gmrf-lane-perception-vectors)
 
 ## Observations
 
@@ -122,4 +126,6 @@ Each evaluation rebuilds the values of `Q(θ)` on a fixed sparsity pattern, fact
 - RCM yields 11,378 or 11,370 nonzeros depending on input labelling: 500 and 500 of 1,000 seeds in this run, 502 and 498 in an earlier run. The cause of the inter-run variation has not been established. Seeds 0, 1 and 2, used by the tests, gave 11,378 in every run.
 - GPU estimation and on-device timing remain unmeasured; no result above substitutes for either.
 
-Source: [SPDE-GMRF lane perception repository on GitHub](https://github.com/dhruv-setty/split-spde-gmrf-inference-for-lane-perception)
+Source:
+
+[SPDE-GMRF lane perception repository on GitHub](https://github.com/dhruv-setty/split-spde-gmrf-inference-for-lane-perception)

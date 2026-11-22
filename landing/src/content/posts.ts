@@ -1,3 +1,5 @@
+import { cardify, domainOf, type LinkPreview } from "./links";
+
 export interface Post {
   slug: string;
   title: string;
@@ -6,6 +8,8 @@ export interface Post {
   html: string;
   minutes: number; // estimated reading time
   medium?: string; // optional Medium URL (front matter `medium:`)
+  substack?: string; // optional Substack URL (front matter `substack:`), shown as a preview card
+  thumb?: string; // list and card thumbnail: front matter `thumb:`, else `cover:`, else the first figure
 }
 
 interface Compiled {
@@ -18,18 +22,51 @@ const files = import.meta.glob<Compiled>("../../posts/*.md", { import: "default"
 
 function toPost(path: string, { data, html }: Compiled): Post {
   const slug = (path.split("/").pop() ?? "").replace(/\.md$/, "").replace(/^\d{4}-\d{2}-\d{2}-/, "");
-  const { title, date, summary, medium } = data;
+  const { title, date, summary, medium, substack, thumb, cover } = data;
   if (!title || !date || !summary || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     throw new Error(`${path}: front matter needs title, date (YYYY-MM-DD) and summary`);
   }
   const words = html.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(1, Math.round(words / 230));
-  return { slug, title, date, summary, html, minutes, medium: medium || undefined };
+  const firstImg = /<img[^>]+src="(\/[^"]+)"/.exec(html)?.[1];
+  return {
+    slug,
+    title,
+    date,
+    summary,
+    html,
+    minutes,
+    medium: medium || undefined,
+    substack: substack || undefined,
+    thumb: thumb || cover || firstImg || undefined,
+  };
 }
 
-export const POSTS: Post[] = Object.entries(files)
+const sorted: Post[] = Object.entries(files)
   .map(([path, mod]) => toPost(path, mod))
   .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+
+// Journal post URL -> preview card data, for links between posts.
+export function postPreview(href: string): LinkPreview | undefined {
+  const m = /^(?:https:\/\/dhruv-setty\.github\.io)?\/blog\/([^/]+)\/?$/.exec(href);
+  const post = m ? sorted.find((p) => p.slug === m[1]) : undefined;
+  if (!post) return undefined;
+  return {
+    href: `/blog/${post.slug}/`,
+    title: post.title,
+    description: post.summary,
+    domain: domainOf("/"),
+    image: post.thumb,
+  };
+}
+
+// Newest first. Links to work inside each post render as preview cards.
+export const POSTS: Post[] = sorted.map((p) => ({ ...p, html: cardify(p.html, postPreview) }));
+
+// The n most recent posts, newest first, leaving out `exclude`.
+export function recentPosts(n: number, exclude?: string): Post[] {
+  return POSTS.filter((p) => p.slug !== exclude).slice(0, n);
+}
 
 export function findPost(slug: string): Post | undefined {
   return POSTS.find((p) => p.slug === slug);

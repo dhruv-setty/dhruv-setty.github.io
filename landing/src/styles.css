@@ -1421,3 +1421,106 @@ code.ic,
 .blog-shell .cs-figure figcaption { color: #333333; }
 .blog-shell .cs-figure__label { color: #666666; }
 .blog-shell ::selection { background: rgba(184, 66, 10, 0.18); color: #111111; }
+
+/* ------------------------------------------------------------------
+   Journal previews (2026-11-22, Dhruv): Substack-style post list and
+   LinkedIn featured-article style cards for links to work. Scoped to
+   .blog-shell so the homepage is untouched.
+   ------------------------------------------------------------------ */
+.blog-shell .preview--post {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 8.5rem;
+  gap: 1.25rem;
+  align-items: start;
+}
+.blog-shell .preview--post .preview__title { font-size: clamp(1.1rem, 1.8vw, 1.3rem); }
+.blog-shell .preview--post .preview__summary {
+  -webkit-line-clamp: 1;
+  margin-bottom: 0.5rem;
+}
+.blog-shell .preview__thumb {
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f4f4f4;
+  border: 1px solid #e6e6e6;
+}
+.blog-shell .preview__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.blog-shell .preview__thumb--tile { display: grid; place-items: center; }
+.blog-shell .preview__thumb--tile img { width: 40%; height: auto; border-radius: 6px; }
+@media (max-width: 560px) {
+  .blog-shell .preview--post { grid-template-columns: minmax(0, 1fr) 5.5rem; gap: 0.9rem; }
+  .blog-shell .preview--post .preview__summary { -webkit-line-clamp: 2; }
+}
+
+.blog-shell .link-cards {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.25rem 0 1.75rem;
+}
+.blog-shell .post-body a.link-card,
+.blog-shell a.link-card {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  min-height: 6.5rem;
+  background: #fafafa;
+  border: 1px solid #e4e4e4;
+  border-radius: 12px;
+  overflow: hidden;
+  color: #111111;
+  text-decoration: none;
+  box-shadow: none;
+  transition: border-color 0.15s ease;
+}
+.blog-shell a.link-card:hover { border-color: #bdbdbd; color: #111111; }
+.blog-shell a.link-card:hover .link-card__title { color: var(--press); }
+.blog-shell a.link-card:focus-visible { outline: 2px solid #111111; outline-offset: 2px; }
+.link-card__thumb {
+  display: block;
+  background: #f1f1f1;
+  border-right: 1px solid #e4e4e4;
+  min-height: 100%;
+}
+.blog-shell .post-body .link-card__thumb img,
+.link-card__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+  border: 0;
+}
+.link-card__thumb--tile { display: grid; place-items: center; }
+.blog-shell .post-body .link-card__thumb--tile img,
+.link-card__thumb--tile img { width: 2.25rem; height: 2.25rem; object-fit: contain; opacity: 0.8; }
+.link-card__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2rem;
+  padding: 0.8rem 1rem;
+  min-width: 0;
+  line-height: 1.35;
+}
+.link-card__title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #111111;
+  overflow-wrap: anywhere;
+  transition: color 0.15s ease;
+}
+.link-card__desc {
+  font-size: 0.9rem;
+  color: #555555;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.link-card__domain { font-size: 0.78rem; color: #767676; }
+@media (max-width: 560px) {
+  .blog-shell .post-body a.link-card,
+  .blog-shell a.link-card { grid-template-columns: 5.5rem minmax(0, 1fr); min-height: 5.5rem; }
+  .link-card__body { padding: 0.7rem 0.8rem; }
+  .link-card__title { font-size: 0.95rem; }
+}

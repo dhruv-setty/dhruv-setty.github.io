@@ -2,6 +2,8 @@ import { Link, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import BlogSidebar from "../components/BlogSidebar";
+import LinkCard from "../components/LinkCard";
+import { domainOf } from "../content/links";
 import NotFound from "./NotFound";
 import { POSTS, findPost, formatDate } from "../content/posts";
 import { SITE } from "../content/site";
@@ -38,6 +40,19 @@ export default function PostPage() {
               </div>
             </header>
             <div className="post-body" dangerouslySetInnerHTML={{ __html: post.html }} />
+            {post.substack ? (
+              <div className="link-cards link-cards--substack">
+                <LinkCard
+                  preview={{
+                    href: post.substack,
+                    title: post.title,
+                    description: "Read on Substack",
+                    domain: domainOf(post.substack),
+                    image: post.thumb,
+                  }}
+                />
+              </div>
+            ) : null}
           </article>
           <nav className="post-nav" aria-label="More posts">
             {older ? (
