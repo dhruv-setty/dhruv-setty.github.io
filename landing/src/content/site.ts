@@ -9,7 +9,6 @@ export const SITE = {
     { label: "GitHub", text: "GitHub", href: "https://github.com/dhruv-setty", icon: "/icons/github.svg" },
     { label: "LinkedIn", text: "LinkedIn", href: "https://www.linkedin.com/in/dhruv-setty-nz", icon: "/icons/linkedin.svg" },
     { label: "Substack", text: "Substack", href: "https://substack.com/@dhruvsetty", icon: "/icons/substack.svg" },
-    { label: "Buy me a coffee", text: "Buy me a coffee", href: "https://buymeacoffee.com/dhruvsetty", icon: "/icons/buymeacoffee.svg" },
   ],
   location: "",
   // Cloudflare Worker that relays the contact form to Resend. Empty disables sending.
@@ -23,7 +22,7 @@ export const SITE = {
   // Cloudflare Worker that relays avatar questions to Claude. Empty uses the scripted Q&A.
   avatarEndpoint: "https://dhruv-avatar.itsdhruvsetty.workers.dev/",
   // Buy Me a Coffee or Ko-fi page. Empty hides the button.
-  coffee: "https://buymeacoffee.com/dhruvsetty",
+  coffee: "",
   // Existing MkDocs pages, served from the same site. Plain links, not router links.
   docs: [
     { text: "Overview", href: "/overview/" },

@@ -1888,3 +1888,8 @@ body { padding-top: 0 !important; }
 .drawer-panel.is-open { transform: none; visibility: visible; transition: transform 260ms ease; }
 .drawer-panel a { color: #a3a3a3; text-decoration: none; font-size: 1.15rem; padding: 0.7rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
 .drawer-panel a:hover, .drawer-panel a[aria-current] { color: #f5f5f5; }
+
+/* Footer social icons: smaller, quieter. */
+.icon-link { width: 1.75rem; height: 1.75rem; border-radius: 6px; }
+.icon-link img { width: 0.95rem; height: 0.95rem; }
+.site-footer__links:has(.icon-link) { gap: 0.45rem; }
