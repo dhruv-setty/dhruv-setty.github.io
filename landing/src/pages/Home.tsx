@@ -7,6 +7,7 @@ import ProjectPreview from "../components/ProjectPreview";
 import BlogSidebar from "../components/BlogSidebar";
 import HopGreeting from "../components/HopGreeting";
 import Reveal from "../components/Reveal";
+import HeroName from "../components/HeroName";
 
 export default function Home() {
   const story = STORY.trim();
@@ -17,10 +18,7 @@ export default function Home() {
         <Reveal />
         <section className="hero phase phase--one" aria-labelledby="hero-h">
           {SITE.location ? <p className="eyebrow">{SITE.location}</p> : null}
-          <h1 id="hero-h" className="hero__name" aria-label={SITE.name}>
-            <span className="hero__word hero__first animate__animated animate__fadeIn" aria-hidden="true">{SITE.name.split(" ")[0]}</span>{" "}
-            <span className="hero__word hero__last animate__animated animate__fadeIn" aria-hidden="true">{SITE.name.split(" ").slice(1).join(" ")}</span>
-          </h1>
+          <HeroName name={SITE.name} />
           <div className="hero__lede">
             <p className="hero__positioning">{SITE.positioning}</p>
           </div>

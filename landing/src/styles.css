@@ -1907,3 +1907,54 @@ body { padding-top: 0 !important; }
 
 /* Hero surname in the site orange. */
 .hero__word.hero__last, .hero__name:hover .hero__word.hero__last { color: var(--press, #f2803f); }
+
+/* ===== Hero name: immersive type =====
+   Archivo variable, uppercase, stacked. Letters rise from a mask on load; on desktop each letter
+   widens and thickens as the cursor nears, and the name tilts gently toward the pointer.
+   Scrolling pushes the name back into the page. SETTY stays orange. */
+@font-face {
+  font-family: "Archivo Hero";
+  src: url("/fonts/archivo-var-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+}
+.hero.phase--one { perspective: 1200px; overflow: hidden; }
+.hero__name.hn {
+  --rx: 0deg; --ry: 0deg; --sp: 0;
+  font-family: "Archivo Hero", var(--font);
+  font-size: clamp(4.25rem, 17vw, 13.5rem);
+  font-weight: 700;
+  line-height: 0.84;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0;
+}
+.hn__stage {
+  display: inline-flex; flex-direction: column; align-items: center;
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--sp) * -220px)) rotateX(calc(var(--rx) + var(--sp) * 18deg)) rotateY(var(--ry));
+  opacity: calc(1 - var(--sp) * 0.7);
+  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+.hn__word { display: block; white-space: nowrap; }
+.hn__mask { display: inline-block; overflow: hidden; vertical-align: top; padding: 0.04em 0.005em 0.02em; margin: -0.04em -0.005em -0.02em; }
+.hn__l {
+  --w: 700; --s: 100; --y: 0em;
+  display: inline-block;
+  font-variation-settings: "wght" var(--w), "wdth" var(--s);
+  transform: translateY(var(--y));
+  transition: font-variation-settings 380ms cubic-bezier(0.2, 0.7, 0.2, 1), transform 380ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.hn .hero__first .hn__l { color: var(--text); }
+.hn .hero__last .hn__l { color: var(--press, #f2803f); }
+.hn.is-ready .hn__l { animation: hn-rise 1100ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: calc(var(--i) * 55ms + 120ms); }
+@keyframes hn-rise {
+  from { transform: translateY(105%) rotate(6deg); font-variation-settings: "wght" 200, "wdth" 62; filter: blur(6px); }
+  60% { filter: blur(0); }
+  to { transform: translateY(0) rotate(0); font-variation-settings: "wght" 700, "wdth" 100; filter: blur(0); }
+}
+.hn.is-ready .hn__l { animation-fill-mode: backwards; }
+@media (max-width: 520px) { .hero__name.hn { font-size: clamp(3.5rem, 22vw, 6rem); } }
+@media (prefers-reduced-motion: reduce) { .hn__stage { transform: none; opacity: 1; } }
