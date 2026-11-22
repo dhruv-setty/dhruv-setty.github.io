@@ -136,7 +136,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Driver-state detection from lane keeping on a microcontroller",
     tag: "Embedded",
     summary:
-      "Driver behaviour inference split between a host, which fits a Gaussian field of route effects on lane position, and a `Cortex-M4F`, which estimates the driver's latent stochastic policy from each sample. Simulated data.",
+      "Reads a driver's lane position and works out how they are likely to steer next. A host uses a Gaussian model to map how each stretch of road shifts the car, and a `Cortex-M4F` updates the estimate with every sample. Simulated data.",
     points: [
       "Int8 classifier at 40 multiply-accumulates per sample in 1,802 bytes of flash; matches the full-precision version on 99.66% of 5,000 simulated samples.",
       "Holds up under noise: at twice the sensor noise both versions fall to about 80% accuracy and stay within 0.04 points of each other.",
