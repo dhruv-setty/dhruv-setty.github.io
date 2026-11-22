@@ -5,4 +5,4 @@
 export const GREETING = "";
 
 export const STORY =
-  "I started in UX and graphic design, shaping how people move through a product. Now, based in Tāmaki Makaurau, I'm moving into BAU service desk work: Microsoft 365 and Active Directory accounts, Intune devices, tickets and the troubleshooting that keeps people working. I practise it every day in my home lab and log every change. Identity and access management is where I want to grow, because every login or permission ticket comes back to the same question: who can reach what, and why.";
+  "My background is in UX and graphic design, where I learned how people use technology. Based in Tāmaki Makaurau, I'm now moving into BAU service desk support: Microsoft 365 and Active Directory administration, Intune device management, ticket triage and troubleshooting. I build these skills daily in a home lab and document every change. My focus is identity and access management, because every login or permissions request comes down to one question: who should have access to what, and why.";
