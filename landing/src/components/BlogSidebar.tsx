@@ -29,7 +29,6 @@ export default function BlogSidebar({ current, title = "Recent" }: { current?: s
             </li>
           ))}
         </ol>
-        <Link to="/blog/" className="blog-side__all">All posts →</Link>
       </details>
     </aside>
   );
