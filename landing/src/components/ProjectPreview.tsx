@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import type { Project } from "../content/site";
-import { rich } from "../lib/rich";
 
 // A project as a Journal-style preview: tag kicker, title, two-line summary, where the link goes,
 // and the project's designed 16:9 cover. The whole entry opens the project's href; links off the
@@ -26,7 +25,7 @@ export default function ProjectPreview({ project: p }: { project: Project }) {
             <Link to={p.href} className="preview__link">{p.name}</Link>
           )}
         </h3>
-        <p className="preview__summary">{rich(p.summary)}</p>
+        <p className="preview__summary">{p.summary.replace(/`/g, "")}</p>
         {p.meta?.length ? (
           <p className="preview__meta preview__meta--links">
             {p.meta.map((m) => (
