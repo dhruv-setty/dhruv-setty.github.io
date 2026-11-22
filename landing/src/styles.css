@@ -1958,3 +1958,18 @@ body { padding-top: 0 !important; }
 .hn.is-ready .hn__l { animation-fill-mode: backwards; }
 @media (max-width: 520px) { .hero__name.hn { font-size: clamp(3.5rem, 22vw, 6rem); } }
 @media (prefers-reduced-motion: reduce) { .hn__stage { transform: none; opacity: 1; } }
+
+/* Hero name back on brand: site font, weight, case and size, one line, SETTY orange.
+   Motion kept restrained: letters rise in on load and the name eases back on scroll. */
+.hero__name.hn {
+  font-family: var(--font);
+  font-size: var(--name);
+  font-weight: var(--w-name);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  text-transform: none;
+}
+.hn__stage { flex-direction: row; flex-wrap: wrap; justify-content: center; column-gap: 0.25em; transform: translateZ(calc(var(--sp) * -160px)) rotateX(calc(var(--sp) * 12deg)); }
+.hn__l { font-variation-settings: normal; transform: none; transition: none; }
+@keyframes hn-rise { from { transform: translateY(105%); } to { transform: translateY(0); } }
+@media (max-width: 520px) { .hero__name.hn { font-size: clamp(2.75rem, 15vw, 4.5rem); } }

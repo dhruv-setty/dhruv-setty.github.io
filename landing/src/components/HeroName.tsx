@@ -17,7 +17,7 @@ export default function HeroName({ name }: { name: string }) {
     if (reduce) return;
 
     const letters = Array.from(h.querySelectorAll<HTMLSpanElement>(".hn__l"));
-    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const fine = false; // cursor-reactive type removed to keep the brand type steady
     let px = -9999, py = -9999, raf = 0, active = false;
 
     const frame = () => {
