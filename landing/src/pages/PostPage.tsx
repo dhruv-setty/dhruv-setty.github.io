@@ -95,9 +95,6 @@ export default function PostPage() {
                   {older ? <NavCard post={older} label="← Previous" /> : <span className="post-next--empty" />}
                   {newer ? <NavCard post={newer} label="Next →" next /> : <span className="post-next--empty" />}
                 </nav>
-                <Link to="/blog/" className="post-back post-back--end">
-                  <span aria-hidden="true">←</span> All posts
-                </Link>
               </footer>
             ) : null}
           </article>
