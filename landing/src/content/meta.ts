@@ -10,7 +10,7 @@ export interface PageMeta {
 
 export function metaFor(path: string): PageMeta {
   if (path === "/blog/") {
-    return { title: `Journal | ${SITE.name}`, description: `Notes on identity, access and assurance by ${SITE.name}.`, path, type: "website" };
+    return { title: `Journal | ${SITE.name}`, description: `Journal by ${SITE.name}.`, path, type: "website" };
   }
   const m = /^\/blog\/([^/]+)\/$/.exec(path);
   const post = m?.[1] ? findPost(m[1]) : undefined;

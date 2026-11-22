@@ -13,7 +13,6 @@ export default function BlogIndex() {
           <section className="section panel journal-panel journal-panel--list" aria-labelledby="journal-h">
             <header className="panel__head">
               <h1 id="journal-h" className="section__title">Journal</h1>
-              <p className="journal-dek">Notes on identity, access and assurance.</p>
             </header>
             {POSTS.length === 0 ? (
               <p>No posts yet.</p>
