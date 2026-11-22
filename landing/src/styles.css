@@ -1,15 +1,17 @@
 :root {
-  /* Colour: monochrome paper and ink. Contrast on --surface: --text 18.9:1, --text-2 11.4:1, --muted 7.5:1. */
-  --bg: #fafaf8;
-  --text: #111111;
-  --text-2: #3a3a37;
-  --surface: #ffffff;
-  --surface-2: #f4f4f1;
-  --rule: #e5e5e2;          /* hairlines */
-  --rule-strong: #d4d4cf;   /* hairline on hover */
-  --field: #8a8a85;         /* form field edge, 3.5:1 on white (WCAG 1.4.11) */
-  --muted: #555552;         /* 7.1:1 on --bg, AA for small text */
-  --on-ink: #fafaf8;
+  /* Colour: dark, black panels, light ink. Contrast on --surface (#0b0b0b): --text 17.6:1, --text-2 12.8:1, --muted 6.1:1. */
+  color-scheme: dark;
+  --bg: #070707;
+  --text: #f2f2f2;          /* headings, strong ink */
+  --text-2: #d0d0d0;        /* body copy */
+  --surface: #0b0b0b;       /* panels */
+  --surface-2: #111111;     /* cards and nested boards */
+  --surface-3: #1a1a1a;     /* chips, fields */
+  --rule: rgba(255, 255, 255, 0.08);        /* hairlines */
+  --rule-strong: rgba(255, 255, 255, 0.18); /* hairline on hover */
+  --field: #6b6b6b;         /* form field edge, 3.5:1 on --surface-2 (WCAG 1.4.11) */
+  --muted: #8f8f8f;         /* labels, 5.8:1 on --surface-2 */
+  --on-ink: #0a0a0a;
 
   --font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
@@ -42,8 +44,8 @@
   --radius-s: 6px;
   --radius-m: 10px;
   --radius-l: 14px;
-  --shadow-1: 0 1px 2px rgba(17, 17, 17, 0.04);
-  --shadow-2: 0 1px 2px rgba(17, 17, 17, 0.04), 0 16px 36px -28px rgba(17, 17, 17, 0.22);
+  --shadow-1: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-2: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 1px 2px rgba(0, 0, 0, 0.6), 0 24px 48px -28px rgba(0, 0, 0, 0.9);
 
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --dur: 180ms;
@@ -1191,3 +1193,237 @@ code.ic,
 @media (prefers-reduced-motion: reduce) {
   .icon-link:hover, .icon-link:focus-visible { transform: none; }
 }
+
+/* ------------------------------------------------------------------
+   Dark pass (2026-11-22, Dhruv: "black panelling and sleeker page").
+   Same layout and card structure. Very dark ground with a faint light
+   graticule, near-black panels with a 1px light hairline, light ink.
+   No glow. Every text pair meets WCAG AA (ratios in :root).
+   ------------------------------------------------------------------ */
+:root {
+  --press: #f2803f;        /* orange accent, toned for dark: 7.4:1 on panels */
+  --press-deep: #e0662a;
+  --radius-panel: 12px;
+}
+
+html {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+}
+body { color: var(--text-2); }
+h1, h2, h3, h4, strong, b { color: var(--text); }
+a { color: inherit; }
+::selection { background: rgba(255, 255, 255, 0.2); color: #ffffff; }
+
+/* Focus: light rings. */
+:focus-visible,
+.button:focus-visible,
+.contact-form button:focus-visible,
+.journal-more > summary:focus-visible,
+.listen__btn:focus-visible,
+.listen__select:focus-visible { outline-color: var(--text); }
+.contact-form input:focus-visible,
+.contact-form textarea:focus-visible { outline: 2px solid var(--text); border-color: var(--text); }
+.blog-side__item:has(.blog-side__link:focus-visible) { outline-color: var(--text); }
+
+/* Header: dark glass. */
+.site-header { background: rgba(7, 7, 7, 0.92); border-bottom: 1px solid var(--rule); }
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .site-header {
+    background: rgba(7, 7, 7, 0.68);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    backdrop-filter: saturate(1.4) blur(14px);
+  }
+}
+.site-header__inner a { color: #a3a3a3; }
+.site-header__inner a:hover,
+.site-header__inner a[aria-current],
+.site-header__inner a.site-header__brand { color: var(--text); }
+.skip-link { background: var(--text); color: var(--on-ink); }
+
+/* Hero: open on the grid, light ink. Hover keeps the outline-fill swap. */
+.hero__word { color: var(--text); -webkit-text-stroke-color: var(--text); }
+.hero__name:hover .hero__word { color: var(--bg); }
+.hero__lede .hero__positioning { color: var(--text); }
+.eyebrow { color: var(--muted); }
+
+/* Panels: near-black boards, 1px hairline, soft depth, 12px radius. */
+.section.panel,
+.journal-panel,
+.blog-side__box {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-2);
+}
+@media (max-width: 520px) { .section.panel { border-radius: 10px; } }
+.section { border-top-color: var(--rule); }
+.panel__head .section__title { color: var(--text); }
+.panel__head .section__title::after { background: var(--rule); }
+.section__title { color: var(--muted); }
+
+/* About: body copy light grey, greeting near-white, "why" in toned orange. */
+.about.panel .about__story p,
+.about.panel .about__story p:first-of-type { color: var(--text-2); }
+.hop__ch--ink { color: var(--text); }
+.hop__ch--name { color: var(--press); }
+.about__why { color: var(--press); }
+
+/* Project cards: one step lighter than the panel, same grid. */
+.project {
+  background: var(--surface-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-1);
+}
+.project + .project { border-top-color: var(--rule); }
+.project__figure {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: #0d0d0d;
+  box-shadow: none;
+}
+.project .project__summary { color: var(--text-2); }
+.project__points { color: #b8b8b8; }
+.project__points li::marker { color: var(--muted); }
+.card__tag { color: var(--muted); }
+
+/* Inline code chips. */
+code.ic,
+.post-body :not(pre) > code {
+  background: var(--surface-3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e4e4e4;
+}
+
+/* Buttons: primary is a white pill of ink; ghost is a light outline that fills white.
+   Hover on primary keeps the site's orange, toned for dark; pressed is a deeper orange. */
+.button,
+.contact-form button {
+  background: var(--text);
+  color: var(--on-ink);
+  border: 1px solid var(--text);
+}
+.button--ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+.button:hover,
+.contact-form button:hover:not([disabled]) {
+  background: var(--press);
+  border-color: var(--press);
+  color: var(--on-ink);
+}
+.button--ghost:hover {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--on-ink);
+}
+.button:active,
+.contact-form button:active:not([disabled]) {
+  background: var(--press-deep);
+  border-color: var(--press-deep);
+  color: var(--on-ink);
+}
+
+/* Form fields. */
+.contact-form label { color: var(--text-2); }
+.contact-form input,
+.contact-form textarea {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--field);
+}
+.contact-form input:hover,
+.contact-form textarea:hover { border-color: #9a9a9a; }
+.contact-form input::placeholder,
+.contact-form textarea::placeholder { color: #8f8f8f; }
+.contact-form__status { color: var(--text-2); }
+
+/* Footer: dark, muted text, monochrome light icons. */
+.site-footer { background: rgba(5, 5, 5, 0.85); border-top: 1px solid var(--rule); }
+.site-footer__inner { color: var(--muted); }
+.site-footer__links a { color: var(--muted); }
+.site-footer__accent { color: var(--press); }
+.icon-link { background: var(--surface-2); border: 1px solid var(--rule); }
+.icon-link img { filter: brightness(0) invert(0.94); }
+.icon-link:hover,
+.icon-link:focus-visible { border-color: rgba(255, 255, 255, 0.5); box-shadow: none; }
+
+/* Journal: list, side box, previews, post nav. */
+.journal-panel { background: var(--surface); }
+.preview { border-top-color: var(--rule); }
+.preview:last-child { border-bottom-color: var(--rule); }
+.preview__title a { color: var(--text); }
+.preview__summary,
+.preview__meta,
+.blog-side__meta,
+.byline__meta,
+.post-header time { color: var(--muted); }
+.preview__summary { color: #a9a9a9; }
+.byline { color: var(--text-2); }
+.blog-side__title { color: var(--muted); }
+.blog-side__name { color: var(--text); }
+.blog-side__item:hover,
+.blog-side__link:hover { background: rgba(255, 255, 255, 0.04); }
+.blog-side__item[data-current],
+.blog-side__link[aria-current] { border-left-color: var(--text); background: rgba(255, 255, 255, 0.06); }
+.journal-more .preview-feed { border-top-color: var(--rule); }
+.post-nav { border-top-color: var(--rule); }
+.post-nav__item {
+  background: var(--surface-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-m);
+  color: var(--text);
+  box-shadow: var(--shadow-1);
+}
+.post-nav__item:hover { color: var(--press); border-color: var(--press); }
+.post-nav__item:active { color: var(--press-deep); border-color: var(--press-deep); }
+.post-nav__label { color: var(--muted); }
+
+/* Reading view. */
+.byline--post { border-top-color: var(--rule); border-bottom-color: var(--rule); }
+.prose-article .post-body > p:first-child em:only-child { color: #a9a9a9; }
+.post-body pre {
+  background: #141414;
+  border: 1px solid var(--rule);
+  color: #dcdcdc;
+}
+.post-body blockquote { border-left-color: rgba(255, 255, 255, 0.2); color: #b0b0b0; }
+.post-body hr { border-top-color: var(--rule); }
+.post-body th,
+.post-body td { border-color: rgba(255, 255, 255, 0.12); }
+.post-body th { background: var(--surface-3); color: var(--text); }
+.post-body img { border-radius: 8px; }
+.cs-figure img {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: #fafaf8; /* a transparent diagram stays legible; opaque figures cover it */
+}
+.cs-figure figcaption { color: var(--text-2); }
+.cs-figure__label { color: var(--muted); }
+
+/* Listen player. */
+.listen__btn,
+.listen__select { background: var(--surface-2); color: var(--text); border-color: rgba(255, 255, 255, 0.16); }
+.listen__btn:hover:not([disabled]) { background: var(--press); border-color: var(--press); color: var(--on-ink); }
+.listen__btn:active:not([disabled]) { background: var(--press-deep); border-color: var(--press-deep); color: var(--on-ink); }
+.listen__btn[aria-pressed="true"] { border-color: var(--text); }
+.post-body .is-reading,
+.post-header .is-reading { background: rgba(242, 128, 63, 0.12); box-shadow: 0 0 0 0.35rem rgba(242, 128, 63, 0.12); }
+
+/* Site avatar panel. */
+.sa-panel { background: var(--surface-2); border-color: rgba(255, 255, 255, 0.1); box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.9); }
+.sa-dhruv { background: var(--surface-2); box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.9); }
+.sa-peer { border-color: var(--bg); }
+.sa-me { background: var(--surface-3); color: var(--text-2); }
+.sa-you { background: var(--press); color: var(--on-ink); }
+.sa-chips button { background: var(--surface-3); color: var(--text-2); border-color: rgba(255, 255, 255, 0.12); }
+.sa-chips button:hover { border-color: var(--press); color: var(--press); }
+.sa-form input { background: var(--surface-3); color: var(--text); border-color: var(--field); }
+.sa-form button { background: var(--text); color: var(--on-ink); }

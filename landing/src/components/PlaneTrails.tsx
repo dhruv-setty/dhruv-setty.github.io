@@ -38,7 +38,7 @@ export default function PlaneTrails() {
       for (let i = 1; i < pts.length; i++) {
         const a = pts[i - 1]!, b = pts[i]!;
         const life = 1 - (now - b.t) / LIFE;
-        ctx.strokeStyle = `rgba(17,17,17,${(0.22 * life).toFixed(3)})`;
+        ctx.strokeStyle = `rgba(240,240,240,${(0.16 * life).toFixed(3)})`;
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
