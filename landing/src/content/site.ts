@@ -136,7 +136,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Driver-state detection from lane keeping on a microcontroller",
     tag: "Embedded",
     summary:
-      "Split SPDE-GMRF inference: the host fits a sparse Gaussian field of how each stretch of route shifts lane position, and an int8 HMM forward filter on a `Cortex-M4F` (CMSIS-NN) labels every sample calm, alert, stressed or panic. Simulated data.",
+      "Split SPDE-GMRF inference: the host fits a sparse Gaussian field of how each stretch of route shifts lane position, and an int8 HMM forward filter on a `Cortex-M4F` (CMSIS-NN) infers the hidden lane-keeping regime at every sample. Simulated data.",
     points: [
       "Int8 classifier at 40 multiply-accumulates per sample in 1,802 bytes of flash; matches the full-precision version on 99.66% of 5,000 simulated samples.",
       "Holds up under noise: at twice the sensor noise both versions fall to about 80% accuracy and stay within 0.04 points of each other.",
