@@ -47,7 +47,7 @@ for (const url of routes()) {
           url: siteUrl,
           image: `${siteUrl}/dhruv.webp`,
           address: { "@type": "PostalAddress", addressLocality: "Auckland", addressCountry: "NZ" },
-          sameAs: ["https://github.com/dhruv-setty", "https://www.linkedin.com/in/dhruv-setty-nz"],
+          sameAs: ["https://github.com/dhruv-setty", "https://www.linkedin.com/in/dhruv--setty"],
         })}</script>`
       : "",
   ].join("\n    ");
