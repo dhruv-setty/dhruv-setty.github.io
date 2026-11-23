@@ -1988,3 +1988,13 @@ body { padding-top: 0 !important; }
   -webkit-hyphens: none; hyphens: none; overflow-wrap: normal; word-break: normal;
   text-wrap: pretty; max-width: none;
 }
+
+/* Other work: first entry shown, three dots reveal the rest. */
+.page--home .home-projects__more {
+  display: block; margin: 0.25rem auto 0; padding: 0.1rem 1rem 0.5rem;
+  background: none; border: 0; cursor: pointer;
+  font-size: 2rem; line-height: 1; letter-spacing: 0.15em; color: var(--muted, #6b6b6b);
+}
+.page--home .home-projects__more:hover,
+.page--home .home-projects__more:focus-visible { color: var(--press, #f2803f); }
+.page--home .home-projects__more:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }

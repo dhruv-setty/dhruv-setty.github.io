@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ContactForm from "../components/ContactForm";
@@ -12,6 +13,8 @@ import Reveal from "../components/Reveal";
 
 export default function Home() {
   const story = STORY.trim();
+  const [showAllOther, setShowAllOther] = useState(false);
+  const other = PROJECTS.filter((p) => !IDENTITY_TAGS.includes(p.tag));
   return (
     <>
       <Header />
@@ -54,9 +57,14 @@ export default function Home() {
                 </div>
                 <h3 className="home-projects__sub">Other work</h3>
                 <p className="home-projects__intro">Research outside my day-to-day support work: ARM hardware and formal verification, where the core question is still who can reach what.</p>
-                <div className="preview-feed">
-                  {PROJECTS.filter((p) => !IDENTITY_TAGS.includes(p.tag)).map((p) => <ProjectPreview key={p.slug} project={p} />)}
+                <div className="preview-feed" id="other-work-feed">
+                  {(showAllOther ? other : other.slice(0, 1)).map((p) => <ProjectPreview key={p.slug} project={p} />)}
                 </div>
+                {!showAllOther && other.length > 1 ? (
+                  <button type="button" className="home-projects__more" onClick={() => setShowAllOther(true)} aria-label={`Show ${other.length - 1} more`} aria-expanded="false" aria-controls="other-work-feed">
+                    <span aria-hidden="true">&middot;&middot;&middot;</span>
+                  </button>
+                ) : null}
               </div>
             </section>
 
