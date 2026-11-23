@@ -78,7 +78,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Entra ID sign in for Debian with SSSD",
     tag: "IAM",
     summary:
-      "A C# (.NET 8) command line tool that configures Debian hosts to authenticate Microsoft Entra ID users through SSSD. Users sign in with their Entra ID account, so MFA and Conditional Access apply on the host.",
+      "Lets people sign in to Debian Linux servers with their Microsoft work account instead of a separate local password, so MFA and Conditional Access still apply. A C# tool sets it up and checks the host first; all 10 automated tests pass.",
     points: [
       "Creates the Entra ID app registration through Microsoft Graph with application `User.Read.All` and `GroupMember.Read.All`, and grants admin consent.",
       "Renders `sssd.conf` for the `idp` domain; users sign in with the OAuth 2.0 Device Authorization Grant, so MFA and Conditional Access apply.",
@@ -93,7 +93,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Single sign-on toolkit for Linux",
     tag: "BAU",
     summary:
-      "Shell and Bash scripts I use day to day to configure single sign-on on Linux hosts and check who has access. Every change is tested on local VMs and in Docker before use, and recorded in a changelog.",
+      "Scripts I use to set up single sign-on on Linux machines and check who has access to what. Every change is tried on test virtual machines and in Docker before use, and recorded in a changelog so it can be traced.",
     cover: "/journal/covers/project-bau-toolkit.webp",
     href: "",
     private: true,
@@ -103,7 +103,7 @@ export const PROJECTS: readonly Project[] = [
     name: "IT support home lab",
     tag: "Homelab",
     summary:
-      "A home lab for everyday IT support: Microsoft 365 and Active Directory account administration, Intune device management, ticketing and troubleshooting through research, with a CVSS table analysis of CVE-2022-1388 in F5 BIG-IP.",
+      "A practice environment for everyday service desk tickets: Microsoft 365 joiners and leavers, Active Directory lockouts and Intune device setup. Each fix becomes a runbook, alongside a risk write-up of F5 BIG-IP flaw CVE-2022-1388.",
     cover: "/journal/covers/project-bau-lab.webp",
     href: "",
     private: true,
@@ -113,7 +113,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Identity governance for legacy Linux file shares",
     tag: "IGA",
     summary:
-      "A SailPoint IdentityIQ project that brings POSIX permissions, ACLs and NFSv3 exports on legacy file servers under request, approval and certification. Each review flags every account and path as match, excess, missing or divergent.",
+      "Brings old Linux file shares under access control in SailPoint IdentityIQ: access is requested, approved and reviewed, and each review flags anyone with too much, too little or unexpected access. 115 tests pass; not yet run on a live instance.",
     points: [
       "Ordered, idempotent change plan with revocations first; planning again against the result yields an empty plan.",
       "Effective access computed from POSIX modes, POSIX.1e ACLs, group nesting and NFSv3 export options.",
@@ -128,7 +128,7 @@ export const PROJECTS: readonly Project[] = [
     name: "PCIe, DMA and TLB hardware with formal checks",
     tag: "Hardware",
     summary:
-      "RTL for a PCIe device front end, a DMA engine and a TLB, each with a written specification. A TLA+ model shows no core keeps a translation to a freed frame, and every DMA copy checks byte for byte.",
+      "Hardware that lets a device move data straight into a computer's memory: a PCIe interface, a DMA copy engine and an address cache, each with a written spec. A model check shows no stale address survives freed memory; every copy matches byte for byte.",
     points: [
       "PCIe TLP header decode for 3DW and 4DW requests and completions, and a Type 0 configuration space with BAR sizing.",
       "DMA engine driven by a C driver under Verilator, with every copy in the sweep verified byte for byte.",
@@ -143,7 +143,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Stage 2 translation and TLB maintenance",
     tag: "Formal",
     summary:
-      "Stage 2 address translation and TLB maintenance for a hypervisor, in Sail, TLA+ and SystemVerilog. TLC confirms the required unmap order over 74 states and catches both wrong orders as use-after-free.",
+      "How a hypervisor keeps each virtual machine inside its own memory, specified formally and built in hardware. A model checker confirms the safe unmap order and catches both unsafe ones; the hardware matched the reference on 10,000 random tests.",
     points: [
       "TLA+ model of the unmap sequence: the required order holds over 74 states under TLC, and both incorrect orderings violate `NoUseAfterFree`.",
       "Stage 2 walker for a 4 KiB granule and 48 bit IPA, with 0 mismatches against the Sail reference across 10,000 random probes.",
@@ -158,7 +158,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Driver-state detection from lane keeping on a microcontroller",
     tag: "Embedded",
     summary:
-      "Classifies driver state from lane position on a Cortex-M4F in 40 multiply-accumulates per sample and 1,802 bytes of flash. A host fits the route model, and reordering its sparse solve cuts stored values from 45,258 to 11,378. Simulated data.",
+      "Spots driver stress from how a car holds its lane, on a microcontroller using 40 multiply-accumulates per sample in 1,802 bytes of flash. A host models each route, and reordering that maths cuts stored values from 45,258 to 11,378. Simulated data.",
     points: [
       "Int8 classifier at 40 multiply-accumulates per sample in 1,802 bytes of flash; matches the full-precision version on 99.66% of 5,000 simulated samples.",
       "Holds up under noise: at twice the sensor noise both versions fall to about 80% accuracy and stay within 0.04 points of each other.",
