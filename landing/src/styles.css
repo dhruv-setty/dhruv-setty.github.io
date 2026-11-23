@@ -1977,4 +1977,4 @@ body { padding-top: 0 !important; }
 .drawer-panel .site-search__results a:hover { color: #e8590c; }
 .site-search__kind { display: block; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: #e8590c; margin-bottom: 0.15rem; }
 .site-search__empty { color: #8f8f8f; font-size: 0.9rem; padding: 0.5rem 0; }
-.preview__kicker-note { text-transform: none; letter-spacing: 0; font-weight: 400; }
+.preview__kicker-note { display: block; margin-top: 0.15rem; text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--ink-3, #6b6b6b); }

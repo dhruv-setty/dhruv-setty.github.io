@@ -23,7 +23,7 @@ export default function ProjectPreview({ project: p }: { project: Project }) {
   return (
     <article className="preview preview--post preview--project" aria-labelledby={titleId}>
       <div className="preview__text">
-        <p className="preview__kicker">{p.tag}{TAG_NOTES[p.tag] ? <span className="preview__kicker-note"> · {TAG_NOTES[p.tag]}</span> : null}</p>
+        <p className="preview__kicker">{p.tag}{TAG_NOTES[p.tag] ? <span className="preview__kicker-note">{TAG_NOTES[p.tag]}</span> : null}</p>
         <h3 id={titleId} className="preview__title">
           {locked ? (
             <span>{p.name}</span>
