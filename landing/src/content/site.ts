@@ -143,7 +143,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Stage 2 translation and TLB maintenance",
     tag: "Formal",
     summary:
-      "Stage 2 address translation and TLB maintenance for an Arm hypervisor at EL2, specified in Sail and TLA+ and built in SystemVerilog. TLC confirms the required unmap order and shows both alternatives lead to use-after-free.",
+      "Stage 2 address translation and TLB maintenance for an ARM hypervisor at EL2, specified in Sail and TLA+ and built in SystemVerilog. TLC confirms the required unmap order and shows both alternatives lead to use-after-free.",
     points: [
       "TLA+ model of the unmap sequence: the required order holds over 74 states under TLC, and both incorrect orderings violate `NoUseAfterFree`.",
       "Stage 2 walker for a 4 KiB granule and 48 bit IPA, with 0 mismatches against the Sail reference across 10,000 random probes.",

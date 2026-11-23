@@ -9,7 +9,7 @@ og: /journal/covers/lifting-spde-gmrf-gpu-edge.png
 
 ## Overview
 
-The system watches lane position from a forward camera and classifies the driver as calm, alert, stressed or in panic, sample by sample, on an Arm `Cortex-M4F`. Lane position also depends on the road, so a host machine fits a model of how each stretch of the route shifts the car's position and sends the device one int16 correction per site. The device never sees the route model, only those corrections.
+The system watches lane position from a forward camera and classifies the driver as calm, alert, stressed or in panic, sample by sample, on an ARM `Cortex-M4F`. Lane position also depends on the road, so a host machine fits a model of how each stretch of the route shifts the car's position and sends the device one int16 correction per site. The device never sees the route model, only those corrections.
 
 The work splits by cost. Fitting the route model means repeatedly solving a large sparse linear system, which belongs on a host or GPU and runs every few seconds to minutes. Classification is one small update per sample, sized for a microcontroller: 40 multiply-accumulates and 1,802 bytes of flash, in int8.
 
@@ -30,7 +30,7 @@ All data are simulated with fixed seeds. Figures 2 to 9 come from the captures w
 
 ### Partition
 
-<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/spde-pipeline.png" alt="Pipeline: FEM grid feeds GPU estimation, which feeds a lift to sensor locations, which feeds an on-device forward filter on Arm Cortex-M, with a dashed loop back for periodic re-estimation" width="1043" height="524" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 1 · Heavy path and light path</span> Case study figure, published by the repository as its Figure 1. <code class="ic">C</code> and <code class="ic">G</code> are assembled once; the GPU rebuilds and factorises <code class="ic">Q(θ)</code> and returns <code class="ic">θ̂</code> and <code class="ic">x̂</code> for lifting and quantisation. The figure names cuSOLVER for the factorisation; the repository uses cuDSS.</figcaption></figure>
+<figure class="cs-figure"><img src="/journal/lifting-spde-gmrf-gpu-edge/spde-pipeline.png" alt="Pipeline: FEM grid feeds GPU estimation, which feeds a lift to sensor locations, which feeds an on-device forward filter on ARM Cortex-M, with a dashed loop back for periodic re-estimation" width="1043" height="524" loading="lazy" decoding="async" /><figcaption><span class="cs-figure__label">Figure 1 · Heavy path and light path</span> Case study figure, published by the repository as its Figure 1. <code class="ic">C</code> and <code class="ic">G</code> are assembled once; the GPU rebuilds and factorises <code class="ic">Q(θ)</code> and returns <code class="ic">θ̂</code> and <code class="ic">x̂</code> for lifting and quantisation. The figure names cuSOLVER for the factorisation; the repository uses cuDSS.</figcaption></figure>
 
 cuSPARSE holds `Q` in CSR and performs the sparse products; cuDSS performs the SPD Cholesky factorisation, with the analysis phase executed once and the refactorisation and solve phases executed per `θ`. The cuSOLVER sparse Cholesky module is deprecated by NVIDIA and is not used. `θ = (κ, τ)` has two components and is optimised on the host.
 

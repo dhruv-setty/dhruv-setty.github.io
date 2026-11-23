@@ -1,7 +1,7 @@
 ---
 title: "Azure Boost and the Zero-Trust I/O Path Under GDPR"
 date: 2026-06-09
-summary: Opinion. Next-generation Azure Boost: Cerberus-attested firmware, an Arm SoC control plane isolated from the data path, and TDISP over IDE-encrypted PCIe eliminating the confidential VM bounce buffer; GDPR evidence only when confirmed per VM size and the attestation is retained.
+summary: Opinion. Next-generation Azure Boost: Cerberus-attested firmware, an ARM SoC control plane isolated from the data path, and TDISP over IDE-encrypted PCIe eliminating the confidential VM bounce buffer; GDPR evidence only when confirmed per VM size and the attestation is retained.
 ---
 
 ## Position
@@ -27,7 +27,7 @@ Azure Boost offloads virtualisation, networking and storage from the host to ded
  |  +---------------------------+                                     |
  |                                                                    |
  |  +--------------------------------------------------------------+  |
- |  | Arm SoC control plane: physically isolated from the customer |  |
+ |  | ARM SoC control plane: physically isolated from the customer |  |
  |  | VM and from the data path                                    |  |
  |  +--------------------------------------------------------------+  |
  |                                                                    |
@@ -35,7 +35,7 @@ Azure Boost offloads virtualisation, networking and storage from the host to ded
  +--------------------------------------------------------------------+
 ```
 
-The separation of the Arm SoC control plane from the data path is the decisive property. A management component without visibility of customer data has a bounded compromise, and that bound shall be the first design objective.
+The separation of the ARM SoC control plane from the data path is the decisive property. A management component without visibility of customer data has a bounded compromise, and that bound shall be the first design objective.
 
 Cobalt 200 systems include the latest Boost capabilities. Against Cobalt 100, Microsoft reports 20% higher remote storage IOPS and 15% higher network bandwidth for Cobalt 200 VMs.
 
@@ -47,7 +47,7 @@ Each row is a control that can, in principle, be tested.
 |-------------------------------|------------------------------------------------------------------------------------------|
 | Verify before trust           | Cerberus measures and attests firmware; the card does not start if measurement fails     |
 | Verify continuously           | Azure Attestation Service re-checks devices; failing devices leave service automatically |
-| Separate control from data    | The Arm SoC manages the card without access to customer data                             |
+| Separate control from data    | The ARM SoC manages the card without access to customer data                             |
 | Isolate tenants               | Per-tenant cryptographic separation on the data path                                     |
 | Minimise privileged software  | The host runs a smaller, hardened stack; critical components are memory safe             |
 
@@ -71,7 +71,7 @@ The bounce buffer also places a staging area outside protected memory. The stagi
 
 ### Device attestation and the trusted device path
 
-With the Boost Confidential Device, the confidential VM attests Boost hardware and firmware via TDISP (PCI-SIG) and then permits the attested device to read encrypted guest memory directly over IDE-encrypted PCIe links. TDISP uses SPDM to attest the device and establish a secure connection, and PCIe IDE for encrypted and integrity-protected communication at the transaction layer, which permits the trusted device to DMA directly into CVM private memory [2]. The trust boundary contains only the attested ASIC, FPGA and real-time firmware; the Arm SoC remains outside it.
+With the Boost Confidential Device, the confidential VM attests Boost hardware and firmware via TDISP (PCI-SIG) and then permits the attested device to read encrypted guest memory directly over IDE-encrypted PCIe links. TDISP uses SPDM to attest the device and establish a secure connection, and PCIe IDE for encrypted and integrity-protected communication at the transaction layer, which permits the trusted device to DMA directly into CVM private memory [2]. The trust boundary contains only the attested ASIC, FPGA and real-time firmware; the ARM SoC remains outside it.
 
 SPDM inherits requirements and design from TLS 1.3, but its state machines and transcript handling are substantially more complex [4]. A device attestation claim shall therefore rest on an SPDM implementation of a formally analysed protocol version, not on the presence of the protocol name.
 
@@ -97,7 +97,7 @@ A device admitted to the TCB holds DMA authority over guest memory. IOMMU protec
 
 ## Observations
 
-- The hardware foundation ships on every card. VM sizes using the confidential device enter preview on Intel first and AMD afterwards. Arm-based families will also ship on this generation; confidential I/O on Arm shall not be assumed until available for a given size.
+- The hardware foundation ships on every card. VM sizes using the confidential device enter preview on Intel first and AMD afterwards. ARM-based families will also ship on this generation; confidential I/O on ARM shall not be assumed until available for a given size.
 - Remote storage encryption by default has been signalled as this generation spreads across VM families. It shall be confirmed per SKU.
 - Attestation evidence is of use to a controller only if retained in the controller's own records.
 - Any fallback to a software or bounce-buffer path shall be reported when it occurs. A fast path that can degrade silently is not a control.

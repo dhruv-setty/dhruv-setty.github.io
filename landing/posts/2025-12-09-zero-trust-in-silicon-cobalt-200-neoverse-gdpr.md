@@ -1,7 +1,7 @@
 ---
 title: "Zero Trust Starts in the Silicon: Cobalt 200, Neoverse V3 and GDPR"
 date: 2025-12-09
-summary: "Opinion. Cobalt 200 on Neoverse CSS V3: default memory encryption and Arm CCA realm isolation move the zero-trust boundary below the hypervisor; under GDPR Articles 25 and 32 they are evidence only when read from ID registers and attested."
+summary: "Opinion. Cobalt 200 on Neoverse CSS V3: default memory encryption and ARM CCA realm isolation move the zero-trust boundary below the hypervisor; under GDPR Articles 25 and 32 they are evidence only when read from ID registers and attested."
 kicker: SECURITY
 cover: /journal/covers/zero-trust-in-silicon-cobalt-200-neoverse-gdpr.png
 ---
@@ -10,10 +10,10 @@ cover: /journal/covers/zero-trust-in-silicon-cobalt-200-neoverse-gdpr.png
 
 This is an opinion on the engineering, prompted by Microsoft's announcement of Cobalt 200 on 2025-11-18. It is not a measurement and not legal advice.
 
-The host, its hypervisor and its operators constitute an implicitly trusted layer beneath every workload. Where the host can read guest memory, the workload trusts the host irrespective of policy. Default memory encryption and Arm CCA realm isolation relocate the zero-trust boundary below that layer. The relocated boundary shall be treated as a hypothesis about a specific platform until it is read from that platform, enabled for the workload and attested.
+The host, its hypervisor and its operators constitute an implicitly trusted layer beneath every workload. Where the host can read guest memory, the workload trusts the host irrespective of policy. Default memory encryption and ARM CCA realm isolation relocate the zero-trust boundary below that layer. The relocated boundary shall be treated as a hypothesis about a specific platform until it is read from that platform, enabled for the workload and attested.
 
 ```
- Conventional VM                 Cobalt 200 with Arm CCA
+ Conventional VM                 Cobalt 200 with ARM CCA
  ---------------                 -----------------------
  +---------------------------+   +---------------------------+
  | Guest VM (personal data)  |   | Realm VM (personal data)  |  trusted
@@ -32,11 +32,11 @@ The host, its hypervisor and its operators constitute an implicitly trusted laye
 
 ### Platform
 
-[Cobalt 200](https://techcommunity.microsoft.com/blog/azureinfrastructureblog/announcing-cobalt-200-azure%E2%80%99s-next-cloud-native-cpu/4469807) is Microsoft's second Arm server CPU, built on Arm Neoverse Compute Subsystems V3 (CSS V3): 132 active cores, 3 MB of L2 per core, 192 MB of L3 system cache, TSMC 3 nm. First production servers operate in Microsoft datacentres; wider rollout and customer availability were announced for 2026.
+[Cobalt 200](https://techcommunity.microsoft.com/blog/azureinfrastructureblog/announcing-cobalt-200-azure%E2%80%99s-next-cloud-native-cpu/4469807) is Microsoft's second ARM server CPU, built on ARM Neoverse Compute Subsystems V3 (CSS V3): 132 active cores, 3 MB of L2 per core, 192 MB of L3 system cache, TSMC 3 nm. First production servers operate in Microsoft datacentres; wider rollout and customer availability were announced for 2026.
 
 ### Realm isolation from the hypervisor
 
-Cobalt 200 implements Arm CCA, which isolates VM memory from the hypervisor and host OS in hardware. The isolation model is published and has been subjected to verification. Realms are enforced in a separate physical address space, the Realm world; untrusted system software retains dynamic allocation of memory to Realms but cannot access Realm memory contents, even when executing at a higher privilege level, and the firmware that manages Realms has been formally verified for security and correctness [1]. The Realm Management Monitor specification and implementation have been developed alongside a formal verification methodology, which exposed inconsistencies, errors and imprecision in both during design [2].
+Cobalt 200 implements ARM CCA, which isolates VM memory from the hypervisor and host OS in hardware. The isolation model is published and has been subjected to verification. Realms are enforced in a separate physical address space, the Realm world; untrusted system software retains dynamic allocation of memory to Realms but cannot access Realm memory contents, even when executing at a higher privilege level, and the firmware that manages Realms has been formally verified for security and correctness [1]. The Realm Management Monitor specification and implementation have been developed alongside a formal verification methodology, which exposed inconsistencies, errors and imprecision in both during design [2].
 
 The host software stack therefore becomes an object of verification rather than of assumption: the principle of no implicit trust by network location, applied at the privilege level of the host.
 
@@ -44,7 +44,7 @@ The host software stack therefore becomes an object of verification rather than 
 
 A custom memory controller enables memory encryption by default, with what Microsoft describes as negligible performance impact. A control that cannot be omitted does not drift and does not require drift audit. That property is stronger than any configuration baseline that relies on operator adherence.
 
-Default encryption is necessary and not sufficient. Brief physical access to the SPD chip of a DIMM can induce physical address aliasing that circumvents CPU access control and breaks the memory integrity guarantee of AMD SEV-SNP; the same work challenges the trust assumptions underlying scaled-up memory encryption, the direction it identifies across AMD SEV-SNP, Intel TDX and Arm CCA [3]. The threat model of a memory encryption claim shall therefore state whether physical access to the memory subsystem is in scope.
+Default encryption is necessary and not sufficient. Brief physical access to the SPD chip of a DIMM can induce physical address aliasing that circumvents CPU access control and breaks the memory integrity guarantee of AMD SEV-SNP; the same work challenges the trust assumptions underlying scaled-up memory encryption, the direction it identifies across AMD SEV-SNP, Intel TDX and ARM CCA [3]. The threat model of a memory encryption claim shall therefore state whether physical access to the memory subsystem is in scope.
 
 ### Cryptographic offload
 
@@ -54,7 +54,7 @@ Vendor overhead characterisations shall be confirmed per platform and per worklo
 
 ### Attestation
 
-Hardware isolation provides assurance only with attestation evidence of platform identity and boot state. The architecturally defined attestation mechanisms of Arm CCA and Intel TDX have been formally specified across provisioning, initialisation and the attestation protocol [5]. A controller relying on CCA shall consume Realm and platform evidence as specified, not a product-level assertion of support.
+Hardware isolation provides assurance only with attestation evidence of platform identity and boot state. The architecturally defined attestation mechanisms of ARM CCA and Intel TDX have been formally specified across provisioning, initialisation and the attestation protocol [5]. A controller relying on CCA shall consume Realm and platform evidence as specified, not a product-level assertion of support.
 
 ### GDPR mapping
 
@@ -70,7 +70,7 @@ Article 32 requires measures "appropriate to the risk", names encryption and the
 
 ## Observations
 
-- **Architecture is not implementation.** CCA is an Arm architectural feature, not a single-vendor mechanism, but a shared architecture does not imply a shared implementation. Cobalt 100 (Neoverse N2) and Cobalt 200 (Neoverse V3) are not interchangeable. Guest-visible features shall be read from the host ID registers, not inferred from a product name.
+- **Architecture is not implementation.** CCA is an ARM architectural feature, not a single-vendor mechanism, but a shared architecture does not imply a shared implementation. Cobalt 100 (Neoverse N2) and Cobalt 200 (Neoverse V3) are not interchangeable. Guest-visible features shall be read from the host ID registers, not inferred from a product name.
 - **Supported is not enabled.** The announcement describes CCA support and default memory encryption. Exposure to a specific guest on a specific VM size shall be confirmed, recorded and periodically re-verified.
 - **Verified is not unconditional.** Verification results [1], [2], [5] hold for the specified models and threat models. Physical attacks on the memory subsystem [3] lie outside the guarantees that memory encryption alone provides.
 - **Isolation is not compliance.** It does not determine lawful basis, retention periods or international transfers. It changes the evidence that can exist: encryption by default and hardware isolation are technical measures, not policy statements.

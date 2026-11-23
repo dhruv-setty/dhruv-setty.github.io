@@ -1,14 +1,14 @@
 ---
-title: "Weak Memory on Arm: Litmus Tests, Models and the TLB Shootdown"
+title: "Weak Memory on ARM: Litmus Tests, Models and the TLB Shootdown"
 date: 2025-03-11
 summary: Fifteen litmus allow and forbid outcomes under SC, TSO and a relaxed model; one Neoverse V2 run with MP and SB reordering removed by DMB ISH and STLR/LDAR; Sail TLBI by-VA operand assertions; TLA+ shootdown model; four entry TLB in simulation.
 ---
 
 ## Context
 
-The Arm memory model permits another observer to see plain loads and stores to different addresses out of order unless a barrier, acquire and release semantics, or a dependency forbids it; x86-TSO permits only store-to-load reordering. An ordering claim shall therefore be stated as a model, checked against the model, and then checked on silicon.
+The ARM memory model permits another observer to see plain loads and stores to different addresses out of order unless a barrier, acquire and release semantics, or a dependency forbids it; x86-TSO permits only store-to-load reordering. An ordering claim shall therefore be stated as a model, checked against the model, and then checked on silicon.
 
-The IATO repository covers this in two features. The cache coherence and memory models feature pairs TLA+ and Python litmus models with a hardware litmus program for Arm Neoverse V2. The MMU and TLB shootdown feature carries the ordering obligation into hardware: after an unmap, no core shall retain a translation to the freed frame. The repository publishes captured figures for the RTL only; the litmus and model results are reported in tabular form as the repository states them.
+The IATO repository covers this in two features. The cache coherence and memory models feature pairs TLA+ and Python litmus models with a hardware litmus program for ARM Neoverse V2. The MMU and TLB shootdown feature carries the ordering obligation into hardware: after an unmap, no core shall retain a translation to the freed frame. The repository publishes captured figures for the RTL only; the litmus and model results are reported in tabular form as the repository states them.
 
 ## Design rationale
 
@@ -40,7 +40,7 @@ All 15 litmus outcomes hold. The 14 Sail assertions pass. `TLBShootdown.tla` hol
 
 ### Silicon
 
-Host: Arm Neoverse V2 (MIDR part `0xd4f`) under Linux. Run dated 2026-11-14.
+Host: ARM Neoverse V2 (MIDR part `0xd4f`) under Linux. Run dated 2026-11-14.
 
 | Test | Relaxed outcome | Seen in 2,000,000 |
 |---|---|---|
