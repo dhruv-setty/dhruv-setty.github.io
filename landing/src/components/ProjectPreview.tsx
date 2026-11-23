@@ -1,6 +1,17 @@
 import { Link } from "react-router-dom";
 import type { Project } from "../content/site";
 
+// Plain-English note shown beside each jargon tag.
+const TAG_NOTES: Record<string, string> = {
+  IAM: "Sign-in and access",
+  IGA: "Access reviews and approvals",
+  BAU: "Day-to-day IT support",
+  Homelab: "Practice IT environment",
+  Hardware: "Chip design",
+  Formal: "Proving a design is correct",
+  Embedded: "Software for small devices",
+};
+
 // A project as a Journal-style preview: tag kicker, title, two-line summary, where the link goes,
 // and the project's designed 16:9 cover. The whole entry opens the project's href; links off the
 // site open in a new tab.
@@ -12,7 +23,7 @@ export default function ProjectPreview({ project: p }: { project: Project }) {
   return (
     <article className="preview preview--post preview--project" aria-labelledby={titleId}>
       <div className="preview__text">
-        <p className="preview__kicker">{p.tag}</p>
+        <p className="preview__kicker">{p.tag}{TAG_NOTES[p.tag] ? <span className="preview__kicker-note"> · {TAG_NOTES[p.tag]}</span> : null}</p>
         <h3 id={titleId} className="preview__title">
           {locked ? (
             <span>{p.name}</span>

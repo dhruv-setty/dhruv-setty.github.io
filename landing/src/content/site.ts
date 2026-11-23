@@ -128,7 +128,7 @@ export const PROJECTS: readonly Project[] = [
     name: "PCIe, DMA and TLB hardware with formal checks",
     tag: "Hardware",
     summary:
-      "RTL for a PCIe device front end, a descriptor ring DMA engine and a TLB, each paired with a written specification and checked in simulation and open tool synthesis.",
+      "RTL for a PCIe device front end, a DMA engine and a TLB, each with a written specification. A TLA+ model shows no core keeps a translation to a freed frame, and every DMA copy checks byte for byte.",
     points: [
       "PCIe TLP header decode for 3DW and 4DW requests and completions, and a Type 0 configuration space with BAR sizing.",
       "DMA engine driven by a C driver under Verilator, with every copy in the sweep verified byte for byte.",
@@ -143,7 +143,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Stage 2 translation and TLB maintenance",
     tag: "Formal",
     summary:
-      "Stage 2 address translation and TLB maintenance for a hypervisor at `EL2`, specified in Sail and TLA+ and implemented in SystemVerilog.",
+      "Stage 2 address translation and TLB maintenance for a hypervisor, in Sail, TLA+ and SystemVerilog. TLC confirms the required unmap order over 74 states and catches both wrong orders as use-after-free.",
     points: [
       "TLA+ model of the unmap sequence: the required order holds over 74 states under TLC, and both incorrect orderings violate `NoUseAfterFree`.",
       "Stage 2 walker for a 4 KiB granule and 48 bit IPA, with 0 mismatches against the Sail reference across 10,000 random probes.",
