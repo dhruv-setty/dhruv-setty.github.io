@@ -1,7 +1,7 @@
 ---
 title: "Driver-State Detection on a Microcontroller: Heavy Fitting on the Host, an Int8 Classifier on the Device"
-date: 2024-01-09
-summary: "A Cortex-M4F classifies driver state from lane position in 40 multiply-accumulates per sample, matching full precision on 99.66% of simulated samples. The route model is fitted on the host. The CUDA path compiles but has not been run on a GPU."
+date: 2026-11-19
+summary: "A Cortex-M4F classifies driver state from lane position in 40 multiply-accumulates per sample and 1,802 bytes of flash. Reordering the host's sparse solve cuts stored values from 45,258 to 11,378. Simulated data; the CUDA path has not run on a GPU."
 kicker: EDGE ML
 cover: /journal/covers/lifting-spde-gmrf-gpu-edge.png
 og: /journal/covers/lifting-spde-gmrf-gpu-edge.png
