@@ -1978,3 +1978,13 @@ body { padding-top: 0 !important; }
 .site-search__kind { display: block; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: #e8590c; margin-bottom: 0.15rem; }
 .site-search__empty { color: #8f8f8f; font-size: 0.9rem; padding: 0.5rem 0; }
 .preview__kicker-note { display: block; margin-top: 0.15rem; text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--ink-3, #6b6b6b); }
+
+/* Card summaries as clean justified blocks: auto hyphenation stops wide word gaps. */
+.preview__summary,
+.blog-shell .preview--post .preview__summary,
+.page--home .preview--project .preview__summary,
+.page--home .home-projects__intro {
+  text-align: justify; text-justify: inter-word;
+  -webkit-hyphens: auto; hyphens: auto; hyphenate-limit-chars: 7 3 3;
+  text-wrap: pretty; max-width: none;
+}
