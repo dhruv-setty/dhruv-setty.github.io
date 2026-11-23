@@ -1934,6 +1934,7 @@ body { padding-top: 0 !important; }
   text-transform: uppercase;
   color: var(--ink-3, #6b6b6b);
 }
+.page--home .home-projects__intro { margin: -0.5rem 0 clamp(1rem, 2vw, 1.5rem); color: var(--ink-3, #6b6b6b); font-size: var(--step--1, 0.9rem); max-width: 60ch; text-align: left; }
 /* Drawer: no nav bar, one floating button opens a slide-in panel. */
 body { padding-top: 0 !important; }
 .site-drawer { position: static; }

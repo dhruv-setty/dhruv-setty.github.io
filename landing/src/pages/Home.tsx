@@ -53,6 +53,7 @@ export default function Home() {
                   {PROJECTS.filter((p) => IDENTITY_TAGS.includes(p.tag)).map((p) => <ProjectPreview key={p.slug} project={p} />)}
                 </div>
                 <h3 className="home-projects__sub">Other work</h3>
+                <p className="home-projects__intro">Research outside my day-to-day support work: Arm hardware and formal verification, where the core question is still who can reach what.</p>
                 <div className="preview-feed">
                   {PROJECTS.filter((p) => !IDENTITY_TAGS.includes(p.tag)).map((p) => <ProjectPreview key={p.slug} project={p} />)}
                 </div>

@@ -14,8 +14,8 @@ export const SITE = {
   // Cloudflare Worker that relays the contact form to Resend. Empty disables sending.
   contactEndpoint: "https://dhruv-contact.itsdhruvsetty.workers.dev/",
   photo: { src: "/dhruv.webp", alt: "Dhruv Setty", width: 400, height: 400 },
-  // Dropbox shared link to the resume (opens Dropbox preview). Empty hides the link.
-  resume: "https://www.dropbox.com/scl/fi/9sueshghjttlbs9xoei3j/Dhruv_Setty_Resume.pdf?rlkey=wvw71mzpaxlpa36zf4mhr5pu9&st=l9ptoclv&dl=0",
+  // Resume PDF hosted on the site. Empty hides the link.
+  resume: "/Dhruv_Setty_Resume.pdf",
   // Supabase Realtime for the avatar stack. Publishable key only; empty hides other readers.
   supabaseUrl: "https://gsluekbphbusnaguqeol.supabase.co",
   supabaseKey: "sb_publishable_LfQ_ECqRy0NFRcYTvarw5A_lrAdimGS",
@@ -78,7 +78,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Entra ID sign in for Debian with SSSD",
     tag: "IAM",
     summary:
-      "A C# (.NET 8) command line tool that configures Debian hosts to authenticate Microsoft Entra ID users through the SSSD `idp` provider.",
+      "A C# (.NET 8) command line tool that configures Debian hosts to authenticate Microsoft Entra ID users through SSSD. Users sign in with their Entra ID account, so MFA and Conditional Access apply on the host.",
     points: [
       "Creates the Entra ID app registration through Microsoft Graph with application `User.Read.All` and `GroupMember.Read.All`, and grants admin consent.",
       "Renders `sssd.conf` for the `idp` domain; users sign in with the OAuth 2.0 Device Authorization Grant, so MFA and Conditional Access apply.",
@@ -113,7 +113,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Identity governance for legacy Linux file shares",
     tag: "IGA",
     summary:
-      "A SailPoint IdentityIQ project that brings POSIX permissions, ACLs and NFSv3 exports on legacy file servers under request, approval and certification.",
+      "A SailPoint IdentityIQ project that brings POSIX permissions, ACLs and NFSv3 exports on legacy file servers under request, approval and certification. Each review flags every account and path as match, excess, missing or divergent.",
     points: [
       "Ordered, idempotent change plan with revocations first; planning again against the result yields an empty plan.",
       "Effective access computed from POSIX modes, POSIX.1e ACLs, group nesting and NFSv3 export options.",
