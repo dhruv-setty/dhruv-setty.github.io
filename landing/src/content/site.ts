@@ -78,7 +78,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Entra ID sign in for Debian with SSSD",
     tag: "IAM",
     summary:
-      "A C# (.NET 8) command line tool that configures Debian hosts to authenticate Microsoft Entra ID users through SSSD. Users sign in with their Entra ID account, so MFA and Conditional Access apply on the host.",
+      "A C# (.NET 8) command line tool that configures Debian hosts to authenticate Microsoft Entra ID users through the SSSD idp provider. Users sign in with the device code flow, with MFA and Conditional Access applied on every Linux sign-in.",
     points: [
       "Creates the Entra ID app registration through Microsoft Graph with application `User.Read.All` and `GroupMember.Read.All`, and grants admin consent.",
       "Renders `sssd.conf` for the `idp` domain; users sign in with the OAuth 2.0 Device Authorization Grant, so MFA and Conditional Access apply.",
@@ -103,7 +103,7 @@ export const PROJECTS: readonly Project[] = [
     name: "IT support home lab",
     tag: "Homelab",
     summary:
-      "A home lab for everyday IT support: Microsoft 365 and Active Directory account administration, Intune device management, ticketing and troubleshooting through research, with a CVSS table analysis of CVE-2022-1388 in F5 BIG-IP.",
+      "A home lab for everyday IT support tickets: Microsoft 365 joiners and leavers, Active Directory lockouts and Group Policy, and Intune enrolment and compliance. Each fix is written up as a runbook, with a CVSS analysis of CVE-2022-1388 in F5 BIG-IP.",
     cover: "/journal/covers/project-bau-lab.webp",
     href: "",
     private: true,
@@ -113,7 +113,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Identity governance for legacy Linux file shares",
     tag: "IGA",
     summary:
-      "A SailPoint IdentityIQ project that brings POSIX permissions, ACLs and NFSv3 exports on legacy file servers under request, approval and certification. Each review flags every account and path as match, excess, missing or divergent.",
+      "A SailPoint IdentityIQ project that brings POSIX permissions, ACLs and NFSv3 exports on legacy file servers under request, approval and certification. Certification marks every account and path as match, excess, missing or divergent.",
     points: [
       "Ordered, idempotent change plan with revocations first; planning again against the result yields an empty plan.",
       "Effective access computed from POSIX modes, POSIX.1e ACLs, group nesting and NFSv3 export options.",
@@ -128,7 +128,7 @@ export const PROJECTS: readonly Project[] = [
     name: "PCIe, DMA and TLB hardware with formal checks",
     tag: "Hardware",
     summary:
-      "RTL for a PCIe device front end, a DMA engine and a TLB, each with a written specification. A TLA+ model shows no core keeps a translation to a freed frame, and every DMA copy checks byte for byte.",
+      "RTL for a PCIe device front end, a descriptor ring DMA engine and a TLB, each with a written specification and synthesised on a Lattice ECP5 FPGA. A TLA+ shootdown model shows no core keeps a translation to a freed frame.",
     points: [
       "PCIe TLP header decode for 3DW and 4DW requests and completions, and a Type 0 configuration space with BAR sizing.",
       "DMA engine driven by a C driver under Verilator, with every copy in the sweep verified byte for byte.",
@@ -143,7 +143,7 @@ export const PROJECTS: readonly Project[] = [
     name: "Stage 2 translation and TLB maintenance",
     tag: "Formal",
     summary:
-      "Stage 2 address translation and TLB maintenance for a hypervisor, in Sail, TLA+ and SystemVerilog. TLC confirms the required unmap order over 74 states and catches both wrong orders as use-after-free.",
+      "Stage 2 address translation and TLB maintenance for an Arm hypervisor at EL2, specified in Sail and TLA+ and built in SystemVerilog. TLC confirms the required unmap order and shows both alternatives lead to use-after-free.",
     points: [
       "TLA+ model of the unmap sequence: the required order holds over 74 states under TLC, and both incorrect orderings violate `NoUseAfterFree`.",
       "Stage 2 walker for a 4 KiB granule and 48 bit IPA, with 0 mismatches against the Sail reference across 10,000 random probes.",
