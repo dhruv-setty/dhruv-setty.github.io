@@ -9,7 +9,7 @@ const TAG_NOTES: Record<string, string> = {
   Homelab: "Practice IT environment",
   Hardware: "Chip design",
   Formal: "Proving a design is correct",
-  Embedded: "Software for small devices",
+  Embedded: "Software for mobile and cellular devices",
 };
 
 // A project as a Journal-style preview: tag kicker, title, two-line summary, where the link goes,
