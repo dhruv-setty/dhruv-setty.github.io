@@ -89,24 +89,13 @@ export const PROJECTS: readonly Project[] = [
     href: "https://github.com/dhruv-setty/entra-id-sign-in-for-debian-with-sssd",
   },
   {
-    slug: "bau-toolkit",
-    name: "Single sign-on toolkit for Linux",
-    tag: "BAU",
-    summary:
-      "Shell and Bash scripts I use day to day to configure single sign-on on Linux hosts and check who has access. Every change is tested on local VMs and in Docker before use, and recorded in a changelog.",
-    cover: "/journal/covers/project-bau-toolkit.webp",
-    href: "",
-    private: true,
-  },
-  {
     slug: "bau-lab",
     name: "IT support home lab",
     tag: "Homelab",
     summary:
       "A home lab for everyday IT support tickets: Microsoft 365 joiners and leavers, Active Directory lockouts and Group Policy, and Intune enrolment and compliance. Each fix is written up as a runbook, with a CVSS analysis of CVE-2022-1388 in F5 BIG-IP.",
     cover: "/journal/covers/project-bau-lab.webp",
-    href: "",
-    private: true,
+    href: "https://github.com/dhruv-setty/bau-home-lab",
   },
   {
     slug: "iiq-legacy-fs",
