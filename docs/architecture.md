@@ -36,8 +36,8 @@ The collector does not acquire tokens itself. Certificate and workload-identity 
 | `/groups/{id}/transitiveMembers` | `id,displayName,userPrincipalName,appId,servicePrincipalType` | Expand role-assigned groups |
 | `/servicePrincipals/{id}` | `id,displayName,appId,servicePrincipalType` | Service principal details |
 | `/users` | `id,userPrincipalName,displayName,accountEnabled` | User inventory |
-| `/users/{id}/authentication/methods` | — | MFA registration (any non-password method) |
-| `/identity/conditionalAccess/policies` | — | Conditional Access policies (raw) |
+| `/users/{id}/authentication/methods` | None | MFA registration (any non-password method) |
+| `/identity/conditionalAccess/policies` | None | Conditional Access policies (raw) |
 
 Paging follows `@odata.nextLink`.
 

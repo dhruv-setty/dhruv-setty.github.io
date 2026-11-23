@@ -80,7 +80,7 @@ Article 32 requires measures "appropriate to the risk", names encryption and the
 
 ## References
 
-[1] X. Li, X. Li, C. Dall, R. Gu, J. Nieh, Y. Sait and G. Stockwell. Design and Verification of the Arm Confidential Compute Architecture. In *16th USENIX Symposium on Operating Systems Design and Implementation (OSDI 22)*, pp. 465–484, 2022. [USENIX proceedings](https://www.usenix.org/conference/osdi22/presentation/li)
+[1] X. Li, X. Li, C. Dall, R. Gu, J. Nieh, Y. Sait and G. Stockwell. Design and Verification of the Arm Confidential Compute Architecture. In *16th USENIX Symposium on Operating Systems Design and Implementation (OSDI 22)*, pp. 465-484, 2022. [USENIX proceedings](https://www.usenix.org/conference/osdi22/presentation/li)
 
 [2] A. C. J. Fox, G. Stockwell, S. Xiong, H. Becker, D. P. Mulligan, G. Petri and N. Chong. A Verification Methodology for the Arm Confidential Computing Architecture: From a Secure Specification to Safe Implementations. *Proceedings of the ACM on Programming Languages* 7 (OOPSLA1), Article 88, 2023. [DOI 10.1145/3586040](https://doi.org/10.1145/3586040)
 
@@ -88,4 +88,4 @@ Article 32 requires measures "appropriate to the risk", names encryption and the
 
 [4] M. Misono, D. Stavrakakis, N. Santos and P. Bhatotia. Confidential VMs Explained: An Empirical Analysis of AMD SEV-SNP and Intel TDX. *Proceedings of the ACM on Measurement and Analysis of Computing Systems* 8 (3), Article 36, 2024. [DOI 10.1145/3700418](https://doi.org/10.1145/3700418)
 
-[5] M. U. Sardar, T. Fossati, S. Frost and S. Xiong. Formal Specification and Verification of Architecturally-Defined Attestation Mechanisms in Arm CCA and Intel TDX. *IEEE Access* 12, pp. 361–381, 2024. [DOI 10.1109/ACCESS.2023.3346501](https://doi.org/10.1109/ACCESS.2023.3346501)
+[5] M. U. Sardar, T. Fossati, S. Frost and S. Xiong. Formal Specification and Verification of Architecturally-Defined Attestation Mechanisms in Arm CCA and Intel TDX. *IEEE Access* 12, pp. 361-381, 2024. [DOI 10.1109/ACCESS.2023.3346501](https://doi.org/10.1109/ACCESS.2023.3346501)

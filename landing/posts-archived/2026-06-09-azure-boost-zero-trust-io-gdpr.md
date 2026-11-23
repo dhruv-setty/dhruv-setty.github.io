@@ -111,7 +111,7 @@ A device admitted to the TCB holds DMA authority over guest memory. IOMMU protec
 
 [2] M. Misono, D. Stavrakakis, N. Santos and P. Bhatotia. Confidential VMs Explained: An Empirical Analysis of AMD SEV-SNP and Intel TDX. *Proceedings of the ACM on Measurement and Analysis of Computing Systems* 8 (3), Article 36, 2024. [DOI 10.1145/3700418](https://doi.org/10.1145/3700418)
 
-[3] H. Lefeuvre, D. Chisnall, M. Kogias and P. Olivier. Towards (Really) Safe and Fast Confidential I/O. In *Proceedings of the 19th Workshop on Hot Topics in Operating Systems (HotOS 2023)*, pp. 214–222, 2023. [DOI 10.1145/3593856.3595913](https://doi.org/10.1145/3593856.3595913)
+[3] H. Lefeuvre, D. Chisnall, M. Kogias and P. Olivier. Towards (Really) Safe and Fast Confidential I/O. In *Proceedings of the 19th Workshop on Hot Topics in Operating Systems (HotOS 2023)*, pp. 214-222, 2023. [DOI 10.1145/3593856.3595913](https://doi.org/10.1145/3593856.3595913)
 
 [4] C. Cremers, A. Dax and A. Naska. Formal Analysis of SPDM: Security Protocol and Data Model version 1.2. In *32nd USENIX Security Symposium (USENIX Security 23)*, 2023. [USENIX proceedings](https://www.usenix.org/conference/usenixsecurity23/presentation/cremers-spdm)
 

@@ -18,7 +18,7 @@ Status is taken from the code and `docs/COMPLIANCE_CROSSWALK.csv` on `main`.
 | AI governance / backup policies | `policies/ai/`, `policies/bk/` | Empty |
 | Crosswalk controls | `docs/COMPLIANCE_CROSSWALK.csv` | 2 implemented, 38 planned |
 | Container image | `Containerfile` | Implemented (`python:3.12-slim`) |
-| Kubernetes manifests | — | Not present in the repository |
+| Kubernetes manifests | None | Not present in the repository |
 
 ## Repository layout
 
