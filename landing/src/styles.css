@@ -2096,7 +2096,13 @@ a.link-card, .blog-shell a.link-card, .post-next { background: var(--h-card) !im
 
 /* Storefront framed project-card block: the service desk home lab covers */
 .lab-block { margin: clamp(2rem, 4vw, 3rem) 0; }
-.x-projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 28px; margin: 1.25rem 0 1.5rem; }
+.x-projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 1.25rem 0 1.5rem; }
+@media (max-width: 640px) { .x-projects { grid-template-columns: 1fr; } }
+.x-project { display: flex; flex-direction: column; }
+.x-project figcaption { flex: 1; display: flex; flex-direction: column; }
+.x-project__open { margin-top: auto; padding-top: 12px; font: 500 14px/1.3 var(--h-sans); color: var(--h-accent); text-decoration: none; }
+.x-project__open:hover { text-decoration: underline; text-underline-offset: 3px; }
+.x-project__frame { cursor: zoom-in; }
 .x-project { margin: 0; background: var(--h-card, #fff); border: 1px solid var(--h-stroke-2); border-radius: var(--h-r-l); box-shadow: var(--h-shadow); overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }
 .x-project:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgb(15 23 42 / 0.10); }
 .x-project__frame { display: block; background: #eef2f6; border-bottom: 1px solid var(--h-stroke-2); }
