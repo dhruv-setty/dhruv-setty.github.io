@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import type { Project } from "../content/site";
+import Icon from "./Icon";
+import LearnMore from "./LearnMore";
 
 // Plain-English note shown beside each jargon tag.
 const TAG_NOTES: Record<string, string> = {
@@ -37,6 +39,10 @@ export default function ProjectPreview({ project: p }: { project: Project }) {
           )}
         </h3>
         <p className="preview__summary">{p.summary.replace(/`/g, "")}</p>
+        {!/github\.com/.test(p.href) ? (
+          <LearnMore title={p.name} icon={p.tag} kicker={TAG_NOTES[p.tag] ?? p.tag} body={p.summary.replace(/`/g, "")}
+            links={[...(p.href ? [{ label: external ? "Open" : "Read the write-up", href: p.href, internal: !external }] : []), ...(p.meta ?? [])]} />
+        ) : null}
         {p.meta?.length ? (
           <p className="preview__meta preview__meta--links">
             {p.meta.map((m) => (
@@ -54,9 +60,7 @@ export default function ProjectPreview({ project: p }: { project: Project }) {
           </p>
         )}
       </div>
-      <span className="preview__thumb" aria-hidden="true">
-        <img src={p.cover} alt="" loading="lazy" decoding="async" width="800" height="450" />
-      </span>
+      <span className="preview__thumb icon-tile" aria-hidden="true"><Icon name={p.tag} /></span>
     </article>
   );
 }

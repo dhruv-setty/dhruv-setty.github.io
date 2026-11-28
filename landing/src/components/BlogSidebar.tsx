@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { formatShortDate, recentPosts } from "../content/posts";
+import Icon from "./Icon";
+import LearnMore from "./LearnMore";
 
 // Side panel for the Journal: the three most recent posts, newest first, leaving out the one
 // being read, each with a small cover thumbnail. Sticky on desktop; a disclosure on small screens.
@@ -13,11 +15,7 @@ export default function BlogSidebar({ current, title = "Recent" }: { current?: s
         <ol className="blog-side__list">
           {recent.map((p) => (
             <li key={p.slug} className="blog-side__item blog-side__item--thumb">
-              {p.thumb ? (
-                <span className="blog-side__thumb" aria-hidden="true">
-                  <img src={p.thumb} alt="" loading="lazy" decoding="async" width="800" height="450" />
-                </span>
-              ) : null}
+              <span className="icon-tile icon-tile--sm" aria-hidden="true"><Icon name="post" /></span>
               <span className="blog-side__text">
                 <Link to={`/blog/${p.slug}/`} className="blog-side__link">
                   <span className="blog-side__name">{p.title}</span>
@@ -25,6 +23,7 @@ export default function BlogSidebar({ current, title = "Recent" }: { current?: s
                 <span className="blog-side__meta">
                   {formatShortDate(p.date)} · {p.minutes} min read
                 </span>
+                <LearnMore title={p.title} icon="post" kicker={`${formatShortDate(p.date)} · ${p.minutes} min read`} body={p.summary} links={[{ label: "Read the post", href: `/blog/${p.slug}/`, internal: true }]} />
               </span>
             </li>
           ))}
