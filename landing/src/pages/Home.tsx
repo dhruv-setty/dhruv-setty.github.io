@@ -62,7 +62,7 @@ export default function Home() {
                   <div className="x-projects">
                     {LAB_ITEMS.map((item) => (
                       <figure key={item.slug} className="x-project">
-                        <div className="x-project__frame"><img src={item.cover} alt={`Project cover: ${item.title}`} loading="lazy" decoding="async" width="1280" height="720" /></div>
+                        <a className="x-project__frame" href={item.cover.replace(/\.webp$/, ".png")} target="_blank" rel="noopener" aria-label={`Open full size: ${item.title}`}><img src={item.cover} alt={`Project cover: ${item.title}`} loading="lazy" decoding="async" width="2400" height="1350" /></a>
                         <figcaption><h4>{item.title}</h4><p>{item.summary}</p></figcaption>
                       </figure>
                     ))}
