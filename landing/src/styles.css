@@ -2155,3 +2155,6 @@ a.link-card, .blog-shell a.link-card, .post-next { background: var(--h-card) !im
 .icon-tile--sm svg { width: 22px !important; height: 22px !important; }
 .learn-more, .blog-side .learn-more { display: inline-flex; gap: 0.3rem; margin: 0.35rem 0 0; padding: 0; border: 0 !important; border-radius: 0; background: none !important; box-shadow: none; font: inherit; font-size: 0.8rem; color: var(--ink-3, var(--muted)); cursor: pointer; }
 .learn-more:hover { color: var(--h-ink, #111); background: none !important; }
+
+.blog-side__more { margin: 0.75rem 0 0; padding-top: 0.75rem; border-top: 1px solid var(--h-stroke-2); }
+.blog-side__more .learn-more { text-decoration: none; }

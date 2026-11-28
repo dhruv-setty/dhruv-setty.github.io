@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { formatShortDate, recentPosts } from "../content/posts";
 import Icon from "./Icon";
-import LearnMore from "./LearnMore";
 
 // Side panel for the Journal: the three most recent posts, newest first, leaving out the one
 // being read, each with a small cover thumbnail. Sticky on desktop; a disclosure on small screens.
@@ -23,11 +22,11 @@ export default function BlogSidebar({ current, title = "Recent" }: { current?: s
                 <span className="blog-side__meta">
                   {formatShortDate(p.date)} · {p.minutes} min read
                 </span>
-                <LearnMore title={p.title} icon="post" kicker={`${formatShortDate(p.date)} · ${p.minutes} min read`} body={p.summary} links={[{ label: "Read the post", href: `/blog/${p.slug}/`, internal: true }]} />
               </span>
             </li>
           ))}
         </ol>
+        <p className="blog-side__more"><Link to="/blog/" className="learn-more"><span>Learn more</span><span aria-hidden="true">↗</span></Link></p>
       </details>
     </aside>
   );

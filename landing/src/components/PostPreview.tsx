@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { formatShortDate, type Post } from "../content/posts";
+import Icon from "./Icon";
 
 // Substack-style post preview: topic kicker, title, one-line summary, date and length, with the
 // post's designed 16:9 cover on the right. Posts without a cover get a neutral tile, never the
@@ -20,8 +21,8 @@ export default function PostPreview({ post }: { post: Post }) {
           <span className="preview__length">{post.minutes} min read</span>
         </p>
       </div>
-      <Link to={href} className={post.thumb ? "preview__thumb" : "preview__thumb preview__thumb--tile"} tabIndex={-1} aria-hidden="true">
-        <img src={post.thumb ?? "/favicon-512.png"} alt="" loading="lazy" decoding="async" width="800" height="450" />
+      <Link to={href} className="preview__thumb icon-tile" tabIndex={-1} aria-hidden="true">
+        <Icon name="post" />
       </Link>
     </article>
   );
