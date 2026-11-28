@@ -7,6 +7,21 @@ import { GREETING, STORY } from "../content/story";
 import ProjectPreview from "../components/ProjectPreview";
 import { LAB, LAB_ITEMS } from "../content/lab";
 
+const LAB_ICON_PATHS: Record<string, string> = {
+  directory: "M9 3h6v5H9zM3 16h6v5H3zM15 16h6v5h-6zM12 8v4M6 16v-4h12v4",
+  joiner: "M15 19v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1M8.5 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM19 8v6M22 11h-6",
+  leaver: "M15 19v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1M8.5 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM16 11h6",
+  audit: "M9 4h6v3H9zM15 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2M9 14l2 2 4-4",
+  endpoint: "M3 5h18v11H3zM8 20h8M12 16v4M9.5 10.5l1.8 1.8 3.4-3.4",
+};
+function LabIcon({ name }: { name: string }) {
+  return (
+    <svg className="x-project__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d={LAB_ICON_PATHS[name]} />
+    </svg>
+  );
+}
+
 const IDENTITY_TAGS = ["IAM", "IGA", "BAU", "Homelab"];
 import BlogSidebar from "../components/BlogSidebar";
 import HopGreeting from "../components/HopGreeting";
@@ -62,7 +77,7 @@ export default function Home() {
                   <div className="x-projects">
                     {LAB_ITEMS.map((item) => (
                       <figure key={item.slug} className="x-project">
-                        <a className="x-project__frame" href={item.cover.replace(/\.webp$/, ".png")} target="_blank" rel="noopener" aria-label={`Open full size: ${item.title}`}><img src={item.cover} alt={`Project cover: ${item.title}`} loading="lazy" decoding="async" width="2400" height="1350" /></a>
+                        <a className="x-project__frame" href={item.cover.replace(/\.webp$/, ".png")} target="_blank" rel="noopener" aria-label={`Open full size: ${item.title}`} title="Open full size"><LabIcon name={item.icon} /></a>
                         <figcaption><h4>{item.title}</h4><p>{item.summary}</p><a className="x-project__open" href={item.cover.replace(/\.webp$/, ".png")} target="_blank" rel="noopener">Open full size ↗</a></figcaption>
                       </figure>
                     ))}
