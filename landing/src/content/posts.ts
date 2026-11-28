@@ -23,6 +23,13 @@ interface Compiled {
 // Compiled at build time by the markdown-posts plugin in vite.config.ts.
 const files = import.meta.glob<Compiled>("../../posts/*.md", { import: "default", eager: true });
 
+const LIGHT_THUMBS = new Set([
+  "hidden-states-behavioural-time-series",
+  "zero-trust-in-silicon-cobalt-200-neoverse-gdpr",
+  "from-intent-to-evidence",
+  "lifting-spde-gmrf-gpu-edge",
+]);
+
 function toPost(path: string, { data, html }: Compiled): Post {
   const slug = (path.split("/").pop() ?? "").replace(/\.md$/, "").replace(/^\d{4}-\d{2}-\d{2}-/, "");
   const { title, date, summary, medium, substack, thumb, cover, kicker } = data;
@@ -44,7 +51,8 @@ function toPost(path: string, { data, html }: Compiled): Post {
     kicker: kicker || undefined,
     cover: cover || undefined,
     coverAlt: cover ? `Cover image: ${kicker ? kicker.toLowerCase() + ", " : ""}${title}` : undefined,
-    thumb: thumb || (cover ? cover.replace(/\.png$/, ".webp") : undefined) || firstImg || undefined,
+    // Light postcard-style card thumbnail (scripts/make_light_covers.py); the post page keeps its own cover.
+    thumb: LIGHT_THUMBS.has(slug) ? `/covers/post-${slug}.webp` : thumb || (cover ? cover.replace(/\.png$/, ".webp") : undefined) || firstImg || undefined,
   };
 }
 

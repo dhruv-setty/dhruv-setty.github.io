@@ -14,6 +14,7 @@ export default function Footer({ icons = true }: { icons?: boolean }) {
           ))}
         </ul>
         ) : null}
+        <p className="site-footer__credit"><a href="https://hark.com" target="_blank" rel="noopener">Theme by Hark Labs<span className="visually-hidden"> (opens in a new tab)</span></a></p>
       </div>
       <PlaneTrails />
     </footer>

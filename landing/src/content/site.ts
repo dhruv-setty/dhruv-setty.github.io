@@ -85,7 +85,7 @@ export const PROJECTS: readonly Project[] = [
       "Checks the configuration and the host before SSSD starts: SSSD 2.11.0 or later, `libsss_idp.so` present and file mode 0600.",
       "10 of 10 xUnit tests pass in CI, and the host check passes against SSSD 2.13.1 in Debian forky.",
     ],
-    cover: "/journal/covers/project-entra-sssd.webp",
+    cover: "/covers/project-entra-sssd.webp",
     href: "https://github.com/dhruv-setty/entra-id-sign-in-for-debian-with-sssd",
   },
   {
@@ -94,7 +94,7 @@ export const PROJECTS: readonly Project[] = [
     tag: "Homelab",
     summary:
       "A home lab for everyday IT support tickets: Microsoft 365 joiners and leavers, Active Directory lockouts and Group Policy, and Intune enrolment and compliance. Each fix is written up as a runbook, with a CVSS analysis of CVE-2022-1388 in F5 BIG-IP.",
-    cover: "/journal/covers/project-bau-lab.webp",
+    cover: "/covers/project-bau-lab.webp",
     href: "https://github.com/dhruv-setty/bau-home-lab",
   },
   {
@@ -109,7 +109,7 @@ export const PROJECTS: readonly Project[] = [
       "Certification evidence classifies each account and path as match, excess, missing or divergent, with hygiene findings such as dangling ACL entries.",
       "115 tests pass under Maven verify, including build checks over the IdentityIQ XML and the JBoss EAP 7.4 material.",
     ],
-    cover: "/journal/covers/project-legacy-fs.webp",
+    cover: "/covers/project-iiq-legacy-fs.webp",
     href: "https://github.com/dhruv-setty/identity-governance-for-legacy-linux-file-shares",
   },
   {
@@ -124,7 +124,7 @@ export const PROJECTS: readonly Project[] = [
       "Fully associative TLB with fill and invalidate, and a TLA+ shootdown model in which no core keeps a translation to a freed frame.",
       "Yosys schematics, Icarus Verilog testbenches with GTKWave waveforms, Verilator lint and nextpnr on a Lattice ECP5.",
     ],
-    cover: "/journal/covers/project-pcie-dma-tlb.webp",
+    cover: "/covers/project-pcie-dma-tlb.webp",
     href: "https://github.com/dhruv-setty/pcie-dma-and-tlb-hardware-with-formal-checks",
   },
   {
@@ -139,7 +139,7 @@ export const PROJECTS: readonly Project[] = [
       "TLB tagged by VMID and ASID with four broadcast TLBI scopes, checked by 8 Sail assertions and 13 directed RTL checks.",
       "Yosys and nextpnr synthesis on a Lattice ECP5, with both modules clean under Verilator lint.",
     ],
-    cover: "/journal/covers/project-stage2-tlb.webp",
+    cover: "/covers/project-stage2-tlb.webp",
     href: "https://github.com/dhruv-setty/stage-2-translation-and-tlb-maintenance",
   },
   {
@@ -154,7 +154,7 @@ export const PROJECTS: readonly Project[] = [
       "Catches 151 of 157 simulated panic episodes, typically on the first sample, with a 0.64% false-alarm rate.",
       "Route model fitted on the host from 200 sensors; reordering the sparse solve cuts stored values from 45,258 to 11,378. CUDA path compiles and has not been run on a GPU.",
     ],
-    cover: "/journal/covers/project-driver-state.webp",
+    cover: "/covers/project-spde-gmrf.webp",
     href: "/blog/lifting-spde-gmrf-gpu-edge/",
     meta: [
       { label: "Dataset", href: "https://huggingface.co/datasets/itsdhruvsetty/spde-gmrf-lane-perception-vectors" },

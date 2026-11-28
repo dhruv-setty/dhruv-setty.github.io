@@ -35,10 +35,12 @@ export default function PlaneTrails() {
       ctx.lineWidth = 1.25;
       ctx.lineCap = "round";
       ctx.setLineDash([6, 7]);
+      // Trail ink follows the page text colour so it shows on the light theme.
+      const [cr, cg, cb] = (getComputedStyle(document.body).color.match(/\d+/g) ?? ["240", "240", "240"]).map(Number);
       for (let i = 1; i < pts.length; i++) {
         const a = pts[i - 1]!, b = pts[i]!;
         const life = 1 - (now - b.t) / LIFE;
-        ctx.strokeStyle = `rgba(240,240,240,${(0.16 * life).toFixed(3)})`;
+        ctx.strokeStyle = `rgba(${cr},${cg},${cb},${(0.2 * life).toFixed(3)})`;
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);

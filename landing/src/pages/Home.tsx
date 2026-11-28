@@ -5,6 +5,7 @@ import ContactForm from "../components/ContactForm";
 import { PROJECTS, SITE } from "../content/site";
 import { GREETING, STORY } from "../content/story";
 import ProjectPreview from "../components/ProjectPreview";
+import { LAB, LAB_ITEMS } from "../content/lab";
 
 const IDENTITY_TAGS = ["IAM", "IGA", "BAU", "Homelab"];
 import BlogSidebar from "../components/BlogSidebar";
@@ -20,7 +21,7 @@ export default function Home() {
       <Header />
       <main id="main" className="page page--home fade-in">
         <Reveal />
-        <section className="hero phase phase--one" aria-labelledby="hero-h">
+        <section className="hero hero--plain phase phase--one" aria-labelledby="hero-h">
           {SITE.location ? <p className="eyebrow">{SITE.location}</p> : null}
           <h1 id="hero-h" className="hero__name" aria-label={SITE.name}>
             <span className="hero__word hero__first" aria-hidden="true">{SITE.name.split(" ")[0]}</span>{" "}
@@ -54,6 +55,19 @@ export default function Home() {
                 <header className="panel__head"><h2 id="work-h" className="section__title">Projects</h2></header>
                 <div className="preview-feed">
                   {PROJECTS.filter((p) => IDENTITY_TAGS.includes(p.tag)).map((p) => <ProjectPreview key={p.slug} project={p} />)}
+                </div>
+                <div className="lab-block" role="region" aria-labelledby="lab-h">
+                  <h3 id="lab-h" className="home-projects__sub">{LAB.title}</h3>
+                  <p className="home-projects__intro">{LAB.intro}</p>
+                  <div className="x-projects">
+                    {LAB_ITEMS.map((item) => (
+                      <figure key={item.slug} className="x-project">
+                        <div className="x-project__frame"><img src={item.cover} alt={`Project cover: ${item.title}`} loading="lazy" decoding="async" width="1280" height="720" /></div>
+                        <figcaption><h4>{item.title}</h4><p>{item.summary}</p></figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                  <p className="lab-block__link"><a className="btn" href={LAB.href} target="_blank" rel="noopener">{LAB.linkText}</a></p>
                 </div>
                 <h3 className="home-projects__sub">Other work</h3>
                 <p className="home-projects__intro">Research outside my day-to-day support work: ARM hardware and formal verification, where the core question is still who can reach what.</p>

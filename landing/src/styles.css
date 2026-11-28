@@ -1998,3 +1998,119 @@ body { padding-top: 0 !important; }
 .page--home .home-projects__more:hover,
 .page--home .home-projects__more:focus-visible { color: var(--press, #f2803f); }
 .page--home .home-projects__more:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
+
+/* =====================================================================
+   Hark Labs theme layer (branch hark-theme, 2026-11-28).
+   Ports the storefront design system (Geist type, #f5f5f7 page, #1d1d1f ink,
+   white framed cards, hairline borders, soft shadow, 12–32px radii, storefront
+   buttons and a plain text hero) onto the existing layout. Everything above is
+   unchanged; this block only overrides it.
+   ===================================================================== */
+:root {
+  color-scheme: light;
+  --h-ink: #1d1d1f;
+  --h-ink-2: #636366;
+  --h-page: #f5f5f7;
+  --h-card: #ffffff;
+  --h-tint: #e8e8ea;
+  --h-stroke: #1d1d1f24;
+  --h-stroke-2: #1d1d1f12;
+  --h-shadow: 0 8px 40px #1d1d1f1f;
+  --h-accent: #c2410c;          /* 5.2:1 on white */
+  --h-r-s: 12px; --h-r-m: 16px; --h-r-l: 24px; --h-r-xl: 32px; --h-pill: 100px;
+  --h-sans: "Geist", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  /* re-point the site's own tokens */
+  --bg: var(--h-page);
+  --text: var(--h-ink);
+  --text-2: var(--h-ink);
+  --surface: var(--h-card);
+  --surface-2: var(--h-card);
+  --surface-3: var(--h-tint);
+  --rule: var(--h-stroke-2);
+  --rule-strong: var(--h-stroke);
+  --muted: var(--h-ink-2);
+  --field: #8e8e93;
+  --on-ink: #f5f5f7;
+  --press: var(--h-accent);
+  --press-deep: #9a3412;
+  --accent: var(--h-accent);
+  --font: var(--h-sans);
+  --radius-s: var(--h-r-s); --radius-m: var(--h-r-m); --radius-l: var(--h-r-l);
+  --shadow-1: var(--h-shadow); --shadow-2: var(--h-shadow);
+}
+html { background: var(--h-page) !important; background-image: none !important; }
+body { font-family: var(--h-sans); color: var(--h-ink); background: var(--h-page); -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4 { font-family: var(--h-sans); font-weight: 500; letter-spacing: 0; }
+:focus-visible { outline: 2px solid var(--h-ink); outline-offset: 3px; border-radius: 6px; }
+
+/* Buttons: storefront .btn (light, hairline) and a dark primary */
+.button, .contact-form button, .btn {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 16px;
+  border-radius: var(--h-r-s); border: 1px solid var(--h-ink); background: var(--h-ink); color: #f5f5f7;
+  font: 500 14px/1.3 var(--h-sans); text-decoration: none; box-shadow: none; cursor: pointer;
+  transition: box-shadow 160ms ease;
+}
+.button:hover, .contact-form button:hover, .btn:hover { box-shadow: inset 0 0 0 100px #f9f9fa26; }
+.button--ghost, .btn { background: var(--h-card); color: var(--h-ink); border-color: var(--h-stroke); }
+.button--ghost:hover, .btn:hover { box-shadow: inset 0 0 0 100px #1d1d1f0d; }
+.btn[target="_blank"]::after { content: "\2197"; font-size: 11px; color: var(--h-ink-2); }
+
+/* Hero: plain text header on the light page (no photo, no dark box) */
+.hero.hero--plain {
+  max-width: 1120px; margin: 0 auto; min-height: 0 !important;
+  padding: clamp(48px, 9vw, 104px) clamp(16px, 3vw, 32px) clamp(28px, 4vw, 44px) !important;
+  display: flex; flex-direction: column; justify-content: flex-start !important; align-items: flex-start !important;
+  text-align: left !important; background: none; color: var(--h-ink);
+}
+.hero--plain .hero__name { font: 500 clamp(40px, 7vw, 72px)/1.05 var(--h-sans) !important; letter-spacing: -0.02em !important; text-align: left !important; }
+.hero--plain .hero__word, .hero--plain .hero__first, .hero--plain .hero__last,
+.hero--plain .hero__name:hover .hero__word { color: var(--h-ink) !important; -webkit-text-stroke: 0 !important; }
+.hero--plain .hero__lede { justify-content: flex-start !important; margin-top: 14px; }
+.hero--plain .hero__lede .hero__positioning { text-transform: none !important; color: var(--h-ink-2) !important; font: 500 clamp(16px, 1.8vw, 20px)/1.35 var(--h-sans) !important; letter-spacing: 0 !important; justify-content: flex-start !important; white-space: normal !important; }
+.hero--plain .hero__lede .hero__positioning::before, .hero--plain .hero__lede .hero__positioning::after { display: none !important; }
+.hero--plain .actions { justify-content: flex-start !important; margin-top: 28px; }
+
+/* Cards and panels: white, hairline border, soft shadow, generous radius */
+.journal-panel, .blog-shell .journal-panel, .page--home .home-shell .journal-panel, .blog-side__box, .blog-shell .blog-side__box, .page--home .home-shell .blog-side__box {
+  background: var(--h-card) !important; color: var(--h-ink);
+  border: 1px solid var(--h-stroke-2) !important; border-radius: var(--h-r-l) !important; box-shadow: var(--h-shadow) !important;
+}
+.section__title, .panel__head .section__title { font: 500 14px/1.3 var(--h-sans) !important; letter-spacing: 0 !important; text-transform: none !important; color: var(--h-ink-2) !important; }
+.panel__head .section__title::after { background: var(--h-stroke-2) !important; }
+.journal-panel h1.section__title { font: 400 clamp(26px, 3vw, 32px)/1.3 var(--h-sans) !important; color: var(--h-ink) !important; }
+.preview__kicker { font: 500 12px/1.3 var(--h-sans) !important; letter-spacing: 0 !important; text-transform: none !important; color: var(--h-ink-2) !important; }
+.preview__title, .preview__title a { font-family: var(--h-sans) !important; font-weight: 500 !important; color: var(--h-ink) !important; }
+.preview__summary { color: var(--h-ink-2) !important; text-align: left !important; }
+.preview__thumb, .blog-shell .preview__thumb, .post-next__thumb, .blog-side__thumb, .link-card__thumb {
+  background: var(--h-card) !important; padding: 6px; border: 1px solid var(--h-stroke-2) !important;
+  border-radius: var(--h-r-m) !important; box-shadow: var(--h-shadow); overflow: hidden;
+}
+.preview__thumb img, .post-next__thumb img, .blog-side__thumb img, .link-card__thumb img { border-radius: 10px; }
+.blog-side__thumb { padding: 3px; border-radius: 10px !important; }
+.about__story p { text-align: left; color: var(--h-ink); }
+.about__why, .hop__ch--name { color: var(--h-accent) !important; }
+a.link-card, .blog-shell a.link-card, .post-next { background: var(--h-card) !important; border: 1px solid var(--h-stroke-2) !important; border-radius: var(--h-r-l) !important; box-shadow: var(--h-shadow); color: var(--h-ink) !important; }
+.cs-figure img, .blog-shell .cs-figure img { background: #fff; padding: 10px; border: 1px solid var(--h-stroke-2) !important; border-radius: var(--h-r-m); box-shadow: var(--h-shadow); }
+.post-cover img { border-radius: var(--h-r-l); box-shadow: var(--h-shadow); }
+.contact-form input, .contact-form textarea { background: var(--h-card); color: var(--h-ink); border: 1px solid var(--field); border-radius: var(--h-r-s); }
+
+/* Storefront framed project-card block: the service desk home lab covers */
+.lab-block { margin: clamp(2rem, 4vw, 3rem) 0; }
+.x-projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 28px 20px; margin: 1rem 0 1.25rem; }
+.x-project { margin: 0; }
+.x-project__frame { background: #fff; padding: 10px; border: 1px solid var(--h-stroke-2); border-radius: var(--h-r-l); box-shadow: var(--h-shadow); }
+.x-project__frame img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; border-radius: var(--h-r-s); }
+.x-project figcaption { padding: 12px 4px 0; }
+.x-project h4 { margin: 0 0 4px; font: 500 14px/1.3 var(--h-sans); color: var(--h-ink); }
+.x-project p { margin: 0; font: 400 14px/1.4 var(--h-sans); color: var(--h-ink-2); }
+.lab-block__link { margin: 0; }
+
+/* Drawer button: the storefront's dark glass pill; footer on the light page */
+.drawer-btn { background: rgb(29 29 31 / 0.86) !important; backdrop-filter: blur(50px) saturate(1.6); border: 1px solid #f5f5f71a !important; box-shadow: var(--h-shadow); border-radius: var(--h-pill) !important; }
+.site-footer { background: transparent !important; border-top: 1px solid var(--h-stroke-2) !important; color: var(--h-ink-2); }
+.site-footer__copy, .site-footer__inner { color: var(--h-ink-2) !important; }
+.site-footer__accent { color: var(--h-ink) !important; }
+.icon-link { background: var(--h-card) !important; border-color: var(--h-stroke) !important; border-radius: var(--h-r-s) !important; }
+.site-footer__credit { flex-basis: 100%; margin: 0.5rem 0 0; text-align: center; font: 400 12px/1.3 var(--h-sans); }
+.site-footer__credit a { color: var(--h-ink-2) !important; text-decoration: underline; text-decoration-color: var(--h-stroke); text-underline-offset: 3px; }
+.site-footer__credit a:hover { color: var(--h-ink) !important; }
