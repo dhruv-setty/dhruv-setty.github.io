@@ -1,7 +1,6 @@
 import Icon from "../components/Icon";
 import LearnMore from "../components/LearnMore";
 import { useState } from "react";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ContactForm from "../components/ContactForm";
 import { PROJECTS, SITE } from "../content/site";
@@ -20,7 +19,6 @@ export default function Home() {
   const other = PROJECTS.filter((p) => !IDENTITY_TAGS.includes(p.tag));
   return (
     <>
-      <Header />
       <main id="main" className="page page--home fade-in">
         <Reveal />
         <section className="hero hero--plain phase phase--one" aria-labelledby="hero-h">
