@@ -2146,3 +2146,12 @@ a.link-card, .blog-shell a.link-card, .post-next { background: var(--h-card) !im
 .lm-dialog__close { border: 0; background: transparent; font-size: 24px; line-height: 1; color: var(--h-ink-2); cursor: pointer; }
 .lm-dialog__body { margin: 0 0 18px; font: 400 15px/1.6 var(--h-sans); color: var(--h-ink-2); }
 .lm-dialog__links { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; }
+
+/* Fix 2026-11-28: centre icons, Learn more matches the github.com meta link */
+.blog-shell .preview__thumb.icon-tile, .preview__thumb.icon-tile, .x-project__frame, .icon-tile { display: flex !important; align-items: center !important; justify-content: center !important; background: linear-gradient(180deg, #f4f7fb, #e9eff6) !important; padding: 0 !important; }
+.blog-shell .preview__thumb.icon-tile { aspect-ratio: 16 / 9; border: 1px solid var(--h-stroke-2) !important; }
+.icon-tile svg, .x-project__frame svg { display: block; margin: 0 auto; flex: none; }
+.preview__thumb.icon-tile svg, .x-project__frame svg { width: 64px !important; height: 64px !important; max-width: none; }
+.icon-tile--sm svg { width: 22px !important; height: 22px !important; }
+.learn-more, .blog-side .learn-more { display: inline-flex; gap: 0.3rem; margin: 0.35rem 0 0; padding: 0; border: 0 !important; border-radius: 0; background: none !important; box-shadow: none; font: inherit; font-size: 0.8rem; color: var(--ink-3, var(--muted)); cursor: pointer; }
+.learn-more:hover { color: var(--h-ink, #111); background: none !important; }

@@ -9,7 +9,7 @@ export default function LearnMore({ title, icon, kicker, body, links }: {
   const ref = useRef<HTMLDialogElement>(null);
   return (
     <>
-      <button type="button" className="learn-more" onClick={() => ref.current?.showModal()}>Learn more</button>
+      <button type="button" className="learn-more" onClick={() => ref.current?.showModal()}><span>Learn more</span><span aria-hidden="true">↗</span></button>
       <dialog ref={ref} className="lm-dialog" aria-label={title} onClick={(e) => { if (e.target === ref.current) ref.current?.close(); }}>
         <div className="lm-dialog__inner">
           <div className="lm-dialog__head">
